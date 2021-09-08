@@ -5,6 +5,7 @@ library(visdat)
 library(ggplot2)
 library(dplyr)
 library(forcats)
+library(janitor)
 
 # import ----
 
@@ -20,6 +21,20 @@ tail(df_sb, n = 10)
 visdat::vis_miss(df_sb)
 visdat::vis_dat(df_sb)
 
+# clean -----
+
+df_tidy <- df_sb %>%
+  janitor::clean_names() %>%
+  mutate(spp_code = case_when(
+    spp_code == "FRVE"  ~ "PONO", 
+    spp_code == "ERCA"  ~ "COCA", 
+    spp_code == "PACA"  ~ "PAMI", 
+    spp_code == "AMSP"  ~ "VETH", 
+    spp_code == "CAREX" ~ "ANGE", 
+    spp_code == "SEVI"  ~ "ANGE",
+    TRUE ~ spp_code)
+  )
+  
 # plot ----
 
 df_sb1 <- df_sb %>%
@@ -48,6 +63,50 @@ df_sb2 <- df_sb %>%
   coord_flip() +
   theme_bw()
 )
+
+df_sb3 <- df_sb %>%
+  group_by(Section, Site, Treatment, Plot) %>%
+  summarize(species_richness = length(unique(Spp_code)))
+
+#####
+(df_sb4 <- df_tidy %>%
+  group_by(section, site, treatment, plot) %>%
+  summarize(total_abund = sum(abund, na.rm = TRUE)) %>%
+  ggplot(aes(x = treatment, y = total_abund)) + 
+  geom_boxplot() + 
+  geom_point(alpha = 0.1) + 
+  theme_bw()
+)
+
+(df_sb5 <- df_tidy %>%
+    group_by(section, site, treatment, plot) %>%
+    summarize(sr = length(unique(spp_code))) %>%
+    ggplot(aes(x = treatment, y = sr)) + 
+    geom_boxplot() + 
+    geom_point(alpha = 0.1) + 
+    theme_bw()
+)
+
+(df_sb6 <- df_tidy %>%
+    group_by(section, site, treatment, plot) %>%
+    summarize(total_abund = sum(abund, na.rm = TRUE)) %>%
+    ggplot(aes(x = site, y = total_abund, fill = treatment)) + 
+    geom_boxplot() + 
+    geom_point(alpha = 0.1) + 
+    coord_flip() + 
+    theme_bw()
+)
+
+(df_sb7 <- df_tidy %>%
+    group_by(section, site, treatment, plot) %>%
+    summarize(sr = length(unique(spp_code))) %>%
+    ggplot(aes(x = site, y = sr, fill = treatment)) + 
+    geom_boxplot() + 
+    geom_point(alpha = 0.1) + 
+    coord_flip() + 
+    theme_bw()
+)
+
 
 # save to disk ----
 
