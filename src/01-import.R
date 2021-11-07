@@ -37,7 +37,7 @@ df_tidy <- df_sb %>%
   
 # plot ----
 
-df_sb1 <- df_sb %>%
+df_comm_abund <- df_sb %>%
   group_by(Section, Site, Treatment, Plot) %>%
   summarize(total_abund = sum(Abund, na.rm = TRUE))
 
@@ -68,23 +68,34 @@ df_sb3 <- df_sb %>%
   group_by(Section, Site, Treatment, Plot) %>%
   summarize(species_richness = length(unique(Spp_code)))
 
-#####
-(df_sb4 <- df_tidy %>%
+# Useful plots for Devlin's 5 min ppt ------------------------------------------
+
+(comm_abund_mgmt_regime <- df_tidy %>%
   group_by(section, site, treatment, plot) %>%
   summarize(total_abund = sum(abund, na.rm = TRUE)) %>%
-  ggplot(aes(x = treatment, y = total_abund)) + 
-  geom_boxplot() + 
-  geom_point(alpha = 0.1) + 
-  theme_bw()
+  ggplot(aes(x = treatment, y = total_abund, color = treatment)) + 
+  geom_boxplot(show.legend = FALSE) + 
+  geom_point(show.legend = FALSE, alpha = 0.1) + 
+  scale_x_discrete(labels=c("Maintenance Mow", "Undisturbed", "Seed Drilling")) + 
+  scale_color_manual(values=c("#000000", "#E69F00", "#56B4E9")) + 
+  labs(
+    x = "Management Regimes",
+    y = "Community Abundance") + 
+  theme_classic()
 )
 
-(df_sb5 <- df_tidy %>%
+(sr_mgmt_regime <- df_tidy %>%
     group_by(section, site, treatment, plot) %>%
     summarize(sr = length(unique(spp_code))) %>%
-    ggplot(aes(x = treatment, y = sr)) + 
-    geom_boxplot() + 
-    geom_point(alpha = 0.1) + 
-    theme_bw()
+    ggplot(aes(x = treatment, y = sr, color = treatment)) + 
+    geom_boxplot(show.legend = FALSE) + 
+    geom_point(show.legend = FALSE, alpha = 0.1) + 
+    scale_x_discrete(labels=c("Maintenance Mow", "Undisturbed", "Seed Drilling")) + 
+    scale_color_manual(values=c("#000000", "#E69F00", "#56B4E9")) + 
+    labs(
+      x = "Management Regimes",
+      y = "Species Richness") + 
+    theme_classic()
 )
 
 (df_sb6 <- df_tidy %>%
@@ -122,6 +133,24 @@ ggsave(
 ggsave(
   filename = here("figures", "abund_by_spp.png"),
   plot = abund_by_spp, 
+  device = "png", 
+  units = "in", 
+  width = 5,
+  height = 5
+)
+
+ggsave(
+  filename = here("figures", "comm_abund_by_mgmt_regime.png"),
+  plot = comm_abund_mgmt_regime,
+  device = "png", 
+  units = "in", 
+  width = 5,
+  height = 5
+)
+
+ggsave(
+  filename = here("figures", "sr_mgmt_regime.png"),
+  plot = sr_mgmt_regime,
   device = "png", 
   units = "in", 
   width = 5,
