@@ -64,7 +64,7 @@ df_sb2 <- df_sb %>%
   theme_bw()
 )
 
-df_sb3 <- df_sb %>%
+df_sr <- df_sb %>%
   group_by(Section, Site, Treatment, Plot) %>%
   summarize(species_richness = length(unique(Spp_code)))
 
@@ -119,7 +119,7 @@ df_sb3 <- df_sb %>%
 )
 
 
-# save to disk ----
+# save to disk: plots ----------------------------------------------------------
 
 ggsave(
   filename = here("figures", "abund_by_plot.png"),
@@ -155,4 +155,17 @@ ggsave(
   units = "in", 
   width = 5,
   height = 5
+)
+
+# save to disk: csv's ----------------------------------------------------------
+
+write.csv(
+  x = df_comm_abund, 
+  file = here("data", "final", "sb_comm_abund.csv"), 
+  row.names = FALSE
+)
+
+write.csv(
+  x = df_sr, 
+  file = here("data", "final", "sb_sr")
 )
