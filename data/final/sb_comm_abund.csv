@@ -38,7 +38,7 @@
 "S4","BNSH","RES","P13",114
 "S4","BNSH","RES","P15",607
 "S4","BNSH","RES","P21",123
-"S4","BNSH","RES","P23",197
+"S4","BNSH","RES","P23",199
 "S4","BNSH","RES","P25",197
 "S4","BRIM","MOW","P01",69
 "S4","BRIM","MOW","P03",94
@@ -49,8 +49,6 @@
 "S4","BRIM","MOW","P21",114
 "S4","BRIM","MOW","P23",36
 "S4","BRIM","MOW","P25",126
-"S4","BSNH","RES","P23",2
-"S4","BVAG","MOW","P21",2
 "S4","DAVE","RES","P01",47
 "S4","DAVE","RES","P03",141
 "S4","DAVE","RES","P05",54
@@ -66,7 +64,7 @@
 "S4","DVAG","MOW","P11",44
 "S4","DVAG","MOW","P13",38
 "S4","DVAG","MOW","P15",34
-"S4","DVAG","MOW","P21",28
+"S4","DVAG","MOW","P21",30
 "S4","DVAG","MOW","P23",36
 "S4","DVAG","MOW","P25",39
 "S4","GRNB","RES","P01",68
