@@ -167,5 +167,5 @@ write.csv(
 
 write.csv(
   x = df_sr, 
-  file = here("data", "final", "sb_sr")
+  file = here("data", "final", "sb_sr.csv")
 )
