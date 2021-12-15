@@ -1,5 +1,4 @@
-# mw_seedbanks
-Perennial seedbank surveys along a 16km stretch of urban hydrocorridors 
+# Perennial seedbank surveys along a 16km stretch of urban hydrocorridors 
 
 The following documentation of this README file follows the TIER 4.0 Protocol (https://www.projecttier.org/tier-protocol/protocol-4-0/root/)
 
