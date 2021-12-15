@@ -1,4 +1,4 @@
-# Perennial seedbank surveys along a 16km stretch of urban hydrocorridors 
+# Seedbanks in the Meadoway (Scarborough, Canada)
 
 The following documentation of this README file follows the TIER 4.0 Protocol (https://www.projecttier.org/tier-protocol/protocol-4-0/root/)
 
