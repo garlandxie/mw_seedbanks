@@ -2,7 +2,7 @@
 Perennial seedbank surveys along a 16km stretch of urban hydrocorridors 
 
 ### Using the code in this repository:
-Code to reproducible the analysis is written in the R programming language. 
+Code to reproducible the analysis and figures is written in the R programming language. 
 
 To use the code in this repository to reproduce the manuscript's results,
 please follow the following steps:
@@ -25,6 +25,6 @@ Rproject associated with this repository
   - AnalysisScripts: The commands in these scripts generate the results in the Rmarkdown report
 - Document: contains the master script that reproduces the Results of your project by executing all the other scripts, in the correct order
 - Output
-  -  DataAppendixOutput: Contains files with figures, tables and other output presented in the Data Appendix
+  -  DataAppendixOutput: contains files with figures, tables and other output presented in the Data Appendix
   -  Contains files with figures, tables, and other output presented in your report
 
