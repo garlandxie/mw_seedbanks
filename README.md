@@ -1,6 +1,8 @@
 # mw_seedbanks
 Perennial seedbank surveys along a 16km stretch of urban hydrocorridors 
 
+The following documentation of this README file follows the TIER 4.0 Protocol (https://www.projecttier.org/tier-protocol/protocol-4-0/root/)
+
 ### Using the code in this repository:
 Code to reproducible the analysis and figures is written in the R programming language. 
 
