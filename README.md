@@ -2,6 +2,11 @@
 
 The following documentation of this README file follows the TIER 4.0 Protocol (https://www.projecttier.org/tier-protocol/protocol-4-0/root/)
 
+## Software and version
+
+Code to reproducible the analysis and figures is written in the R programming language (version 4.1.1). 
+The developer(Garland Xie) typically writes and runs the code using macOS Big Sur 11.6
+
 ## Folder structure 
 
 - Report
@@ -20,7 +25,6 @@ The following documentation of this README file follows the TIER 4.0 Protocol (h
   -  Results: contains files with figures, tables, and other output presented in your report
 
 ## Instructions for reproducing the results
-Code to reproducible the analysis and figures is written in the R programming language. 
 
 To use the code in this repository to reproduce the manuscript's results,
 please follow the following steps:
