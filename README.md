@@ -27,5 +27,5 @@ Rproject associated with this repository
 - Document: contains the master script that reproduces the Results of your project by executing all the other scripts, in the correct order
 - Output
   -  DataAppendixOutput: contains files with figures, tables and other output presented in the Data Appendix
-  -  Contains files with figures, tables, and other output presented in your report
+  -  Results: contains files with figures, tables, and other output presented in your report
 
