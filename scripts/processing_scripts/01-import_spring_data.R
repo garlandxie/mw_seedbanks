@@ -25,6 +25,7 @@ visdat::vis_dat(df_sb)
 
 # data clean -----
 
+# re-assign species codes 
 df_tidy <- df_sb %>%
   janitor::clean_names() %>%
   mutate(spp_code = case_when(
@@ -37,4 +38,19 @@ df_tidy <- df_sb %>%
     TRUE ~ spp_code)
   )
   
-#
+# summarize
+df_summ <- df_tidy %>%
+  group_by(season, section, site, treatment, plot, spp_code) %>%
+  summarize(total_abund = sum(abund, na.rm = TRUE)) %>%
+  ungroup()
+
+# sanity checks
+glimpse(df_summ)
+vis_miss(df_summ)
+
+# write to disk ----
+
+write.csv(
+  x = df_summ, 
+  file = here("data", "analysis_data", "spring_seedbank.csv")
+)
