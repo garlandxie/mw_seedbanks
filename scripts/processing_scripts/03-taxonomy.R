@@ -33,13 +33,23 @@ taxon_df <- googlesheets4::read_sheet(link, sheet = "raw_data")
 
 # check packaging ---
 
-glimpse(taxon_df)
+dplyr::glimpse(taxon_df)
 head(taxon_df, n = 5)
 tail(taxon_df, n = 5)
 
-# check for taxonomic synyonyms ----
+# check for taxonomic synonyms ----
 
-# use taxize R package
+binomial <- taxon_df %>%
+  filter(!is.na(Species)) %>%
+  mutate(binomial = paste(Genus, Species, sep = "_")) %>%
+  pull(binomial) 
+  
+# check the score values
+gnr_df <- taxize::gnr_resolve(binomial)
+
+# check for synonyms
+# warning: interactive session for this function
+syn <- taxize::synonyms(binomial, db = "itis")
 
 # save to disk -----
 
@@ -48,3 +58,7 @@ write.csv(
   here("data", "analysis_data", "taxonomic_info.csv")
 )
 
+saveRDS(
+  object = syn, 
+  file = here("data", "intermediate_data", "taxonomic_synonyms.csv")
+)
