@@ -33,14 +33,14 @@ library(dplyr)        # for manipulating data
 # import ----
 
 # community abundance
-df_comm_abund <- 
+df_spring_comm <- 
   read.csv(
-    here("data", "final", "sb_comm_abund.csv"),
+    here("data", "analysis_data", "spring_seedbank.csv"),
     stringsAsFactors = FALSE
-  )
+    )
 
 # species richness
-df_sr <- 
+df_spring_sr <- 
   read.csv(
     here("data", "final", "sb_sr.csv"),
     stringsAsFactors = FALSE
@@ -56,7 +56,7 @@ visdat::vis_miss(df_comm_abund)
 glmer_tot_abund <- glmer(
   total_abund ~ Treatment + (1|Site),
   family = poisson,
-  data = df_comm_abund
+  data = df_spring_comm
   ) 
 
 # check model assumptions
@@ -68,7 +68,7 @@ plot(sim_glmm_TA)
 glmer_sr <- glmer(
   species_richness ~ Treatment + (1|Site),
   family = poisson,
-  data = df_sr
+  data = df_spring_sr
 ) 
 
 # check model assumptions
@@ -82,8 +82,8 @@ r2_glmm_SR <- performance::r2(glmer_sr)
 
 # plots ----
 
-df_sb <- df_comm_abund %>%
-  inner_join(df_sr, by = c("Section", "Site", "Treatment", "Plot")) %>%
+spring_sb <- df_spring_comm %>%
+  inner_join(df_spring_sr, by = c("Section", "Site", "Treatment", "Plot")) %>%
   select(Section, 
          Site, 
          Treatment, 
@@ -93,7 +93,7 @@ df_sb <- df_comm_abund %>%
 
 # community abundance
 
-(plot_abund <- df_sb %>%
+(plot_abund <- df_spring_comm %>%
   mutate(
     log_tot_ab = log(total_abund),
     
@@ -132,7 +132,7 @@ df_sb <- df_comm_abund %>%
 
 # species richness
 
-(plot_sr <- df_sr %>%
+(plot_sr <- df_spring_sr %>%
     mutate(
       
       # sections
