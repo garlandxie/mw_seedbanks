@@ -13,16 +13,16 @@ The developer (Garland Xie) typically writes and runs the code using macOS Big S
 - Data
   - [InputData](data/input_data): all raw data 
     - [Metadata](data/input_data/metadata): containing information about the sources and contents of InputData files
-  - [AnalysisData](scripts/analysis_scripts): data that is in a format suitable for the analysis   
-  - IntermediateData: partially processed data to use in subsequent data analyses
+  - [AnalysisData](data/analysis_data): data that is in a format suitable for the analysis   
+  - [IntermediateData](data/intermediate_data): partially processed data to use in subsequent data analyses
 - Scripts
-  - ProcessingScripts: The commands in these scripts transform Input Data Files into Analysis Data Files
-  - DataAppendixScripts: The commands in theses scripts produce the figures, tables, and descriptive statistics in the Data Appendix
-  - AnalysisScripts: The commands in these scripts generate the results in the Rmarkdown report
+  - [ProcessingScripts](scripts/processing_scripts): The commands in these scripts transform Input Data Files into Analysis Data Files
+  - [DataAppendixScripts](scripts/data_appendix_scripts): The commands in theses scripts produce the figures, tables, and descriptive statistics in the Data Appendix
+  - [AnalysisScripts](scripts/analysis_scripts): The commands in these scripts generate the results in the Rmarkdown report
 - Document: contains the master script that reproduces the Results of your project by executing all the other scripts, in the correct order
 - Output
-  -  DataAppendixOutput: contains files with figures, tables and other output presented in the Data Appendix
-  -  Results: contains files with figures, tables, and other output presented in your report
+  -  [DataAppendixOutput](output/data_appendix_output): contains files with figures, tables and other output presented in the Data Appendix
+  -  [Results](output/results): contains files with figures, tables, and other output presented in your report
 
 ## Instructions for reproducing the results
 
