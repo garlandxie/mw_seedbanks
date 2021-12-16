@@ -13,7 +13,7 @@ The developer (Garland Xie) typically writes and runs the code using macOS Big S
 - Data
   - [InputData](data/input_data): all raw data 
     - [Metadata](data/input_data/metadata): containing information about the sources and contents of InputData files
-  - AnalysisData: data that is in a format suitable for the analysis   
+  - [AnalysisData](scripts/analysis_scripts): data that is in a format suitable for the analysis   
   - IntermediateData: partially processed data to use in subsequent data analyses
 - Scripts
   - ProcessingScripts: The commands in these scripts transform Input Data Files into Analysis Data Files
