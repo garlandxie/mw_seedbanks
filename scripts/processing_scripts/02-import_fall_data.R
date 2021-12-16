@@ -20,13 +20,12 @@
 # Why? See https://rstats.wtf/save-source.html
 
 # libraries ----
-library(here)
-library(googlesheets4)
-library(visdat)
-library(ggplot2)
-library(dplyr)
-library(forcats)
-library(janitor)
+library(here)          # for creating relative file-paths
+library(googlesheets4) # for parsing google spreadsheet files
+library(visdat)        # for visualizing missing data 
+library(ggplot2)       # for visualizing data 
+library(dplyr)         # for manipulating data 
+library(janitor)       # for cleaning colum names in a machine-readable format 
 
 # import ----
 
