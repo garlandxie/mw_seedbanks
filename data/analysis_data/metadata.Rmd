@@ -55,3 +55,14 @@ spring_emer_metadata <- googlesheets4::read_sheet(spring_emer_link,sheet = "meta
 
 knitr::kable(spring_emer_metadata)
 ```
+
+## Metadata: Seedling emergents from the fall season
+
+
+```{r echo=FALSE, message=FALSE}
+fall_emer_link <- "https://docs.google.com/spreadsheets/d/1SWlk5eWdk3IOMFS9nv61p1HW-Tw4K3yR-tAIkAMlzs4/edit?usp=sharing"
+
+fall_emer_metadata <- googlesheets4::read_sheet(fall_emer_link,sheet = "metadata") 
+
+knitr::kable(fall_emer_metadata)
+```
