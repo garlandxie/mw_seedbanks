@@ -29,8 +29,8 @@ library(janitor)       # for cleaning colum names in a machine-readable format
 
 # import ----
 
-link <- "https://docs.google.com/spreadsheets/d/1SWlk5eWdk3IOMFS9nv61p1HW-Tw4K3yR-tAIkAMlzs4/edit?usp=sharing"
-df_fall <- googlesheets4::read_sheet(link, sheet = "raw_data")
+fall_link <- "https://docs.google.com/spreadsheets/d/1SWlk5eWdk3IOMFS9nv61p1HW-Tw4K3yR-tAIkAMlzs4/edit?usp=sharing"
+df_fall <- googlesheets4::read_sheet(fall_link, sheet = "raw_data")
 
 # check packaging ----
 
