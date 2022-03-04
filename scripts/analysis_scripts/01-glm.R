@@ -4,6 +4,7 @@ library(dplyr)
 library(ggplot2)
 library(performance)
 library(MASS)
+library(patchwork)
 
 # import ----
 
@@ -75,14 +76,10 @@ ggplot_abund <- sb_comm %>%
   geom_boxplot() + 
   geom_point(alpha = 0.2) + 
   facet_wrap(~season, ncol = 2, nrow = 3) + 
-  scale_color_discrete(
-    name = "Management Regime", 
-    labels = c("Maintenance-Mow", "Undisturbed", "Heavily-Tilled")
-  ) + 
-  labs(
-    x = "Site", y = "Seedling Emergent Abundance") + 
+  labs(x = "Site", y = "Seedling Emergent Abundance") + 
   coord_flip() + 
-  theme_bw()
+  theme_bw() +
+  theme(legend.position = "none")
 
 ggplot_sr <- sb_comm %>%
   ggplot(aes(x = site, y = species_richness, col = treatment)) + 
@@ -93,10 +90,17 @@ ggplot_sr <- sb_comm %>%
     name = "Management Regime", 
     labels = c("Maintenance-Mow", "Undisturbed", "Heavily-Tilled")
   ) + 
+  ylim(0, 20) + 
   labs(
-    x = "Site", y = "Species Richness") + 
+    x = NULL, y = "Species Richness") + 
   coord_flip() + 
-  theme_bw()
+  theme_bw() + 
+  theme(
+    axis.ticks.y = element_blank(),
+    axis.text.y = element_blank()
+    )
+
+multi_plot <- ggplot_abund + ggplot_sr
 
 # NOTE: make sure you check the residuals of the regression models
 
@@ -174,6 +178,14 @@ ggsave(
   width = 7
 )
 
+ggsave(
+  filename = here("output", "results", "multi_plot.png"), 
+  plot = multi_plot, 
+  device = "png", 
+  units = "in", 
+  height = 4, 
+  width = 9
+)
 
 
 
