@@ -213,6 +213,12 @@ glmer_abund_poisson <- glmer(
 check_overdispersion(glmer_abund_poisson)
 
 ### account for overdispersion ----
+
+# overdispersion likely due to :
+# (1) variability in detection efficiency, and 
+# (2) environmental stochasticity 
+# see scenario 4 in Linden and Mäntyniemi (2011)
+# https://esajournals.onlinelibrary.wiley.com/doi/10.1890/10-1831.1
 glmer_abund_nb <- glmer.nb(
   formula = abund ~ treatment + season + (1|site_code), 
   data = sb_comm
