@@ -43,18 +43,6 @@ visdat::vis_dat(df_spr)
 
 # data clean -----
 
-# re-assign species codes 
-df_spr_tidy <- df_spr %>%
-  janitor::clean_names() %>%
-  mutate(spp_code = case_when(
-    spp_code == "FRVE"  ~ "PONO", 
-    spp_code == "ERCA"  ~ "COCA", 
-    spp_code == "PACA"  ~ "PAMI", 
-    spp_code == "CAREX" ~ "ANGE", 
-    spp_code == "SEVI"  ~ "ANGE",
-    TRUE ~ spp_code)
-  )
-
 # summarize
 df_spr_summ <- df_spr_tidy %>%
   group_by(season, section, site, treatment, plot, spp_code) %>%
