@@ -44,7 +44,8 @@ visdat::vis_dat(df_spr)
 # data clean -----
 
 # summarize
-df_spr_summ <- df_spr_tidy %>%
+df_spr_summ <- df_spr %>%
+  janitor::clean_names() %>%
   group_by(season, section, site, treatment, plot, spp_code) %>%
   summarize(total_abund = sum(abund, na.rm = TRUE)) %>%
   ungroup()
