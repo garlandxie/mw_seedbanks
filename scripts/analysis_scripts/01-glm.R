@@ -11,8 +11,7 @@
 #       University of Toronto Scarborough,
 #       1265 Military Trail, Toronto, ON, M1C 1A4, Canada
 #       email: garland.xie@mail.utoronto.ca, 
-#              nicholas.sookhan@mail.utoronto.ca
-#              scott.macivor@mail.utoronto.ca
+#
 #
 # Purpose of this R script: to conduct regression models to determine 
 # relationship between seed bank community metrics, management regimes, and
@@ -44,7 +43,6 @@ fall_sb <- read.csv(
   here("data", "analysis_data", "fall_seedbank.csv"),
   row.names = 1
 )
-
 
 sb_taxon <- read.csv(
   here("data", "input_data", 
