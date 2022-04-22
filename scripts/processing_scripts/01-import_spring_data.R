@@ -46,7 +46,7 @@ visdat::vis_dat(df_spr)
 # summarize by species (since we took multiple observations at a time) 
 df_spr_summ <- df_spr %>%
   janitor::clean_names() %>%
-  group_by(season, section, site, treatment, plot, spp_code) %>%
+  group_by(season, site_name, site_code, treatment, plot, spp_code) %>%
   summarize(total_abund = sum(abund, na.rm = TRUE)) %>%
   ungroup()
 
