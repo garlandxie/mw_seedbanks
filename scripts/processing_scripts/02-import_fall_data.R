@@ -46,7 +46,7 @@ visdat::vis_dat(df_fall)
 # summarize
 df_fall_summ <- df_fall %>%
   janitor::clean_names() %>%
-  group_by(season, section, site, treatment, plot, spp_code) %>%
+  group_by(season, section, site_code, treatment, plot, spp_code) %>%
   summarize(total_abund = sum(abund, na.rm = TRUE)) %>%
   ungroup()
 
