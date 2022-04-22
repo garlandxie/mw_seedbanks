@@ -21,7 +21,6 @@
 
 # libraries ----
 library(here)          # for creating relative file-paths
-library(googlesheets4) # for parsing google spreadsheet files
 library(visdat)        # for visualizing missing data 
 library(ggplot2)       # for visualizing data 
 library(dplyr)         # for manipulating data 
@@ -29,9 +28,8 @@ library(janitor)       # for cleaning colum names in a machine-readable format
 
 # import ----
 
-spr_link <- "https://docs.google.com/spreadsheets/d/1O1Ll_PsW3qKwdZ_xnTrDKT_kGnpLGvtUKBQ73zvvBBM/edit?usp=sharing"
-df_spr <- googlesheets4::read_sheet(spr_link, sheet = "raw_data")
-
+df_spr <- read.csv(here("data", "input_data", "seed_bank_spring.csv"))
+  
 # check packaging ----
 
 str(df_spr)
@@ -52,12 +50,11 @@ df_spr_tidy <- df_spr %>%
     spp_code == "FRVE"  ~ "PONO", 
     spp_code == "ERCA"  ~ "COCA", 
     spp_code == "PACA"  ~ "PAMI", 
-    spp_code == "AMSP"  ~ "VETH", 
     spp_code == "CAREX" ~ "ANGE", 
     spp_code == "SEVI"  ~ "ANGE",
     TRUE ~ spp_code)
   )
-  
+
 # summarize
 df_spr_summ <- df_spr_tidy %>%
   group_by(season, section, site, treatment, plot, spp_code) %>%
