@@ -21,7 +21,6 @@
 
 # libraries ----
 library(here)          # for creating relative file-paths
-library(googlesheets4) # for parsing google spreadsheet files
 library(visdat)        # for visualizing missing data 
 library(ggplot2)       # for visualizing data 
 library(dplyr)         # for manipulating data 
@@ -29,8 +28,7 @@ library(janitor)       # for cleaning colum names in a machine-readable format
 
 # import ----
 
-fall_link <- "https://docs.google.com/spreadsheets/d/1SWlk5eWdk3IOMFS9nv61p1HW-Tw4K3yR-tAIkAMlzs4/edit?usp=sharing"
-df_fall <- googlesheets4::read_sheet(fall_link, sheet = "raw_data")
+df_fall <- read.csv(here("data", "input_data", "seed_bank_fall.csv"))
 
 # check packaging ----
 
