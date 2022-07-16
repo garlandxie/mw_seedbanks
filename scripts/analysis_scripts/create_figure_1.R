@@ -32,6 +32,7 @@ library(emmeans)
 library(tidyr)
 library(multcompView)
 library(multcomp)
+library(ggsignif)
 
 # import ----
 
@@ -130,6 +131,26 @@ abund_emm_trt <- emmeans(
   "treatment", 
   lmer.df = "satterthwaite"
 )
+
+pairs_abund_trt <- as.data.frame(pairs(abund_emm_trt))
+
+pairs_til_res <- pairs_abund_trt %>%
+  filter(contrast == "RES - TIL") %>%
+  pull(p.value) %>%
+  signif(digits = 1)
+
+pairs_mow_res <- pairs_abund_trt %>%
+  filter(contrast == "RES - MOW") %>%
+  pull(p.value) %>%
+  signif(digits = 1)
+
+pairs_mow_til <- pairs_abund_trt %>%
+  filter(contrast == "MOW - TIL") %>%
+  mutate(p.value = case_when(
+    p.value < 0.001 ~ 0.001)
+    ) %>%
+  pull(p.value) 
+
 # add letters to each mean
 abund_trt_cld <- 
   cld(
@@ -170,25 +191,58 @@ sb_data_viz <- sb_comm %>%
       treatment == "MOW" ~ "Maintenance-Mow", 
       treatment == "RES" ~ "Undisturbed",
       treatment == "TIL" ~ "Tilling"
-    ) 
+    ), 
+    treatment = factor(
+      treatment, levels = c("Tilling", "Undisturbed", "Maintenance-Mow")) 
   ) 
 
-(plot_abund_by_mgt <- sb_data_viz %>%
-  
-  ggplot(aes(x = treatment, y = abund, fill = treatment)) + 
+(sb_abund_plot <- sb_data_viz %>%
+  ggplot(aes(x = treatment, y = abund, fill = season)) +
   geom_boxplot() + 
-  geom_point(alpha = 0.2) + 
+    
+  # pairwise significance between tilling and undisturbed
+  geom_signif(
+    y_position = 300, 
+    xmin = 1, 
+    xmax = 2, 
+    annotation = paste("p = ", as.character(pairs_til_res)),
+    alpha = 0.5
+  ) + 
+    
+  # pairwise significance between mowing and undisturbed  
+  geom_signif(
+    y_position = 400, 
+    xmin = 2, 
+    xmax = 3, 
+    annotation = paste("p = ", as.character(pairs_mow_res)), 
+    alpha = 0.5
+    ) +   
+    
+  # pairwise significance between mowing and tilling  
+  geom_signif(
+    y_position = 500, 
+    xmin = 1, 
+    xmax = 3, 
+    annotation =  paste("p = <", as.character(pairs_mow_til)),
+    alpha = 0.5
+    ) + 
+    
+  ylim(0, 800) + 
+    
   labs(
     x = "Management Regime", 
     y = "Seedling Emergent Abundance"
     ) + 
-  geom_text(
-    aes(x = treatment, y = emmean, label = cld), 
-    data = abund_trt_cld,
-    position = position_nudge(x = 0.1),
-    hjust = 0) + 
-  facet_wrap(~season) + 
-  theme_bw() +
-  theme(legend.position = "none")
+  theme_bw() 
+)
+
+# save to disk ---
+
+ggsave(
+  filename = here("output", "results", "figure-1.png"), 
+  device = "png", 
+  units = "in",
+  height = 5, 
+  width = 6
 )
 
