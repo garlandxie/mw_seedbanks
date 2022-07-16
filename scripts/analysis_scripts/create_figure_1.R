@@ -22,14 +22,13 @@
 
 
 # libraries ----
-library(here)   
-library(dplyr)
-library(ggplot2)
-library(MASS)
-library(lme4)
-library(emmeans)
-library(tidyr)
-library(ggsignif)
+library(here)     # for creating relative file-paths
+library(dplyr)    # for manipulating data
+library(ggplot2)  # for visualizing data
+library(lme4)     # for running regression models
+library(emmeans)  # for doing pairwise comparisons
+library(tidyr)    # for tidying data
+library(ggsignif) # for visualizing pairwise comparisons
 
 # import ----
 
