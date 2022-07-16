@@ -192,8 +192,7 @@ sb_data_viz <- sb_comm %>%
 (sb_abund_plot <- sb_data_viz %>%
   ggplot(aes(x = treatment, y = abund, fill = season)) +
   geom_boxplot() + 
-  geom_point(position = position_dodge(width = 0.75), alpha = 0.2) + 
-    
+
   # pairwise significance between tilling and undisturbed
   geom_signif(
     y_position = 300, 
@@ -227,16 +226,28 @@ sb_data_viz <- sb_comm %>%
     x = "Management Regime", 
     y = "Seedling Emergent Abundance"
     ) + 
-  theme_bw() 
-)
+    
+  scale_fill_discrete(name = "Season") + 
+    
+  theme_bw() + 
+  theme(
+    axis.title.x = element_text(
+      margin = margin(t = 10, r = 0, b = 0, l = 0)
+    ),
+    axis.title.y = element_text(
+      margin = margin(t = 0, r = 10, b = 0, l = 0)
+      ),
+    text = element_text(size = 15)
+    )
+  )
 
 # save to disk ---
 
 ggsave(
-  filename = here("output", "results", "figure-1.png"), 
-  device = "png", 
+  filename = here("output", "results", "figure-1.svg"), 
+  device = "svg", 
   units = "in",
   height = 5, 
-  width = 6
+  width = 7
 )
 
