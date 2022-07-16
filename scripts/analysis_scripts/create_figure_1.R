@@ -120,56 +120,49 @@ sb_comm_tidy <- sb_comm %>%
   ) 
 
 # regression model ----
+
+# accounting for overdispersion
 glmer_abund_nb <- glmer.nb(
   formula = abund ~ treatment + season + (1|site_code), 
   data = sb_comm
 )
 
 # pairwise comparisons ----
+
+# calculate estimated marginal means
 abund_emm_trt <- emmeans(
   glmer_abund_nb, 
   "treatment", 
   lmer.df = "satterthwaite"
 )
 
+# get summary of comparisons, coefficients, and p-values
 pairs_abund_trt <- as.data.frame(pairs(abund_emm_trt))
 
+# obtain p-value for comparison between 
+# undisturbed and tilling
 pairs_til_res <- pairs_abund_trt %>%
   filter(contrast == "RES - TIL") %>%
   pull(p.value) %>%
   signif(digits = 1)
 
+# obtain p-value for comparison between 
+# maintenance-mowing and undisturbed
 pairs_mow_res <- pairs_abund_trt %>%
   filter(contrast == "RES - MOW") %>%
   pull(p.value) %>%
   signif(digits = 1)
 
+# obtain p-value for comparison between
+# maintenance-mowing and tilling
 pairs_mow_til <- pairs_abund_trt %>%
   filter(contrast == "MOW - TIL") %>%
+  
+  # use p < 0.001 if the p-value is really small 
   mutate(p.value = case_when(
     p.value < 0.001 ~ 0.001)
     ) %>%
   pull(p.value) 
-
-# add letters to each mean
-abund_trt_cld <- 
-  cld(
-    object = abund_emm_trt, 
-    adjust = "sidak",
-    Letters = letters,
-    alpha = 0.05) %>%
-  as.data.frame() %>%
-  mutate(
-    treatment = as.character(treatment), 
-    treatment = case_when(
-      treatment == "MOW" ~ "Maintenance-Mow", 
-      treatment == "RES" ~ "Undisturbed",
-      treatment == "TIL" ~ "Tilling"
-    ), 
-    
-    emmean = exp(emmean) + 60
-  ) %>%
-  rename(cld = .group)
 
 # check for sample size ----
 sb_comm %>%
