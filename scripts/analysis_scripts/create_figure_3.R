@@ -167,6 +167,48 @@ props <- sb_total %>%
     )
   )
 
+# run regression model ----
+
+# apply a logit transformation on the response variable 
+# i.e., proportion of native species in seed mix 
+props <- props %>%
+  mutate(logit_props_sm = car::logit(props_sm)) 
+
+prop_sm_lm <- lmer(
+  logit_props_sm ~ treatment + season + (1|site_code), 
+  data = props
+  )
+
+# pairwise comparison
+props_sm_trt_emm <- emmeans(
+  prop_sm_lm, 
+  "treatment", 
+  lmer.df = "satterthwaite"
+)
+
+pairs_sm_trt <- as.data.frame(pairs(props_sm_trt_emm))
+
+# obtain p-value for comparison between 
+# undisturbed and tilling
+pairs_til_res <- pairs_sm_trt %>%
+  filter(contrast == "RES - TIL") %>%
+  pull(p.value) %>%
+  signif(digits = 2)
+
+# obtain p-value for comparison between 
+# maintenance-mowing and undisturbed
+pairs_mow_res <- pairs_sm_trt %>%
+  filter(contrast == "RES - MOW") %>%
+  pull(p.value) %>%
+  signif(digits = 2)
+
+# obtain p-value for comparison between
+# maintenance-mowing and tilling
+pairs_mow_til <- pairs_sm_trt %>%
+  filter(contrast == "TIL - MOW") %>%
+  pull(p.value) %>%
+  signif(digits = 2)
+
 # plots ----
 
 # rename management regimes with their full titles 
