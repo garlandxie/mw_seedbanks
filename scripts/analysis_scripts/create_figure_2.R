@@ -190,6 +190,8 @@ sb_data_viz <- sb_comm %>%
       y = "Seedling Emergent Richness"
     ) + 
     
+    ylim(0, 30)  + 
+    
     scale_fill_discrete(name = "Season") + 
     
     theme_bw() + 
