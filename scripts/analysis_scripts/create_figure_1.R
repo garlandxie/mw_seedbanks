@@ -165,7 +165,6 @@ pairs_mow_til <- pairs_abund_trt %>%
   pull(p.value) 
 
 # check for sample size ----
-
 sb_comm %>%
   group_by(season, treatment) %>%
   summarize(
