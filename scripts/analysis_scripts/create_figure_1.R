@@ -26,12 +26,9 @@ library(here)
 library(dplyr)
 library(ggplot2)
 library(MASS)
-library(patchwork)
 library(lme4)
 library(emmeans)
 library(tidyr)
-library(multcompView)
-library(multcomp)
 library(ggsignif)
 
 # import ----
