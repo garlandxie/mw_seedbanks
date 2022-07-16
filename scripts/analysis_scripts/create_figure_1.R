@@ -165,6 +165,7 @@ pairs_mow_til <- pairs_abund_trt %>%
   pull(p.value) 
 
 # check for sample size ----
+
 sb_comm %>%
   group_by(season, treatment) %>%
   summarize(
@@ -192,6 +193,7 @@ sb_data_viz <- sb_comm %>%
 (sb_abund_plot <- sb_data_viz %>%
   ggplot(aes(x = treatment, y = abund, fill = season)) +
   geom_boxplot() + 
+  geom_point(position = position_dodge(width = 0.75), alpha = 0.2) + 
     
   # pairwise significance between tilling and undisturbed
   geom_signif(
