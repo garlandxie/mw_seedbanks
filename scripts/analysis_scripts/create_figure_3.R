@@ -231,6 +231,28 @@ props_data_viz  <- props %>%
 (prop_sm_plot <- props_data_viz %>%
    ggplot(aes(x = treatment, y = props_sm, fill = season)) +
    geom_boxplot() + 
+   geom_signif(
+     y_position = 0.80, 
+     xmin = 2, 
+     xmax = 3, 
+     annotation = paste("p = ", as.character(pairs_mow_res)),
+     alpha = 0.5
+   ) +
+   geom_signif(
+     y_position = 0.90, 
+     xmin = 1, 
+     xmax = 2, 
+     annotation = paste("p = ", as.character(pairs_til_res)),
+     alpha = 0.5
+   ) + 
+   geom_signif(
+     y_position = 1.00, 
+     xmin = 1, 
+     xmax = 3, 
+     annotation = paste("p = ", as.character(pairs_mow_til)),
+     alpha = 0.5
+   ) + 
+   
    labs(
      x = "Management Regime", 
      y = "Proportion of Native Species in Seed Mix"
