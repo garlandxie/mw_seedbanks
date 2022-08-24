@@ -31,6 +31,7 @@ library(patchwork)
 library(lme4)
 library(emmeans)
 library(tidyr)
+library(DHARMa)
 
 # import ----
 
@@ -210,7 +211,8 @@ glmer_abund_poisson <- glmer(
   )
 
 ### check overdispersion ----
-check_overdispersion(glmer_abund_poisson)
+sim_glmer_abund <- simulateResiduals(fittedModel = glmer_abund_nb, plot = F)
+testDispersion(sim_glmer_abund, type = "PearsonChisq", alternative = 'greater')
 
 ### account for overdispersion ----
 
@@ -228,7 +230,7 @@ glmer_abund_nb <- glmer.nb(
 summary(glmer_abund_nb)
 
 ### check diagnostics ----
-check_model(glmer_abund_nb)
+plot(simulateResiduals(fittedModel = glmer_abund_nb, plot = F))
 
 ### r-squared ----
 r2(glmer_abund_nb)
@@ -247,13 +249,13 @@ abund_emm_sn <- emmeans(
 )
 
 # need to get mow vs til comparisons here
-abund_pairs_trt <- abund_emm_trt %>%
-  pairs() %>%
-  as.data.frame()
 
-abund_pairs_sn <- abund_emm_sn %>%
-  pairs() %>%
-  as.data.frame()
+abund_sn_tuk <- glht(glmer_abund_nb, linfct = mcp(season = "Tukey"))
+abund_sn_cld <- cld(abund_sn_tuk)
+
+abund_trt_tuk <- glht(glmer_abund_nb, linfct = mcp(treatment = "Tukey"))
+abund_trt_cld <- cld(abund_trt_tuk)
+
 
 ## species richness ----
 
@@ -273,7 +275,7 @@ check_overdispersion(glmer_richness)
 # influential observations
 # normal of residuals 
 # normality of random effects
-check_model(glmer_richness)
+plot(simulateResiduals(fittedModel = glmer_richness, plot = F))
 
 ### model summary -----
 summary(glmer_richness)
