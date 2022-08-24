@@ -88,13 +88,3 @@ pcoa_spr_df <- scores(pcoa_spr) %>%
 )
 
 
-#beta_dist <- vegdist(t(obj$data$otu_rarefied[, sample_data$SampleID]),
-#index = "bray")
-
-#mds_data <- as.data.frame(mds$points)
-
-#mds_data$SampleID <- rownames(mds_data)
-#mds_data <- dplyr::left_join(mds_data, sample_data)
-
-#ggplot(mds_data, aes(x = MDS1, y = MDS2, color = Type)) +
-#  geom_point()
