@@ -9,7 +9,7 @@ library(tibble)      # for assigning row names for tibbles
 library(lme4)        # for running GLMM models
 library(performance) # for running regression model diagnostics
 library(emmeans)     
-library(ggsignif)    # 
+library(ggsignif)    
 
 # import ----
 
@@ -91,7 +91,7 @@ sb_taxon_tidy <- sb_taxon %>%
   # clean seed mix status
   left_join(seed_mix_S4, by = "binom_latin") %>%
   mutate(seed_mix_1_and_2 = replace_na(seed_mix_1_and_2, "No")) %>%
-  select(code, binom_latin, status, seed_mix_1_and_2)
+  dplyr::select(code, binom_latin, status, seed_mix_1_and_2)
 
 ## proportions in the seed bank ----
 
@@ -181,14 +181,18 @@ props_data_viz  <- props %>%
       treatment == "TIL" ~ "Tilling", 
       treatment == "RES" ~ "Undisturbed", 
       TRUE ~ treatment 
-    ) 
+    ),
+    treatment = factor(
+      treatment, levels = c("Tilling", "Undisturbed", "Maintenance-Mow")
+    )
   ) %>%
+  
   mutate(season = factor(season, levels = c("Spring", "Fall")))
 
 # regression models ----
 
 props <- props %>%
-  mutate(logit_props_exotic = car::logit(props_sm)) 
+  mutate(logit_props_exotic = car::logit(props_exotic)) 
 
 prop_exotic_lm <- lmer(
   logit_props_exotic ~ treatment + season + (1|site_code), 
@@ -226,6 +230,16 @@ pairs_mow_til <- pairs_exotic_trt %>%
   filter(contrast == "TIL - MOW") %>%
   pull(p.value) %>%
   signif(digits = 2)
+
+# seasonal variation ----
+exotic_emm_season <- emmeans(
+  prop_exotic_lm, 
+  "season", 
+  lmer.df = "satterthwaite"
+)
+
+pairs_exotic_season <- as.data.frame(pairs(exotic_emm_season))
+
 
 # visualize the data ----
 (prop_exotic_plot <- props_data_viz %>%
