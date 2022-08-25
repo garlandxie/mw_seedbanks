@@ -6,6 +6,8 @@ library(tidyr)       # for creating wide or long data frames
 library(tibble)      # for assigning row names for tibbles
 library(lme4)        # for running GLMM models
 library(emmeans)     # for doing pairwise comparisons 
+library(ggsignif)
+library(performance)
 
 # import ----
 
@@ -208,6 +210,16 @@ pairs_mow_til <- pairs_sm_trt %>%
   filter(contrast == "TIL - MOW") %>%
   pull(p.value) %>%
   signif(digits = 2)
+
+# seasonal variation ----
+
+props_sm_season_emm <- emmeans(
+  prop_sm_lm, 
+  "season", 
+  lmer.df = "satterthwaite"
+)
+
+pairs_sm_season <- pairs(props_sm_season_emm)
 
 # plots ----
 
