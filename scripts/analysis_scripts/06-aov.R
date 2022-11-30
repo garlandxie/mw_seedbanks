@@ -67,19 +67,19 @@ seed_mix <- read.csv(
 
 ## seed mix ----
 
-seed_mix_S4 <- seed_mix %>%
+seed_mix_tidy <- seed_mix %>%
+  
+  # clean columns to an R-friendly format
   janitor::clean_names() %>%
   
   # get binomial latin name (species and genus)
-  mutate(binom_latin = paste(genus, species, sep = " ")) %>%
+  mutate(species = paste(genus, species, sep = " ")) %>%
   
-  # get species that were both in Meadoway seed mix 1 and 2 
-  filter(seed_mix_1 == "Yes" | seed_mix_2 == "Yes") %>%
-  mutate(seed_mix_1_and_2 = case_when(
-      seed_mix_1 == "Yes" | seed_mix_2 == "Yes" ~ "Yes"
-    )
-  ) %>%
-  dplyr::select(binom_latin, seed_mix_1, seed_mix_2, seed_mix_1_and_2)
+  # assign "seed mix" status to all species
+  mutate(status = "Seed Mix") %>%
+  
+  # select relevant columns
+  dplyr::select(species, status)
 
 ## invasive status -----
 
