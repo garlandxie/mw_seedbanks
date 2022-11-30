@@ -65,6 +65,13 @@ seed_mix <- read.csv(
 
 # clean data ----
 
+## invasive status -----
+
+# obtain list of fifty invasive species in Toronto, Canada
+invasive_plants_tidy <- invasive_plants %>%
+  mutate(status = "Invasive") %>%
+  dplyr::select(status, species = Species)
+
 ## seed mix ----
 
 seed_mix_tidy <- seed_mix %>%
@@ -80,13 +87,6 @@ seed_mix_tidy <- seed_mix %>%
   
   # select relevant columns
   dplyr::select(species, status)
-
-## invasive status -----
-
-# obtain list of fifty invasive species in Toronto, Canada
-invasive_plants_tidy <- invasive_plants %>%
-  mutate(status = "Invasive") %>%
-  dplyr::select(status, species = Species)
 
 ## taxonomy ----
 sb_taxon_tidy <- sb_taxon %>%
