@@ -9,6 +9,7 @@ library(tibble)      # for assigning row names for tibbles
 library(lme4)        # for running GLMM models
 library(performance) # for running regression model diagnostics
 library(emmeans)     # for calculating pairwise comparisons 
+library(readxl)      # for reading excel files 
 
 # import ----
 
@@ -29,6 +30,21 @@ sb_fall <- read.csv(
 dryad_doi <- "10.5061/dryad.1ns1rn8sg"
 dryad_link <- rdryad::dryad_download(dryad_doi)
 plants_to <- read.csv(unlist(dryad_link))
+
+## invasive status 
+
+# import dataset using R Dryad API
+# Potgieter et al. 2022. Journal of Applied Ecology
+#  https://doi.org/10.1111/1365-2664.14103
+dryad_potgieter_doi <- "10.5061/dryad.h9w0vt4k3"
+dryad_potgieter_link <- rdryad::dryad_download(dryad_potgieter_doi)
+dryad_potgieter_excel <- unlist(dryad_potgieter_link)[2]
+
+invasive_plants <- 
+  readxl::read_excel(
+    dryad_potgieter_excel, 
+    sheet = "Combined Species Ranking"
+    )
 
 ## taxonomy ----
 
