@@ -65,6 +65,16 @@ seed_mix <- read.csv(
 
 # clean data ----
 
+## exotic status -----
+
+# obtain list of exotic plants in Toronto, Canada
+# can include invasive plants as well 
+exotic_plants_tidy <- plants_to %>%
+  janitor::clean_names() %>%
+  filter(exotic_native == "E") %>%
+  mutate(status = "Exotic") %>%
+  dplyr::select(species = scientific_name, status)
+  
 ## invasive status -----
 
 # obtain list of fifty invasive species in Toronto, Canada
