@@ -98,18 +98,10 @@ invasive_plants_tidy <- invasive_plants %>%
 # curated by the Toronto Regional Conservation Authority
 # https://themeadoway.ca/resources/
 seed_mix_tidy <- seed_mix %>%
-  
-  # clean columns to an R-friendly format
-  janitor::clean_names() %>%
-  
-  # get binomial latin name (species and genus)
-  mutate(species = paste(genus, species, sep = " ")) %>%
-  
-  # assign "seed mix" status to all species
-  mutate(seed_mix_status = "Yes") %>%
-  
-  # select relevant columns
-  dplyr::select(species, status)
+    janitor::clean_names() %>%
+    mutate(species = paste(genus, species, sep = " ")) %>%
+    mutate(seed_mix_status = "Yes") %>%
+    dplyr::select(species, status)
 
 # clean data: taxonomy ---------------------------------------------------------
 
