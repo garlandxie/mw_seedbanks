@@ -10,6 +10,7 @@ library(lme4)        # for running GLMM models
 library(performance) # for running regression model diagnostics
 library(emmeans)     # for calculating pairwise comparisons 
 library(readxl)      # for reading excel files 
+library(stringr)     # for manipulating string characters
 
 # import ----
 
@@ -79,6 +80,13 @@ seed_mix_S4 <- seed_mix %>%
     )
   ) %>%
   dplyr::select(binom_latin, seed_mix_1, seed_mix_2, seed_mix_1_and_2)
+
+## invasive status -----
+
+# obtain list of fifty invasive species in Toronto, Canada
+invasive_plants_tidy <- invasive_plants %>%
+  mutate(status = "Invasive") %>%
+  dplyr::select(status, species = Species)
 
 ## taxonomy ----
 sb_taxon_tidy <- sb_taxon %>%
