@@ -111,35 +111,51 @@ seed_mix_tidy <- seed_mix %>%
   # select relevant columns
   dplyr::select(species, status)
 
-# taxonomy ----
+# clean data: taxonomy ---------------------------------------------------------
+
 sb_taxon_tidy <- sb_taxon %>%
   janitor::clean_names() %>%
   mutate(binom_latin = paste(genus, species, sep = " ")) %>%
-  left_join(plants_to, by = c("binom_latin" = "SCIENTIFIC_NAME")) %>%
-  dplyr::select(code, binom_latin, status = EXOTIC_NATIVE) %>%
+  dplyr::select(code, binom_latin, authority)
+
+# clean data: join taxonomy with all plant statuses ----------------------------
+
+# do a left join of all plant status to the taxonomy df
+# plant status: native, exotic, invasive, and seed mix
+# each column will have a plant status 
+# for transparency, in case there's a mistake that needs to be corrected
+
+all_status <- sb_taxon_tidy %>%
+  left_join(native_plants_tidy,   by = c("binom_latin" = "species")) %>%
+  left_join(exotic_plants_tidy,   by = c("binom_latin" = "species")) %>%
+  left_join(invasive_plants_tidy, by = c("binom_latin" = "species")) %>%
+  left_join(seed_mix_tidy,        by = c("binom_latin" = "species"))
+
+#  left_join(plants_to, by = c("binom_latin" = "SCIENTIFIC_NAME")) %>%
+#  dplyr::select(code, binom_latin, status = EXOTIC_NATIVE) %>%
   
   # manually assign exotic/native status 
-  mutate(status = case_when(
-    binom_latin == "Coreopsis tripteris" ~ "N",
-    binom_latin == "Panicum milliaceum" ~ "E",
-    binom_latin == "Picris echioides" ~ "E",
-    binom_latin == "Verbenum urticifolia" ~ "N",
-    binom_latin == "Veronica agrestis" ~ "E",
-    binom_latin == "Euphorbia serpyllifolia" ~ "N", 
-    binom_latin == "Acalypha rhomboidea" ~ "N",
-    binom_latin == "Conyza canadensis" ~ "N",
-    binom_latin == "Lactuca sativa" ~ "E",
-    binom_latin == "Mentha arvensis" ~ "E",
-    binom_latin == "Pycnanthemum muticum" ~ "N",
-    binom_latin == "Sinapis alba" ~ "E",
-    binom_latin == "Solidago rigida" ~ "N",
-    TRUE ~ status)
-  ) %>%
+#  mutate(status = case_when(
+#    binom_latin == "Coreopsis tripteris" ~ "N",
+#    binom_latin == "Panicum milliaceum" ~ "E",
+#    binom_latin == "Picris echioides" ~ "E",
+#    binom_latin == "Verbenum urticifolia" ~ "N",
+#    binom_latin == "Veronica agrestis" ~ "E",
+#    binom_latin == "Euphorbia serpyllifolia" ~ "N", 
+#    binom_latin == "Acalypha rhomboidea" ~ "N",
+#    binom_latin == "Conyza canadensis" ~ "N",
+#    binom_latin == "Lactuca sativa" ~ "E",
+#    binom_latin == "Mentha arvensis" ~ "E",
+#    binom_latin == "Pycnanthemum muticum" ~ "N",
+#    binom_latin == "Sinapis alba" ~ "E",
+#    binom_latin == "Solidago rigida" ~ "N",
+#    TRUE ~ status)
+#  ) %>%
   
-  # clean seed mix status
-  left_join(seed_mix_S4, by = "binom_latin") %>%
-  mutate(seed_mix_1_and_2 = replace_na(seed_mix_1_and_2, "No")) %>%
-  select(code, binom_latin, status, seed_mix_1_and_2)
+#  # clean seed mix status
+#  left_join(seed_mix_S4, by = "binom_latin") %>%
+#  mutate(seed_mix_1_and_2 = replace_na(seed_mix_1_and_2, "No")) %>%
+#  select(code, binom_latin, status, seed_mix_1_and_2)
 
 ## proportions in the seed bank ----
 
