@@ -26,10 +26,12 @@ sb_fall <- read.csv(
 
 ## exotic/native status ----
 
-# import dataset using R DRYAD API  
-dryad_doi <- "10.5061/dryad.1ns1rn8sg"
-dryad_link <- rdryad::dryad_download(dryad_doi)
-plants_to <- read.csv(unlist(dryad_link))
+# import dataset using R Dryad API 
+# Cadotte. 2021. Ecological Solutions and Evidence
+# https://doi.org/10.1002/2688-8319.12036
+dryad_cadotte_doi <- "10.5061/dryad.1ns1rn8sg"
+dryad_cadotte_link <- rdryad::dryad_download(dryad_cadotte_doi)
+plants_to <- read.csv(unlist(dryad_cadotte_link))
 
 ## invasive status ----
 
