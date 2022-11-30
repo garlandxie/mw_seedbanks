@@ -65,6 +65,16 @@ seed_mix <- read.csv(
 
 # clean data ----
 
+## native_status 
+
+# obtain list of native plants in Toronto, Canada
+# can include plants in the TRCA curated seed mix as well
+native_plants_tidy <- plants_to %>%
+  janitor::clean_names() %>%
+  filter(exotic_native == "N") %>%
+  mutate(native_status = "Yes") %>%
+  dplyr::select(species = scientific_name, native_status)
+
 ## exotic status -----
 
 # obtain list of exotic plants in Toronto, Canada
