@@ -94,6 +94,9 @@ invasive_plants_tidy <- invasive_plants %>%
 
 ## seed mix status -------------------------------------------------------------
 
+# obtain list of native plants across all curated seed mixes
+# curated by the Toronto Regional Conservation Authority
+# https://themeadoway.ca/resources/
 seed_mix_tidy <- seed_mix %>%
   
   # clean columns to an R-friendly format
