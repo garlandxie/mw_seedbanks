@@ -82,14 +82,14 @@ native_plants_tidy <- plants_to %>%
 exotic_plants_tidy <- plants_to %>%
   janitor::clean_names() %>%
   filter(exotic_native == "E") %>%
-  mutate(status = "Exotic") %>%
+  mutate(exotic_status = "Yes") %>%
   dplyr::select(species = scientific_name, status)
   
 ## invasive status -------------------------------------------------------------
 
 # obtain list of fifty invasive species in Toronto, Canada
 invasive_plants_tidy <- invasive_plants %>%
-  mutate(status = "Invasive") %>%
+  mutate(invasive_status = "Yes") %>%
   dplyr::select(status, species = Species)
 
 ## seed mix status -------------------------------------------------------------
@@ -106,7 +106,7 @@ seed_mix_tidy <- seed_mix %>%
   mutate(species = paste(genus, species, sep = " ")) %>%
   
   # assign "seed mix" status to all species
-  mutate(status = "Seed Mix") %>%
+  mutate(seed_mix_status = "Yes") %>%
   
   # select relevant columns
   dplyr::select(species, status)
