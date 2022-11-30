@@ -63,9 +63,9 @@ seed_mix <- read.csv(
        "seed_mix.csv")
 )
 
-# clean data ----
+# clean data -------------------------------------------------------------------
 
-## native_status 
+## native_status ---------------------------------------------------------------
 
 # obtain list of native plants in Toronto, Canada
 # can include plants in the TRCA curated seed mix as well
@@ -75,7 +75,7 @@ native_plants_tidy <- plants_to %>%
   mutate(native_status = "Yes") %>%
   dplyr::select(species = scientific_name, native_status)
 
-## exotic status -----
+## exotic status ---------------------------------------------------------------
 
 # obtain list of exotic plants in Toronto, Canada
 # can include invasive plants as well 
@@ -85,14 +85,14 @@ exotic_plants_tidy <- plants_to %>%
   mutate(status = "Exotic") %>%
   dplyr::select(species = scientific_name, status)
   
-## invasive status -----
+## invasive status -------------------------------------------------------------
 
 # obtain list of fifty invasive species in Toronto, Canada
 invasive_plants_tidy <- invasive_plants %>%
   mutate(status = "Invasive") %>%
   dplyr::select(status, species = Species)
 
-## seed mix ----
+## seed mix status -------------------------------------------------------------
 
 seed_mix_tidy <- seed_mix %>%
   
@@ -108,7 +108,7 @@ seed_mix_tidy <- seed_mix %>%
   # select relevant columns
   dplyr::select(species, status)
 
-## taxonomy ----
+# taxonomy ----
 sb_taxon_tidy <- sb_taxon %>%
   janitor::clean_names() %>%
   mutate(binom_latin = paste(genus, species, sep = " ")) %>%
