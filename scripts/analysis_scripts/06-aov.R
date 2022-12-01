@@ -3,6 +3,7 @@ library(here)        # for creating relative file-paths
 library(dplyr)       # for manipulating data 
 library(readxl)      # for reading excel files 
 library(stringr)     # for manipulating string characters
+library(rdryad)      # for importing dryad repo files
 
 # import -----------------------------------------------------------------------
 
