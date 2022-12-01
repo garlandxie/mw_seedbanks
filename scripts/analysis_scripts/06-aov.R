@@ -1,12 +1,12 @@
-# libraries ----
+# libraries --------------------------------------------------------------------
 library(here)        # for creating relative file-paths
 library(dplyr)       # for manipulating data 
 library(readxl)      # for reading excel files 
 library(stringr)     # for manipulating string characters
 
-# import ----
+# import -----------------------------------------------------------------------
 
-## seed bank ----
+## seed bank -------------------------------------------------------------------
 sb_spr <- read.csv(
   here("data", "analysis_data", "spring_seedbank.csv"),
   row.names = 1
@@ -17,7 +17,7 @@ sb_fall <- read.csv(
   row.names = 1
 )
 
-## exotic/native status ----
+## exotic/native status --------------------------------------------------------
 
 # import dataset using R Dryad API 
 # Cadotte. 2021. Ecological Solutions and Evidence
@@ -41,14 +41,14 @@ invasive_plants <-
     sheet = "Combined Species Ranking"
     )
 
-## taxonomy ----
+## taxonomy --------------------------------------------------------------------
 
 sb_taxon <- read.csv(
   here("data", "input_data", 
        "seed_bank_taxonomy.csv")
 )
 
-## seed mix ----
+## seed mix --------------------------------------------------------------------
 
 seed_mix <- read.csv(
   here("data", "input_data", 
