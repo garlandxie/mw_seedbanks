@@ -115,33 +115,58 @@ all_status <- sb_taxon_tidy %>%
   left_join(invasive_plants_tidy, by = c("binom_latin" = "species")) %>%
   left_join(seed_mix_tidy,        by = c("binom_latin" = "species"))
 
+# manually assign status (due to synonyms or missing from database)
 
-
-
-#  left_join(plants_to, by = c("binom_latin" = "SCIENTIFIC_NAME")) %>%
-#  dplyr::select(code, binom_latin, status = EXOTIC_NATIVE) %>%
+all_status_tidy <- all_status %>%
+  mutate(
+    native_status = case_when(
+      
+      # synonymous with Acalypha virginica
+      # from Cadotte. 2021. Ecological Solutions and Evidence
+      binom_latin == "Acalypha rhomboidea" ~ "Yes",
+      
+      # synonymous with Erigeron canadensis
+      # from Cadotte. 2021. Ecological Solutions and Evidence
+      binom_latin == "Conyza canadensis" ~ "Yes",
+      
+      #https://plants.usda.gov/home/plantProfile?symbol=CHSES
+      binom_latin == "Euphorbia serpyllifolia" ~ "Yes",
+      
+      # synonymous with Mentha canadensis
+      # Cadotte. 2021. Ecological Solutions and Evidence
+      binom_latin == "Mentha arvensis" ~ "Yes",
+      
+      # https://plants.usda.gov/home/plantProfile?symbol=PYMU
+      binom_latin == "Pycnanthemum muticum" ~ "Yes",
+      
+      TRUE ~ native_status
+      )
+    ) %>%
   
-  # manually assign exotic/native status 
-#  mutate(status = case_when(
-#    binom_latin == "Coreopsis tripteris" ~ "N",
-#    binom_latin == "Panicum milliaceum" ~ "E",
-#    binom_latin == "Picris echioides" ~ "E",
-#    binom_latin == "Verbenum urticifolia" ~ "N",
-#    binom_latin == "Veronica agrestis" ~ "E",
-#    binom_latin == "Euphorbia serpyllifolia" ~ "N", 
-#    binom_latin == "Acalypha rhomboidea" ~ "N",
-#    binom_latin == "Conyza canadensis" ~ "N",
-#    binom_latin == "Lactuca sativa" ~ "E",
-#    binom_latin == "Mentha arvensis" ~ "E",
-#    binom_latin == "Pycnanthemum muticum" ~ "N",
-#    binom_latin == "Sinapis alba" ~ "E",
-#    binom_latin == "Solidago rigida" ~ "N",
-#    TRUE ~ status)
-#  ) %>%
-  
-#  # clean seed mix status
-#  left_join(seed_mix_S4, by = "binom_latin") %>%
-#  mutate(seed_mix_1_and_2 = replace_na(seed_mix_1_and_2, "No")) %>%
-#  select(code, binom_latin, status, seed_mix_1_and_2)
-
+    mutate(
+    exotic_status = case_when(
+      
+      # https://plants.usda.gov/home/plantProfile?symbol=CHSES
+      binom_latin == "Lactuca sativa" ~ "Yes",
+      
+      #https://plants.usda.gov/home/plantProfile?symbol=PAMI2
+      # typo: should be Panicum miliaceum
+      binom_latin == "Panicum milliaceum" ~ "Yes",  
+      
+      #https://plants.usda.gov/home/plantProfile?symbol=PEGL2
+      binom_latin == "Pennisetum glaucum" ~ "Yes",
+      
+      # synonymous with Helminthotheca echioides
+      # Cadotte. 2021. Ecological Solutions and Evidence
+      binom_latin == "Picris echioides" ~ "Yes",
+      
+      #https://plants.usda.gov/home/plantProfile?symbol=SIAL5
+      binom_latin == "Sinapis alba" ~ "Yes",
+      
+      # https://plants.usda.gov/home/plantProfile?symbol=VEAG
+      binom_latin == "Veronica agrestis" ~ "Yes",
+      
+      TRUE ~ exotic_status
+      )
+    )
 
