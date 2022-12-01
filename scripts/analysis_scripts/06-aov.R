@@ -170,3 +170,30 @@ all_status_tidy <- all_status %>%
       )
     )
 
+# clean data: assign plant status (as a single column) -------------------------
+
+# create a variable that assigns a particular status 
+# this will be used to calculate proportions in another R script
+# e.g., proportion of invasive species in a single seed bank plot
+
+# classifications (for reference)
+# exotic spontaneous (from nearby patches or previous land use) = E
+# native spontaneous (from nearby patches or previous land use) = N
+# native from seed mix (curated + sown after tilling) = SM
+# invasive spontaneous (from nearby patches or previous land use)  = I
+
+final_df <- all_status_tidy %>%
+  mutate(status = case_when(
+    
+    invasive_status == "Yes" ~ "I",
+    exotic_status == "Yes" & invasive_status == "Yes" ~ "I", 
+    exotic_status == "Yes" ~ "E",
+    
+    native_status == "Yes" & seed_mix_status == "Yes" ~ "SM", 
+    native_status == "Yes" ~ "N", 
+    seed_mix_status == "Yes" ~ "SM"
+    )
+  )
+
+# save to disk -----------------------------------------------------------------
+

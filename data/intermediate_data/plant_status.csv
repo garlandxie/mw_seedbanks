@@ -1,0 +1,95 @@
+,code,binom_latin,authority,native_status,exotic_status,invasive_status,seed_mix_status,status
+1,ABTH,Abutilon theophrasti,Medik.,NA,Yes,NA,NA,E
+2,ACRH,Acalypha rhomboidea,L.,Yes,NA,NA,NA,N
+3,AGAL,Ageratina altissima,(L.) R.M. King & H. Rob.,Yes,NA,NA,NA,N
+4,AGST,Agrostis stolonifera,L.,NA,Yes,NA,NA,E
+5,AMAR,Ambrosia artemisiifolia,L.,Yes,NA,NA,NA,N
+6,AMBL,Amaranthus blitoides,S.Wats.,NA,Yes,NA,NA,E
+7,AMRE,Amaranthus retroflexus,L.,NA,Yes,NA,NA,E
+8,AMSP,Verbascum thapsus,L.,NA,Yes,Yes,NA,I
+9,ANGE,Andropogon gerardii,Vitman,Yes,NA,NA,Yes,SM
+10,BAVU,Barbarea vulgaris,W.T. Aiton,NA,Yes,Yes,NA,I
+11,BRRA,Brassica rapa,L.,NA,Yes,NA,NA,E
+12,CABP,Capsella bursa-pastoris,(L.) Medik.,NA,Yes,NA,NA,E
+13,CAPE,Carex spp.,L.,NA,NA,NA,NA,NA
+14,CAPR,Cardamine pratensis,L.,NA,Yes,NA,NA,E
+15,CEFO,Cerastium fontanum,Baumg. ,NA,Yes,NA,NA,E
+16,CELO,Cenchrus longispinus,(Hack.) Fern.,Yes,NA,NA,NA,N
+17,CHAL,Chenopodium album,L.,NA,Yes,NA,NA,E
+18,CHSE,Euphorbia serpyllifolia,Pers.,Yes,NA,NA,NA,N
+19,CIAR,Cirsium arvense,(L.) Scop.,NA,Yes,Yes,NA,I
+20,CIIN,Cichorium intybus,L.,NA,Yes,Yes,NA,I
+21,CIVU,Cirsium vulgare,(Savi) Ten. ,NA,Yes,Yes,NA,I
+22,COCA,Conyza canadensis,L.,Yes,NA,NA,NA,N
+23,COLA,Coreopsis lanceolata,L.,Yes,NA,NA,Yes,SM
+24,COTR,Coreopsis tripteris,L.,NA,NA,NA,Yes,SM
+25,DACA,Daucus carota,L.,NA,Yes,Yes,NA,I
+26,DECA,Desmodium canadense,(L.) DC.,Yes,NA,NA,Yes,SM
+27,ECCR,Echinochloa crus-galli,(L.) Beauv,NA,Yes,NA,NA,E
+28,ERAN,Erigeron annuus,(L.) Pers.,Yes,NA,NA,NA,N
+29,ERCI,Eragrostis cilianensis,(All.) Vign. ex Janchen,NA,Yes,NA,NA,E
+30,EUGR,Euthamia graminifolia,(L.) Nutt.,Yes,NA,NA,Yes,SM
+31,FRVE,Fragaria vesca,L.,Yes,NA,NA,NA,N
+32,GLHE,Glechoma hederacea,L.,NA,Yes,Yes,NA,I
+33,HEGI,Helianthus giganteus,L.,Yes,NA,NA,Yes,SM
+34,HEHE,Heliopsis helianthoides,L.,Yes,NA,NA,Yes,SM
+35,HETU,Helianthus tuberosus,L.,Yes,NA,NA,NA,N
+36,HYPE,Hypericum perforatum,L.,NA,Yes,Yes,NA,I
+37,LACO,Lapsana communis,L.,NA,Yes,NA,NA,E
+38,LASA,Lactuca sativa,L.,NA,Yes,NA,NA,E
+39,LASE,Lactuca serriola,L.,NA,Yes,NA,NA,E
+40,LECA,Leonurus cardiaca,L.,NA,Yes,Yes,NA,I
+41,LIVU,Linaria vulgaris,Mill.,NA,Yes,Yes,NA,I
+42,LOPE,Lolium perenne,L.,NA,Yes,NA,NA,E
+43,MEAR,Mentha arvensis,L.,Yes,NA,NA,NA,N
+44,MELU,Medicago lupulina,L.,NA,Yes,NA,NA,E
+45,MESA,Medicago sativa,L.,NA,Yes,NA,NA,E
+46,MOAL,Morus alba,L.,NA,Yes,NA,NA,E
+47,MOFI,Monarda fistulosa,L.,Yes,NA,NA,Yes,SM
+48,MOVE,Mollugo verticillata,L.,NA,Yes,NA,NA,E
+49,NECA,Nepeta cataria,L.,NA,Yes,NA,NA,E
+50,OCRI,Solidago rigida,L.,Yes,NA,NA,Yes,SM
+51,OEBI,Oenothera biennis,L.,Yes,NA,NA,Yes,SM
+52,OXST,Oxalis stricta,L.,Yes,NA,NA,NA,N
+53,PACA,Panicum capillare,L.,Yes,NA,NA,NA,N
+54,PAMI,Panicum miliaceum,L.,NA,Yes,NA,NA,E
+55,PAVI,Panicum virgatum,(L.) Scop.,Yes,NA,NA,Yes,SM
+56,PEMU,Persicaria maculosa,Gray,NA,Yes,NA,NA,E
+57,PIEC,Picris echioides,(L.) Holub,NA,Yes,NA,NA,E
+58,PIHI,Picris hieracioides,L.,NA,Yes,NA,NA,E
+59,PLMA,Plantago major,L.,NA,Yes,Yes,NA,I
+60,POAR,Potentilla argentea,L.,NA,Yes,NA,NA,E
+61,POAV,Polygonum aviculare,L. 1753,Yes,NA,NA,NA,N
+62,PONO,Potentilla norvegica,L.,Yes,NA,NA,NA,N
+63,POOL,Portulaca oleracea,L.,NA,Yes,NA,NA,E
+64,PORE,Potentilla recta,L.,NA,Yes,Yes,NA,I
+65,PRVU,Prunella vulgaris,L.,Yes,NA,NA,NA,N
+66,PYMU,Pycnanthemum muticum,(Michx.) Pers.,Yes,NA,NA,NA,N
+67,PYTE,Pycnanthemum virginianum,Schrad.,Yes,NA,NA,Yes,SM
+68,RARA,Raphanus raphanistrum,L.,NA,Yes,NA,NA,E
+69,RHTY,Rhus typhina,L.,Yes,NA,NA,NA,N
+70,RUAL,Rubus allegheniensis,(Porter) Porter 1896,Yes,NA,NA,NA,N
+71,RUCR,Rumex crispus,L.,NA,Yes,Yes,NA,I
+72,RUHI,Rudbeckia hirta,L.,Yes,NA,NA,Yes,SM
+73,SCSC,Schizachyrium scoparium,(Michx.) Nash,Yes,NA,NA,Yes,SM
+74,SIAL,Sinapis alba,L.,NA,Yes,NA,NA,E
+75,SIAR,Sinapis arvensis,L.,NA,Yes,NA,NA,E
+76,SIPE,Silphium perfoliatum,L.,Yes,NA,NA,Yes,SM
+77,SOAR,Sonchus arvensis,L. 1753,NA,Yes,NA,NA,E
+78,SONE,Solidago nemoralis,Aiton 1789,Yes,NA,NA,NA,N
+79,SONI,Solanum nigrum,L.,NA,Yes,NA,NA,E
+80,SONU,Sorghastrum nutans,(L.) Nash,Yes,NA,NA,Yes,SM
+81,SOOL,Sonchus oleraceus,L.,NA,Yes,NA,NA,E
+82,SOSP,Solidago canadensis,L.,Yes,NA,NA,Yes,SM
+83,STME,Stellaria media,(L.) Vill.,NA,Yes,NA,NA,E
+84,TAOF,Taraxacum officinale,F.H. Wigg.,NA,Yes,Yes,NA,I
+85,TRPR,Trifolium pratense,L.,NA,Yes,Yes,NA,I
+86,TRRE,Trifolium repens,L.,NA,Yes,Yes,NA,I
+87,TSCA,Tsuga canadensis,(L.) Carrière,Yes,NA,NA,NA,N
+88,VEAG,Veronica agrestis,L.,NA,Yes,NA,NA,E
+89,VEAR,Veronica arvensis,L.,NA,Yes,NA,NA,E
+90,VEST,Verbena hastata,L.,Yes,NA,NA,Yes,SM
+91,VEUR,Verbena urticifolia,L.,Yes,NA,NA,NA,N
+92,VICR,Vicia cracca,L.,NA,Yes,Yes,NA,I
+93,XXXI,Euphorbia spp.,-,NA,NA,NA,NA,NA
+94,EPGL,Pennisetum glaucum,(L.) R. Br.,NA,Yes,NA,NA,E
