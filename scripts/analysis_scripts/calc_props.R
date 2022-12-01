@@ -88,24 +88,41 @@ props <- sb_total %>%
   full_join(sb_invasive,  by = multi_key_id) %>%
   
   mutate(
-    spotan_exotic_abund    = tidyr::replace_na(spontan_exotic_abund, 0),
-    spotan_nativ_abund     = tidyr::replace_na(spontan_nativ_abund, 0),
+    spontan_exotic_abund    = tidyr::replace_na(spontan_exotic_abund, 0),
+    spontan_nativ_abund     = tidyr::replace_na(spontan_nativ_abund, 0),
     sm_abund               = tidyr::replace_na(sm_abund, 0),
-    spontan_invasive_abund = tidyr::replace_na(spontan_inv_abund, 0)
+    spontan_inv_abund      = tidyr::replace_na(spontan_inv_abund, 0)
   ) %>%
   
   mutate(
     
-    props_spotan   = spotan_nativ_abund/total_abund, 
-    props_sm       = sm_abund/total_abund,
-    props_exotic   = spontan_exotic_abund/total_abund,
-    props_invasive = spontan_inv_abund/total_abund 
-    
-  ) %>%
+    props_spontan_native    = spontan_nativ_abund/total_abund, 
+    props_sm                = sm_abund/total_abund,
+    props_spontan_exotic    = spontan_exotic_abund/total_abund,
+    props_spontan_invasive  = spontan_inv_abund/total_abund 
   
-  mutate(
-    treatment = factor(
-      treatment, 
-      levels = c("RES", "TIL", "MOW")
-    )
   )
+## assign missing values as zeros ----------------------------------------------
+
+# some final clean-up prior to regression modelling and data visualization
+props_tidy <- props %>%
+  mutate(
+    props_spontan_native   = tidyr::replace_na(props_spontan_native, 0),
+    props_sm               = tidyr::replace_na(props_sm, 0),
+    props_spontan_exotic   = tidyr::replace_na(props_spontan_exotic, 0),
+    props_spontan_invasive = tidyr::replace_na(props_spontan_invasive , 0) 
+  ) %>%
+  
+  mutate(
+    props_spontan_native   = round(props_spontan_native, digits = 2),
+    props_sm               = round(props_sm, digits = 2),
+    props_spontan_exotic   = round( props_spontan_exotic, digits = 2),
+    props_spontan_invasive = round( props_spontan_invasive, digits = 2)
+  )
+
+# save to disk -----------------------------------------------------------------
+
+write.csv(
+  x = props_tidy, 
+  file = here("data", "intermediate_data", "props.csv")
+)  
