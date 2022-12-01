@@ -197,3 +197,8 @@ final_df <- all_status_tidy %>%
 
 # save to disk -----------------------------------------------------------------
 
+write.csv(
+  x = final_df,
+  file = here("data", "intermediate_data", "plant_status.csv")
+  )
+
