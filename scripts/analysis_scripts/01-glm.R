@@ -277,7 +277,17 @@ glmer_richness <- glmer(
 )
 
 ### check overdispersion -------------------------------------------------------
-check_overdispersion(glmer_richness)
+sim_glmer_richness <- 
+  simulateResiduals(
+    fittedModel = glmer_richness,
+    plot = F
+  )
+
+testDispersion(
+  sim_glmer_richness, 
+  type = "PearsonChisq",
+  alternative = 'greater'
+)
 
 ### check model diagnostics ----------------------------------------------------
 
