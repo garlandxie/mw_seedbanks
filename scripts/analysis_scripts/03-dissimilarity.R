@@ -66,6 +66,7 @@ fall_comm_matrix <- sb %>%
   mutate(across(.cols = AMRE:RARA, ~ tidyr::replace_na(.x, 0))) %>%
   as.data.frame()
 
+# assign row labels for treatment and plot id
 rownames(fall_comm_matrix) <- paste(
   fall_comm_matrix$treatment, 
   c(1:length(fall_comm_matrix$treatment))
@@ -89,6 +90,7 @@ pcoa_spr <- vegan::cmdscale(
   add = TRUE, # Cailliez correction (to correct negative eigenvalues)
   eig = TRUE)
 
+# prepare for data visualization
 pcoa_spr_df <- scores(pcoa_spr) %>%
   as.data.frame() %>%
   tibble::rownames_to_column(var = "treatment") %>%
@@ -111,6 +113,7 @@ pcoa_fall <- cmdscale(
   add = TRUE, # Cailliez correction
   eig = TRUE)
 
+# prepare for data visualization
 pcoa_fall_df <- scores(pcoa_fall) %>%
   as.data.frame() %>%
   tibble::rownames_to_column(var = "treatment") %>%
@@ -154,11 +157,11 @@ pcoa_fall_df <- scores(pcoa_fall) %>%
    theme_bw()
 )
 
-## multi-panel plot ----
+## multi-panel plot ------------------------------------------------------------
 
 (pcoa_plot <- pcoa_spr_plot + pcoa_fall_plot)
 
-# save disk ----
+# save disk --------------------------------------------------------------------
 
 ggsave(
   filename = here("output", "results", "pcoa.svg"), 
