@@ -21,19 +21,19 @@
 # Why? See https://rstats.wtf/save-source.html
 
 
-# libraries ----
-library(here)   
-library(dplyr)
-library(ggplot2)
-library(performance)
-library(MASS)
-library(patchwork)
-library(lme4)
-library(emmeans)
-library(tidyr)
-library(DHARMa)
+# libraries --------------------------------------------------------------------
+library(here)          # for creating relative file-paths
+library(dplyr)         # for manipulating data 
+library(ggplot2)       # for visualizing data
+library(performance)   # for calculating R-square values
+library(MASS)      
+library(patchwork)     # for creating multi-panel plots
+library(lme4)          # for running linear mixed effect models
+library(emmeans)       # for calculating pairwise comparisons
+library(tidyr)         # for manipulating data
+library(DHARMa)        # for running diagnostic tests for LMM's
 
-# import ----
+# import -----------------------------------------------------------------------
 
 spr_sb <- read.csv(
   here("data", "analysis_data", "spring_seedbank.csv"),
@@ -50,12 +50,13 @@ sb_taxon <- read.csv(
        "seed_bank_taxonomy.csv")
 )
 
-# check packaging ----
+# check packaging --------------------------------------------------------------
 glimpse(spr_sb)
 glimpse(fall_sb)
 
-# clean data ----
+# clean data -------------------------------------------------------------------
 
+# combine both fall and spring seed bank data
 sb <- rbind(fall_sb, spr_sb)
 
 # get community-level abundance and species richness
@@ -202,7 +203,7 @@ sb_comm %>%
 
 # run regression models (with outliers) ----
 
-## abundance ----
+## abundance -------------------------------------------------------------------
 
 glmer_abund_poisson <- glmer(
   formula = abund ~ treatment + season + (1|site_code), 
@@ -210,15 +211,24 @@ glmer_abund_poisson <- glmer(
   data = sb_comm
   )
 
-### check overdispersion ----
-sim_glmer_abund <- simulateResiduals(fittedModel = glmer_abund_nb, plot = F)
-testDispersion(sim_glmer_abund, type = "PearsonChisq", alternative = 'greater')
+### check overdispersion -------------------------------------------------------
+sim_glmer_abund <- 
+  simulateResiduals(
+    fittedModel = glmer_abund_poisson,
+    plot = F
+    )
 
-### account for overdispersion ----
+testDispersion(
+  sim_glmer_abund, 
+  type = "PearsonChisq",
+  alternative = 'greater'
+  )
+
+### account for overdispersion -------------------------------------------------
 
 # overdispersion likely due to :
 # (1) variability in detection efficiency, and 
-# (2) environmental stochasticity 
+# (2) environmental stochasticity
 # see scenario 4 in Linden and Mäntyniemi (2011)
 # https://esajournals.onlinelibrary.wiley.com/doi/10.1890/10-1831.1
 glmer_abund_nb <- glmer.nb(
@@ -226,16 +236,16 @@ glmer_abund_nb <- glmer.nb(
   data = sb_comm
 )
 
-### model summary ----
+### model summary --------------------------------------------------------------
 summary(glmer_abund_nb)
 
-### check diagnostics ----
+### check diagnostics ----------------------------------------------------------
 plot(simulateResiduals(fittedModel = glmer_abund_nb, plot = F))
 
-### r-squared ----
+### r-squared ------------------------------------------------------------------
 r2(glmer_abund_nb)
 
-### pairwise comparison ----
+### pairwise comparison --------------------------------------------------------
 abund_emm_trt <- emmeans(
   glmer_abund_nb, 
   "treatment", 
