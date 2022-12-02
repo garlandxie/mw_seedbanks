@@ -1,11 +1,11 @@
 # library ----------------------------------------------------------------------
 library(here)     # for creating relative file-paths
-library(lme4)     # for running linear mixed effect models
+library(lme4)     # for running linear mixed effect models (LMM)
 library(car)      # for calculating logit transformations
 library(ggplot2)  # for visualizing data
 library(dplyr)    # for manipulating data
 library(DHARMa)   # for running diagnostic plots for LMM's
-library(lmerTest)
+library(lmerTest) # for obtaining p-values for LMM's
 
 # import data ------------------------------------------------------------------
 
