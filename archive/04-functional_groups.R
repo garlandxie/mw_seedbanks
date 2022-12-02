@@ -39,12 +39,11 @@ taxon <- mutate(taxon, binom_latin = paste(Genus, Species))
 
 # need to clean more of this data!!!
 sb_tidy <- sb %>%
-  group_by(season, treatment, site_code, spp_code) %>%
-  summarize(abundance = sum(total_abund, na.rm = TRUE)) %>%
-  ungroup() %>%
   left_join(taxon, by = c("spp_code" = "Code")) %>%
   left_join(plants_to, by = c("binom_latin" = "SCIENTIFIC_NAME")) %>%
-  dplyr::select(season, site_code, treatment, binom_latin, Growth_form)
+  dplyr::select(
+    season, 
+    site_code, treatment, binom_latin, Growth_form, total_abund)
 
 sb_tidy <- sb_tidy %>%
   
@@ -66,15 +65,19 @@ sb_tidy <- sb_tidy %>%
       TRUE ~ Growth_form
     )
   )
-  
+ 
+sb_tidy <- sb_tidy %>%
+  group_by(treatment, site_code, Growth_form) %>%
+  summarize(abundance = sum(total_abund, na.rm = TRUE))
+
 # plot ----
 
 (func_groups <- sb_tidy %>% 
   filter(!is.na(Growth_form)) %>%
   mutate(site = factor(site_code)) %>%
   arrange(site) %>%
-  ggplot(aes(x = Growth_form, fill = treatment)) +
-  geom_bar() +
+  ggplot(aes(x = Growth_form, y = abundance, fill = treatment)) +
+  geom_col() +
   labs(x = "Growth Form") + 
   scale_fill_discrete(
     name = "Management Regimes", 
