@@ -32,6 +32,7 @@ library(lme4)          # for running linear mixed effect models
 library(emmeans)       # for calculating pairwise comparisons
 library(tidyr)         # for manipulating data
 library(DHARMa)        # for running diagnostic tests for LMM's
+library(tibble)        # for adding rows to a data frame
 
 # import -----------------------------------------------------------------------
 
@@ -125,9 +126,9 @@ sb_comm_tidy <- sb_comm %>%
     species_richness = 0, 
   ) 
 
-# exploring data (before regression) -----
+# exploring data (before regression) -------------------------------------------
 
-## step 1: check for outliers  ----
+## step 1: check for outliers  -------------------------------------------------
 
 # seed density
 sb_comm %>%
@@ -147,7 +148,7 @@ sb_comm %>%
     y = "Order of the data") +
   theme(axis.text.y = element_blank()) 
 
-## step 2: check for homogeneity of variance ----
+## step 2: check for homogeneity of variance -----------------------------------
 
 # multi-panel conditional box-plots
 sb_comm %>%
@@ -179,7 +180,7 @@ sb_comm %>%
     axis.text.y = element_blank()
     )
 
-## step 3: check for normally-distributed data ----
+## step 3: check for normally-distributed data ---------------------------------
 
 # freedman-diaonis rule
 
@@ -201,7 +202,7 @@ sb_comm %>%
   geom_histogram(bins = bins_fd((sb_comm$abund))) + 
   theme_bw()
 
-# run regression models (with outliers) ----
+# run regression models (with outliers) ----------------------------------------
 
 ## abundance -------------------------------------------------------------------
 
@@ -267,7 +268,7 @@ abund_trt_tuk <- glht(glmer_abund_nb, linfct = mcp(treatment = "Tukey"))
 abund_trt_cld <- cld(abund_trt_tuk)
 
 
-## species richness ----
+## species richness ------------------------------------------------------------
 
 glmer_richness <- glmer(
   formula = species_richness ~ treatment + season + (1|site_code), 
@@ -275,25 +276,20 @@ glmer_richness <- glmer(
   data = sb_comm
 )
 
-### check overdispersion ----
+### check overdispersion -------------------------------------------------------
 check_overdispersion(glmer_richness)
 
-### check model diagnostics ----
+### check model diagnostics ----------------------------------------------------
 
-# homogeneity of variance
-# collinearity
-# influential observations
-# normal of residuals 
-# normality of random effects
 plot(simulateResiduals(fittedModel = glmer_richness, plot = F))
 
-### model summary -----
+### model summary --------------------------------------------------------------
 summary(glmer_richness)
 
-### r squared ----
+### r squared ------------------------------------------------------------------
 r2(glmer_richness)
 
-### pairwise comparisons ----
+### pairwise comparisons -------------------------------------------------------
 richness_emm_trt <- emmeans(
   glmer_richness, 
   "treatment", 
@@ -315,7 +311,7 @@ richness_pairs_sn <- richness_emm_trt %>%
   pairs() %>%
   as.data.frame()
 
-## save to disk ----
+## save to disk ----------------------------------------------------------------
 ggsave(
   filename = here("output", "results", "multi_plot.svg"), 
   plot = multi_plot, 
