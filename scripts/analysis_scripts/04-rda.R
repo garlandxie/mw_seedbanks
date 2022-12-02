@@ -1,11 +1,11 @@
-# libraries ----
+# libraries --------------------------------------------------------------------
 library(here)
 library(dplyr)
 library(ggplot2)
 library(vegan)
 library(ggrepel)
 
-# import ----
+# import -----------------------------------------------------------------------
 
 spr_sb <- read.csv(
   here("data", "analysis_data", "spring_seedbank.csv"),
@@ -17,25 +17,25 @@ fall_sb <- read.csv(
   row.names = 1
 )
 
-# check packaging ----
+# check packaging --------------------------------------------------------------
 glimpse(spr_sb)
 glimpse(fall_sb)
 
-# clean data ----
+# clean data -------------------------------------------------------------------
 
 sb <- rbind(fall_sb, spr_sb)
 
-# clean data: community data matrix -----
+# clean data: community data matrix --------------------------------------------
 
 comm_matrix <- sb %>%
   group_by(season, treatment, site_code) %>%
   tidyr::pivot_wider(names_from = spp_code, values_from = total_abund) %>%
   ungroup() %>%
-  mutate(across(.cols = everything(), ~ tidyr::replace_na(.x, 0)))
+  mutate(across(.cols = AMRE:LOPE, ~ tidyr::replace_na(.x, 0)))
 
-# redundancy analysis -----
+# redundancy analysis ----------------------------------------------------------
 
-## prep ----
+## prep ------------------------------------------------------------------------
 
 Y <- comm_matrix %>%
   dplyr::select(-c("season", "site_name", "site_code", "treatment", "plot")) %>%
@@ -101,14 +101,14 @@ yz_scores <- filter(
     label = row.names(yz_scores), 
     data = yz_scores
   ) + 
-  geom_hline(yintercept = 0, linetype = 3, size = 0.1) + 
-  geom_vline(xintercept = 0, linetype = 3, size = 0.1) + 
+  geom_hline(yintercept = 0, linetype = 3, linewidth = 0.1) + 
+  geom_vline(xintercept = 0, linetype = 3, linewidth  = 0.1) + 
   xlim(-1, 1) + 
   ylim(-1, 1) + 
   theme_bw()
 )
 
-# save to disk ------
+# save to disk -----------------------------------------------------------------
 
 ggsave(
   filename = here("output", "results", "rda_community_composition.svg"),
