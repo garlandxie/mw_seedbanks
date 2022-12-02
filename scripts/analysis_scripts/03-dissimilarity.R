@@ -110,7 +110,7 @@ bray_fall_dist <- vegdist(bray_fall, index = "bray")
 pcoa_fall <- cmdscale(
   bray_fall_dist, 
   k = (nrow(bray_fall)-1),
-  add = TRUE, # Cailliez correction
+  add = TRUE, # Cailliez correction (to correct for negative eigenvalues)
   eig = TRUE)
 
 # prepare for data visualization
