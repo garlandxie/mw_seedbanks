@@ -1,5 +1,6 @@
 # library ----------------------------------------------------------------------
 library(ggplot2)
+library(ggsn)
 library(sf)
 library(here)
 library(dplyr)
@@ -55,12 +56,19 @@ to <- ggplot() +
 # meadow
 mw <- ggplot() + 
   geom_sf(aes(fill = section), data = mw_shp_tidy) + 
-  gghighlight(section %in% c("2", "4")) + 
+  gghighlight(section %in% c("2", "4")) +
+  labs(x = "Longitude", y = "Latitude") + 
+  scalebar(
+    data = mw_shp_tidy, 
+    dist = 1 ,
+    transform = TRUE, 
+    dist_unit = "km",
+    st.size = 2) +
   theme_bw()
 
 # inset map
 inset_map <- cowplot::ggdraw() + 
   cowplot::draw_plot(mw) + 
-  cowplot::draw_plot(to, x = 0.15, y = 0.60, width = 0.3, height = 0.3)
+  cowplot::draw_plot(to, x = 0.18, y = 0.60, width = 0.3, height = 0.3)
 
 # save to disk -----------------------------------------------------------------
