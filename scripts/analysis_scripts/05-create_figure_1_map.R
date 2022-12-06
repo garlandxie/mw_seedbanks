@@ -8,6 +8,7 @@ library(gghighlight)
 library(ggmap)
 library(opendatatoronto)
 library(cowplot)
+library(stringr)
 
 # import data ------------------------------------------------------------------
 
@@ -58,12 +59,28 @@ bound <- get_resource(resources)
 
 # clean data -------------------------------------------------------------------
 
+## convert coordinates to decimal degrees --------------------------------------
+
+bsnh_tidy <- bnsh %>%
+  mutate(
+    Latitude  = ddm_to_dd(Latitude),
+    Longitude = ddm_to_dd(Longitude)*-1
+    )
+
+## ensure consistent coordinate system  ----------------------------------------
+bsnh_tidy <- st_as_sf(
+  bsnh_tidy, 
+  coords = c("Longitude", "Latitude"), 
+  crs = 4326
+  )
+
 mw_shp_tidy <- mw_shp %>%
   mutate(section = factor(section)) %>%
   st_transform(crs = 4326)
 
 bound_tidy <- bound %>%
   st_transform(crs = 4326)
+
 
 # visualize data ---------------------------------------------------------------
 
@@ -88,8 +105,9 @@ to <- ggplot() +
   
 ## meadow ----------------------------------------------------------------------
 mw <- ggplot() + 
-  geom_sf(aes(fill = section), data = mw_shp_tidy) + 
+  geom_sf(aes(fill = section), data = mw_shp_tidy) +
   gghighlight(section %in% c("2", "4")) +
+  geom_sf(data = bsnh_tidy) + 
   labs(x = "Longitude", y = "Latitude") + 
   scalebar(
     data = mw_shp_tidy, 
@@ -102,6 +120,6 @@ mw <- ggplot() +
 ## inset map -------------------------------------------------------------------
 inset_map <- cowplot::ggdraw() + 
   cowplot::draw_plot(mw) + 
-  cowplot::draw_plot(to, x = 0.18, y = 0.60, width = 0.3, height = 0.3)
+  cowplot::draw_plot(to, x = 0.2, y = 0.60, width = 0.3, height = 0.3)
 
 # save to disk -----------------------------------------------------------------
