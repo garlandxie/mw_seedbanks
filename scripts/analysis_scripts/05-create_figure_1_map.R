@@ -39,10 +39,17 @@ ddm_to_dd <- function(dms) {
 
 ## plot coordinates ------------------------------------------------------------
 
-bnsh <- read.csv(
-  here("data", "input_data", "plot_coordinates", 
-       "meadoway_site_BNSH_plot_coordinates.csv"), 
+site_file_paths <- list.files(
+  here("data", "input_data", "plot_coordinates")
 )
+
+read_file <- function(x) {
+  f <- paste(here("data", "input_data", "plot_coordinates"), x, sep = "/")
+  g <- read.csv(f)
+  return(g)
+}
+
+site_df <- bind_rows(lapply(site_file_paths, read_file))
 
 ## meadoway shape file ---------------------------------------------------------
 mw_shp <- st_read(
@@ -61,15 +68,16 @@ bound <- get_resource(resources)
 
 ## convert coordinates to decimal degrees --------------------------------------
 
-bsnh_tidy <- bnsh %>%
+site_tidy <- site_df %>%
+  filter(Plot == 13) %>%
   mutate(
-    Latitude  = ddm_to_dd(Latitude),
-    Longitude = ddm_to_dd(Longitude)*-1
-    )
+    Latitude  = sapply(Latitude, ddm_to_dd),
+    Longitude = sapply(Longitude, ddm_to_dd)*-1
+    ) 
 
 ## ensure consistent coordinate system  ----------------------------------------
-bsnh_tidy <- st_as_sf(
-  bsnh_tidy, 
+site_crs <- st_as_sf(
+  site_tidy, 
   coords = c("Longitude", "Latitude"), 
   crs = 4326
   )
@@ -80,7 +88,6 @@ mw_shp_tidy <- mw_shp %>%
 
 bound_tidy <- bound %>%
   st_transform(crs = 4326)
-
 
 # visualize data ---------------------------------------------------------------
 
@@ -105,10 +112,18 @@ to <- ggplot() +
   
 ## meadow ----------------------------------------------------------------------
 mw <- ggplot() + 
-  geom_sf(aes(fill = section), data = mw_shp_tidy) +
+  geom_sf(
+    aes(fill = section), 
+    data = mw_shp_tidy) +
   gghighlight(section %in% c("2", "4")) +
-  geom_sf(data = bsnh_tidy) + 
+  geom_point(
+    aes(x = Longitude, y = Latitude, shape = Treatment), 
+    data = site_tidy) + 
   labs(x = "Longitude", y = "Latitude") + 
+  scale_shape_discrete(
+    name = "Management Regime", 
+    labels = c("Maintence-Mowing", "Undisturbed", "Tilled")
+  ) + 
   scalebar(
     data = mw_shp_tidy, 
     dist = 1 ,
