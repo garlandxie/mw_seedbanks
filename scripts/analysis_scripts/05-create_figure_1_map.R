@@ -39,6 +39,10 @@ to <- ggplot() +
   geom_sf(fill = NA, color = "red", data = mw_shp_tidy) +
   theme_bw() + 
   theme(
+    panel.grid.major = element_blank(), 
+    panel.grid.minor = element_blank(),
+    panel.background = element_blank(), 
+    
     axis.title.x  = element_blank(),
     axis.text.x   = element_blank(),
     axis.ticks.x  = element_blank(),
