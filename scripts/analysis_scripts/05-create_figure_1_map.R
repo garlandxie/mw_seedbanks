@@ -35,7 +35,7 @@ bound_tidy <- bound %>%
 
 # visualize data ---------------------------------------------------------------
 
-# toronto boundary
+## toronto boundary ------------------------------------------------------------
 to <- ggplot() + 
   geom_sf(fill = NA, data = bound_tidy)  +
   geom_sf(fill = NA, color = "red", data = mw_shp_tidy) +
@@ -54,7 +54,7 @@ to <- ggplot() +
     axis.ticks.y  = element_blank()
     )
   
-# meadow
+## meadow ----------------------------------------------------------------------
 mw <- ggplot() + 
   geom_sf(aes(fill = section), data = mw_shp_tidy) + 
   gghighlight(section %in% c("2", "4")) +
@@ -67,7 +67,7 @@ mw <- ggplot() +
     st.size = 2) +
   theme_bw()
 
-# inset map
+## inset map -------------------------------------------------------------------
 inset_map <- cowplot::ggdraw() + 
   cowplot::draw_plot(mw) + 
   cowplot::draw_plot(to, x = 0.18, y = 0.60, width = 0.3, height = 0.3)
