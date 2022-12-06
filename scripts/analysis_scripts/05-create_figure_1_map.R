@@ -11,11 +11,12 @@ library(cowplot)
 
 # import data ------------------------------------------------------------------
 
+## meadoway shape file ---------------------------------------------------------
 mw_shp <- st_read(
   here("data", "input_data", "meadoway_shapefile", "Meadoway.shp")
 )
 
-## toronto boundary shapefile --------------------------------------------------
+## toronto boundary shape file -------------------------------------------------
 
 # TO boundary 
 reg_bound_ID <- "841fb820-46d0-46ac-8dcb-d20f27e57bcc"
