@@ -1,11 +1,12 @@
 # library ----------------------------------------------------------------------
-library(here)     # for creating relative file-paths
-library(lme4)     # for running linear mixed effect models (LMM)
-library(car)      # for calculating logit transformations
-library(ggplot2)  # for visualizing data
-library(dplyr)    # for manipulating data
-library(DHARMa)   # for running diagnostic plots for LMM's
-library(lmerTest) # for obtaining p-values for LMM's
+library(here)      # for creating relative file-paths
+library(lme4)      # for running linear mixed effect models (LMM)
+library(car)       # for calculating logit transformations
+library(ggplot2)   # for visualizing data
+library(dplyr)     # for manipulating data
+library(DHARMa)    # for running diagnostic plots for LMM's
+library(lmerTest)  # for obtaining p-values for LMM's
+library(ggsignif)  # for plotting significant values in ggplot
 
 # import data ------------------------------------------------------------------
 
@@ -115,4 +116,60 @@ props_inv_transform <- mutate(
 props_inv_lm <- lmer(
   logit_props_inv ~ treatment + (1|site_code),
   data = props_inv_transform
+)
+
+# visualize data ---------------------------------------------------------------
+
+# rename management regimes with their full titles 
+props_data_viz  <- props %>%
+  mutate(
+    treatment = as.character(treatment), 
+    treatment = case_when(
+      treatment == "MOW" ~ "Maintenance-Mow", 
+      treatment == "RES" ~ "Undisturbed",
+      treatment == "TIL" ~ "Tilling"
+    ), 
+    treatment = factor(
+      treatment, levels = c("Undisturbed", "Maintenance-Mow", "Tilling")
+    )  
+  ) %>%
+  mutate(season = factor(season, levels = c("Spring", "Fall")))
+
+# use color-blind friendly palette for fall and spring seasons -----------------
+
+cbPalette <- c("#009E73", "#E69F00")
+
+## proportion of species in the seed mix ----------------------------------------
+
+(prop_sm_plot <- props_data_viz %>%
+   ggplot() +
+   geom_boxplot(
+     aes(x = treatment, y = props_sm, fill = season)
+   ) + 
+   geom_point(
+     aes(x = treatment, y = props_sm, fill = season),
+     position = position_dodge(width=0.75),
+     alpha = 0.3
+     ) + 
+   labs(
+     x = "Management Regime", 
+     y = "Proportion of Species in Seed Mix"
+   ) + 
+   scale_fill_manual(
+     name = "Season",
+     values = cbPalette
+     ) + 
+   theme_bw() 
+) 
+
+# save to disk -----------------------------------------------------------------
+
+## figure 4 --------------------------------------------------------------------
+ggsave(
+  filename = here("output", "results", "figure-4.png"), 
+  plot = prop_sm_plot,
+  device = "png", 
+  units = "in",
+  height = 5, 
+  width = 7
 )
