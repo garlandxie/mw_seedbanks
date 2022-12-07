@@ -97,10 +97,13 @@ to <- ggplot() +
 ## meadow ----------------------------------------------------------------------
 
 mw <- ggplot() + 
-  geom_sf(
-    aes(fill = section), 
-    data = mw_shp_tidy) +
+  
+  # meadoway sections, but just highlight the tilled and restored areas
+  geom_sf(aes(fill = section), data = mw_shp_tidy) +
   gghighlight(section %in% c("2", "4")) +
+  
+  # map site coordinates (represented as the center plot of each site)
+  # note to self: three sites are close together, so maybe use another inset map??
   geom_point(
     aes(x = Longitude, y = Latitude, shape = Treatment), 
     data = site_tidy) + 
@@ -114,12 +117,16 @@ mw <- ggplot() +
     aes(x = Longitude, y = Latitude, label = Site),
     size = 2, 
     data = site_tidy) + 
+  
+  
   scalebar(
     data = mw_shp_tidy, 
     dist = 1 ,
     transform = TRUE, 
     dist_unit = "km",
     st.size = 2) +
+  
+  
   theme_bw() + 
   theme(
     legend.title = element_text(size = 5),
