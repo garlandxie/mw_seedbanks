@@ -324,7 +324,22 @@ richness_pairs_sn <- richness_emm_trt %>%
 
 # visualize data ---------------------------------------------------------------
 
-## pairwise comparisons --------------------------------------------------------
+# adjust x-axis labels (i.e., management regimes)
+# for readability
+sb_data_viz <- sb_comm %>%
+  
+  mutate(
+    treatment = as.character(treatment), 
+    treatment = case_when(
+      treatment == "MOW" ~ "Maintenance-Mow", 
+      treatment == "RES" ~ "Undisturbed",
+      treatment == "TIL" ~ "Tilling"
+    ), 
+    treatment = factor(
+      treatment, levels = c("Tilling", "Undisturbed", "Maintenance-Mow")) 
+  ) 
+
+## pairwise comparisons: abundance  --------------------------------------------
 
 # calculate estimated marginal means
 abund_emm_trt <- emmeans(
@@ -360,21 +375,6 @@ pairs_mow_til <- pairs_abund_trt %>%
     p.value < 0.001 ~ 0.001)
   ) %>%
   pull(p.value) 
-
-# adjust x-axis labels (i.e., management regimes)
-# for readability
-sb_data_viz <- sb_comm %>%
-  
-  mutate(
-    treatment = as.character(treatment), 
-    treatment = case_when(
-      treatment == "MOW" ~ "Maintenance-Mow", 
-      treatment == "RES" ~ "Undisturbed",
-      treatment == "TIL" ~ "Tilling"
-    ), 
-    treatment = factor(
-      treatment, levels = c("Tilling", "Undisturbed", "Maintenance-Mow")) 
-  ) 
 
 (sb_abund_plot <- sb_data_viz %>%
     ggplot(aes(x = treatment, y = abund, fill = season)) +
@@ -428,7 +428,7 @@ sb_data_viz <- sb_comm %>%
     )
 )
 
-## save to disk ----------------------------------------------------------------
+# save to disk ----------------------------------------------------------------
 ggsave(
   filename = here("output", "results", "multi_plot.svg"), 
   plot = multi_plot, 
