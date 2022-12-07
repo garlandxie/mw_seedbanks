@@ -434,33 +434,25 @@ pairs_rich_mow_til <- pairs_rich_trt %>%
 )
 
 # save to disk -----------------------------------------------------------------
+
+## figure 2: seedling eabundance -----------------------------------------------
 ggsave(
-  filename = here("output", "results", "multi_plot.svg"), 
-  plot = multi_plot, 
-  device = "svg", 
+  filename = here("output", "results", "figure-2_abund.png"), 
+  plot = sb_abund_plot, 
+  device = "png", 
   units = "in", 
   height = 4, 
-  width = 9
+  width = 6
 )
 
-write.csv(
-  abund_pairs_trt, 
-  file = here("output", "results", "abund_pairs_trt.csv")
-)
-
-write.csv(
-  abund_pairs_sn, 
-  file = here("output", "results", "abund_pairs_sn.csv")
-)
-
-write.csv(
-  richness_pairs_trt, 
-  file = here("output", "results", "richness_pairs_trt.csv")
-)
-
-write.csv(
-  richness_pairs_sn, 
-  file = here("output", "results", "richness_pairs_sn.csv")
+## figure 3: seedling richness -------------------------------------------------
+ggsave(
+  filename = here("output", "results", "figure-3_richness.png"), 
+  plot = sb_rich_plot, 
+  device = "png", 
+  units = "in", 
+  height = 4, 
+  width = 6
 )
 
 
