@@ -113,11 +113,8 @@ mw <- ggplot() +
     labels = c("Maintence-Mowing", "Undisturbed", "Tilled"),
     values = c(0, 1, 2)
   ) + 
-  geom_text_repel(
-    aes(x = Longitude, y = Latitude, label = Site),
-    size = 2, 
-    data = site_tidy) + 
   
+  guides(color=guide_legend("section"), fill = "none") + 
   
   scalebar(
     data = mw_shp_tidy, 
@@ -125,7 +122,6 @@ mw <- ggplot() +
     transform = TRUE, 
     dist_unit = "km",
     st.size = 2) +
-  
   
   theme_bw() + 
   theme(
