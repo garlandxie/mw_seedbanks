@@ -135,11 +135,11 @@ props_data_viz  <- props %>%
   ) %>%
   mutate(season = factor(season, levels = c("Spring", "Fall")))
 
-# use color-blind friendly palette for fall and spring seasons -----------------
+## color-blind friendly palette ------------------------------------------------
 
 cbPalette <- c("#009E73", "#E69F00")
 
-## proportion of species in the seed mix ----------------------------------------
+## proportion of species in the seed mix ---------------------------------------
 
 (prop_sm_plot <- props_data_viz %>%
    ggplot() +
