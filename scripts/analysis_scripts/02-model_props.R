@@ -195,6 +195,20 @@ ggsave(
   width = 6
 )
 
+## figure s3: spontaneous native species ----------------------------------------
+ggsave(
+  filename = here(
+    "output", 
+    "data_appendix_output", 
+    "figure-s3_prop-spontan-native.png"
+  ), 
+  plot = prop_nativ_plot,
+  device = "png", 
+  units = "in",
+  height = 4, 
+  width = 6
+)
+
 ## figure s4: exotic species ---------------------------------------------------
 ggsave(
   filename = here(
