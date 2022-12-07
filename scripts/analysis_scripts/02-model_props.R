@@ -222,3 +222,17 @@ ggsave(
   height = 4, 
   width = 6
 )
+
+## figure s5: invasive species -------------------------------------------------
+ggsave(
+  filename = here(
+    "output", 
+    "data_appendix_output", 
+    "figure-s5_prop-invasive.png"
+  ), 
+  plot = prop_inv_plot,
+  device = "png", 
+  units = "in",
+  height = 4, 
+  width = 6
+)
