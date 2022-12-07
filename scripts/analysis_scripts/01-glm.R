@@ -260,15 +260,6 @@ abund_emm_sn <- emmeans(
   lmer.df = "satterhwaite"
 )
 
-# need to get mow vs til comparisons here
-
-abund_sn_tuk <- glht(glmer_abund_nb, linfct = mcp(season = "Tukey"))
-abund_sn_cld <- cld(abund_sn_tuk)
-
-abund_trt_tuk <- glht(glmer_abund_nb, linfct = mcp(treatment = "Tukey"))
-abund_trt_cld <- cld(abund_trt_tuk)
-
-
 ## species richness ------------------------------------------------------------
 
 glmer_richness <- glmer(
@@ -336,10 +327,10 @@ sb_data_viz <- sb_comm %>%
       treatment == "TIL" ~ "Tilling"
     ), 
     treatment = factor(
-      treatment, levels = c("Tilling", "Undisturbed", "Maintenance-Mow")) 
+      treatment, levels = c("Undisturbed", "Maintenance-Mow", "Tilling")) 
   ) 
 
-## pairwise comparisons: abundance  --------------------------------------------
+## pairwise comparisons --------------------------------------------------------
 
 # calculate estimated marginal means
 abund_emm_trt <- emmeans(
@@ -394,16 +385,16 @@ pairs_mow_til <- pairs_abund_trt %>%
       y_position = 400, 
       xmin = 2, 
       xmax = 3, 
-      annotation = paste("p = ", as.character(pairs_mow_res)), 
+      annotation = paste("p = ", as.character(pairs_mow_til)), 
       alpha = 0.5
     ) +   
     
-    # pairwise significance between mowing and tilling  
+    # pairwise significance between mowing and tilling
     geom_signif(
       y_position = 500, 
       xmin = 1, 
       xmax = 3, 
-      annotation =  paste("p = <", as.character(pairs_mow_til)),
+      annotation = paste("p = ", as.character(pairs_mow_res)),
       alpha = 0.5
     ) + 
     
@@ -428,7 +419,62 @@ pairs_mow_til <- pairs_abund_trt %>%
     )
 )
 
-# save to disk ----------------------------------------------------------------
+## pairwise comparisons: richness ----------------------------------------------
+
+(sb_rich_plot <- sb_data_viz %>%
+   ggplot(aes(x = treatment, y = species_richness, fill = season)) +
+   geom_boxplot() + 
+   
+   # pairwise significance between tilling and undisturbed
+   geom_signif(
+     y_position = 20, 
+     xmin = 1, 
+     xmax = 2, 
+     annotation = paste("p = <", as.character(pairs_til_res)),
+     alpha = 0.5
+   ) + 
+   
+   # pairwise significance between mowing and undisturbed  
+   geom_signif(
+     y_position = 22, 
+     xmin = 2, 
+     xmax = 3, 
+     annotation = paste("p = ", as.character(pairs_mow_res)), 
+     alpha = 0.5
+   ) +   
+   
+   # pairwise significance between mowing and tilling  
+   geom_signif(
+     y_position = 25, 
+     xmin = 1, 
+     xmax = 3, 
+     annotation =  paste("p = <", as.character(pairs_mow_til)),
+     alpha = 0.5
+   ) + 
+   
+   labs(
+     x = "Management Regime", 
+     y = "Seedling Emergent Richness"
+   ) + 
+   
+   ylim(0, 30)  + 
+   
+   scale_fill_discrete(name = "Season") + 
+   
+   theme_bw() + 
+   theme(
+     axis.title.x = element_text(
+       margin = margin(t = 10, r = 0, b = 0, l = 0)
+     ),
+     axis.title.y = element_text(
+       margin = margin(t = 0, r = 10, b = 0, l = 0)
+     ),
+     text = element_text(size = 15)
+   )
+)
+
+
+# save to disk -----------------------------------------------------------------
 ggsave(
   filename = here("output", "results", "multi_plot.svg"), 
   plot = multi_plot, 
