@@ -13,40 +13,13 @@ library(stringr)             # for manipulating string characters
 
 ## source functions ------------------------------------------------------------
 
-ddm_to_dd <- function(dms) {
-  
-  # split strings to seprate degrees and minutes.m
-  split1 <- str_split(as.vector(dms), pattern = " ")
-  
-  # extract degrees
-  degrees <- substr(split1[[1]][2], 1, 2)
-  degrees <- as.double(degrees)
-  
-  # extract minutes.m
-  minutes.m <- str_replace(split1[[1]][3], pattern = "'", replace = "")
-  minutes.m <- as.double(minutes.m)
-  
-  # convert to degrees
-  dot_d <- minutes.m/60
-  
-  # calculate decimal degrees
-  decimal_degrees = degrees + dot_d
-  
-  
-  return(decimal_degrees)
-}
+source(here("scripts", "analysis_scripts", "functions.R"))
 
 ## plot coordinates ------------------------------------------------------------
 
 site_file_paths <- list.files(
   here("data", "input_data", "plot_coordinates")
 )
-
-read_file <- function(x) {
-  f <- paste(here("data", "input_data", "plot_coordinates"), x, sep = "/")
-  g <- read.csv(f)
-  return(g)
-}
 
 site_df <- bind_rows(lapply(site_file_paths, read_file))
 
