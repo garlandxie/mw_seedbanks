@@ -289,6 +289,10 @@ pairs_mow_til <- pairs_abund_trt %>%
 (sb_abund_plot <- sb_data_viz %>%
     ggplot(aes(x = treatment, y = abund, fill = season)) +
     geom_boxplot() + 
+    geom_point(
+      position = position_dodge(width = 0.75),
+      alpha = 0.1
+      ) +
     
     # pairwise significance between tilling and undisturbed
     geom_signif(
@@ -324,7 +328,9 @@ pairs_mow_til <- pairs_abund_trt %>%
       y = "Seedling Emergent Abundance"
     ) + 
     
-    scale_fill_discrete(name = "Season") + 
+    scale_fill_manual(
+      name = "Season",
+      values = cbPalette) + 
     
     theme_bw() + 
     theme(
