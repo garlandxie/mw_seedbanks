@@ -156,7 +156,8 @@ cbPalette <- c("#009E73", "#E69F00")
      name = "Season",
      values = cbPalette
      ) + 
-   theme_bw() 
+   theme_bw() +
+   theme(text = element_text(size = 15))
 ) 
 
 ## proportion of invasive species ----------------------------------------------
@@ -190,6 +191,20 @@ ggsave(
   plot = prop_sm_plot,
   device = "png", 
   units = "in",
-  height = 5, 
-  width = 7
+  height = 4, 
+  width = 6
+)
+
+## figure s4: exotic species ---------------------------------------------------
+ggsave(
+  filename = here(
+    "output", 
+    "data_appendix_output", 
+    "figure-s4_prop-exotic.png"
+    ), 
+  plot = prop_exotic_plot,
+  device = "png", 
+  units = "in",
+  height = 4, 
+  width = 6
 )
