@@ -111,6 +111,7 @@ to <- ggplot() +
     )
   
 ## meadow ----------------------------------------------------------------------
+
 mw <- ggplot() + 
   geom_sf(
     aes(fill = section), 
@@ -120,21 +121,38 @@ mw <- ggplot() +
     aes(x = Longitude, y = Latitude, shape = Treatment), 
     data = site_tidy) + 
   labs(x = "Longitude", y = "Latitude") + 
-  scale_shape_discrete(
+  scale_shape_manual(
     name = "Management Regime", 
-    labels = c("Maintence-Mowing", "Undisturbed", "Tilled")
+    labels = c("Maintence-Mowing", "Undisturbed", "Tilled"),
+    values = c(0, 1, 2)
   ) + 
+  geom_text_repel(
+    aes(x = Longitude, y = Latitude, label = Site),
+    size = 2, 
+    data = site_tidy) + 
   scalebar(
     data = mw_shp_tidy, 
     dist = 1 ,
     transform = TRUE, 
     dist_unit = "km",
     st.size = 2) +
-  theme_bw()
+  theme_bw() + 
+  theme(
+    legend.title = element_text(size = 5),
+    legend.text = element_text(size = 5)
+  )
 
 ## inset map -------------------------------------------------------------------
 inset_map <- cowplot::ggdraw() + 
   cowplot::draw_plot(mw) + 
-  cowplot::draw_plot(to, x = 0.2, y = 0.60, width = 0.3, height = 0.3)
+  cowplot::draw_plot(to, x = 0.18, y = 0.58, width = 0.2, height = 0.2)
 
 # save to disk -----------------------------------------------------------------
+ggsave(
+  filename = here("output", "results", "figure-1.png"),
+  plot = inset_map, 
+  device = "png", 
+  width = 5,
+  height = 5, 
+  units = "in"
+)
