@@ -235,7 +235,7 @@ cbPalette <- c("#009E73", "#E69F00")
 
 # save to disk -----------------------------------------------------------------
 
-## figure 4 --------------------------------------------------------------------
+## figure 4: species in the seed mix -------------------------------------------
 ggsave(
   filename = here("output", "results", "figure-4.png"), 
   plot = prop_sm_plot,
