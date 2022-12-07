@@ -345,6 +345,42 @@ pairs_mow_til <- pairs_abund_trt %>%
 
 ## pairwise comparisons: richness ----------------------------------------------
 
+rich_emm_trt <- emmeans(
+  glmer_richness, 
+  "treatment", 
+  lmer.df = "satterthwaite"
+)
+
+# get summary of comparisons, coefficients, and p-values
+pairs_rich_trt <- as.data.frame(pairs(rich_emm_trt))
+
+# obtain p-value for comparison between 
+# undisturbed and tilling
+pairs_rich_til_res <- pairs_rich_trt %>%
+  filter(contrast == "RES - TIL") %>%
+  # use p < 0.001 if the p-value is really small 
+  mutate(p.value = case_when(
+    p.value < 0.001 ~ 0.001)
+  ) %>%
+  pull(p.value) 
+
+# obtain p-value for comparison between 
+# maintenance-mowing and undisturbed
+pairs_rich_mow_res <- pairs_rich_trt %>%
+  filter(contrast == "RES - MOW") %>%
+  pull(p.value) %>%
+  signif(digits = 1)
+
+# obtain p-value for comparison between
+# maintenance-mowing and tilling
+pairs_rich_mow_til <- pairs_rich_trt %>%
+  filter(contrast == "MOW - TIL") %>%
+  # use p < 0.001 if the p-value is really small 
+  mutate(p.value = case_when(
+    p.value < 0.001 ~ 0.001)
+  ) %>%
+  pull(p.value) 
+
 (sb_rich_plot <- sb_data_viz %>%
    ggplot(aes(x = treatment, y = species_richness, fill = season)) +
    geom_boxplot() + 
@@ -396,7 +432,6 @@ pairs_mow_til <- pairs_abund_trt %>%
      text = element_text(size = 15)
    )
 )
-
 
 # save to disk -----------------------------------------------------------------
 ggsave(
