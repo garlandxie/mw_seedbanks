@@ -43,8 +43,17 @@ bound <- get_resource(resources)
 
 ## convert coordinates to decimal degrees --------------------------------------
 
+# fyi: I regret using decimal degree minutes for data analysis
+# (but it was helpful to find the plots!)
+# sorry about this convoluted code!!
 site_tidy <- site_df %>%
-  filter(Plot == 13) %>%
+  
+  # get the center plot of each site
+  # for the sake of simple data visualization
+  filter(Plot == 13) %>% 
+  
+  # convert from decimal degree minutes to decimal degrees
+  # using a custom function
   mutate(
     Latitude  = sapply(Latitude, ddm_to_dd),
     Longitude = sapply(Longitude, ddm_to_dd)*-1
