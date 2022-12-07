@@ -385,6 +385,10 @@ pairs_rich_mow_til <- pairs_rich_trt %>%
 (sb_rich_plot <- sb_data_viz %>%
    ggplot(aes(x = treatment, y = species_richness, fill = season)) +
    geom_boxplot() + 
+   geom_point(
+     position = position_dodge(width = 0.75), 
+     alpha = 0.3
+   ) + 
    
    # pairwise significance between tilling and undisturbed
    geom_signif(
@@ -420,7 +424,10 @@ pairs_rich_mow_til <- pairs_rich_trt %>%
    
    ylim(0, 30)  + 
    
-   scale_fill_discrete(name = "Season") + 
+   scale_fill_manual(
+     name = "Season", 
+     values = cbPalette
+     ) + 
    
    theme_bw() + 
    theme(
