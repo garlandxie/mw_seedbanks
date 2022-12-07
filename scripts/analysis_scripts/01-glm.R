@@ -297,22 +297,22 @@ pairs_mow_til <- pairs_abund_trt %>%
     # pairwise significance between tilling and undisturbed
     geom_signif(
       y_position = 300, 
-      xmin = 1, 
-      xmax = 2, 
+      xmin = 2, 
+      xmax = 3, 
       annotation = paste("p = ", as.character(pairs_til_res)),
       alpha = 0.5
     ) + 
     
-    # pairwise significance between mowing and undisturbed  
+    # pairwise significance between mowing and tilling 
     geom_signif(
       y_position = 400, 
-      xmin = 2, 
-      xmax = 3, 
-      annotation = paste("p = ", as.character(pairs_mow_til)), 
+      xmin = 1, 
+      xmax = 2, 
+      annotation = paste("p < ", as.character(pairs_mow_til)), 
       alpha = 0.5
     ) +   
     
-    # pairwise significance between mowing and tilling
+    # pairwise significance between mowing and undisturbed
     geom_signif(
       y_position = 500, 
       xmin = 1, 
