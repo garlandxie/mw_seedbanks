@@ -228,15 +228,6 @@ richness_emm_sn <- emmeans(
   lmer.df = "satterhwaite"
 )
 
-# need to get mow vs til comparisons here
-richness_pairs_trt <- richness_emm_trt %>%
-  pairs() %>%
-  as.data.frame()
-
-richness_pairs_sn <- richness_emm_trt %>%
-  pairs() %>%
-  as.data.frame()
-
 # visualize data ---------------------------------------------------------------
 
 # adjust x-axis labels (i.e., management regimes)
@@ -253,6 +244,10 @@ sb_data_viz <- sb_comm %>%
     treatment = factor(
       treatment, levels = c("Undisturbed", "Maintenance-Mow", "Tilling")) 
   ) 
+
+## color-blind friendly palette ------------------------------------------------
+
+cbPalette <- c("#009E73", "#E69F00")
 
 ## pairwise comparisons --------------------------------------------------------
 
