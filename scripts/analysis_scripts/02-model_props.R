@@ -210,6 +210,29 @@ cbPalette <- c("#009E73", "#E69F00")
    theme_bw() 
 ) 
 
+## proportion of invasive species ----------------------------------------------
+
+(prop_inv_plot <- props_data_viz %>%
+   ggplot() +
+   geom_boxplot(
+     aes(x = treatment, y = props_spontan_invasive, fill = season)
+   ) + 
+   geom_point(
+     aes(x = treatment, y = props_spontan_invasive, fill = season),
+     position = position_dodge(width=0.75),
+     alpha = 0.3
+   ) + 
+   labs(
+     x = "Management Regime", 
+     y = "Proportion of Invasive Species"
+   ) + 
+   scale_fill_manual(
+     name = "Season",
+     values = cbPalette
+   ) + 
+   theme_bw() 
+) 
+
 # save to disk -----------------------------------------------------------------
 
 ## figure 4 --------------------------------------------------------------------
