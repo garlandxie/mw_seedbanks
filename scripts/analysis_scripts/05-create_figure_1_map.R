@@ -17,11 +17,14 @@ source(here("scripts", "analysis_scripts", "functions.R"))
 
 ## plot coordinates ------------------------------------------------------------
 
+# list all plot coordinates for every surveyed site
+# there should be nine sites; three for each management regime
 site_file_paths <- list.files(
   here("data", "input_data", "plot_coordinates")
 )
 
-site_df <- bind_rows(lapply(site_file_paths, read_file))
+# row bind all data frames together
+site_df <- dplyr::bind_rows(lapply(site_file_paths, read_file))
 
 ## meadoway shape file ---------------------------------------------------------
 mw_shp <- st_read(
