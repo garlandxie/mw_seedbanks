@@ -443,7 +443,7 @@ pairs_rich_mow_til <- pairs_rich_trt %>%
 
 # save to disk -----------------------------------------------------------------
 
-## figure 2: seedling eabundance -----------------------------------------------
+## figure 2: seedling abundance ------------------------------------------------
 ggsave(
   filename = here("output", "results", "figure-2_abund.png"), 
   plot = sb_abund_plot, 
