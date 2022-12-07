@@ -15,57 +15,6 @@ props <- read.csv(
   row.names = 1
 )
 
-# exploratory data visualization -----------------------------------------------
-
-props_data_viz  <- props %>%
-  mutate(
-    treatment = as.character(treatment),
-    treatment = case_when(
-      treatment == "MOW" ~ "Maintenance-Mow", 
-      treatment == "TIL" ~ "Tilling", 
-      treatment == "RES" ~ "Undisturbed", 
-      TRUE ~ treatment),
-    treatment = factor(treatment)
-  ) %>%
-  mutate(season = factor(season, levels = c("Spring", "Fall")))
-
-## proportion of spontaneous exotics -------------------------------------------
-
-(prop_spontan_exotic <- props_data_viz %>%
-   ggplot(aes(x = treatment, y = props_spontan_exotic, fill = treatment)) +
-   geom_boxplot() + 
-   geom_point(alpha = 0.5) + 
-   labs(x = NULL, y = "Proportion of Spotanteous Exotic Species") + 
-   theme_bw() + 
-   facet_wrap(~season) + 
-   theme(legend.position = "none")
-)
-
-## proportion of spontaneous natives ------------------------------------------- 
-
-(prop_spotan_native <- props_data_viz %>%
-   ggplot(aes(x = treatment, y = props_spontan_native, fill = treatment)) +
-   geom_boxplot() + 
-   geom_point(alpha = 0.5) + 
-   labs(x = NULL, y = "Proportion of Spontaneous Native Species") + 
-   facet_wrap(~season) + 
-   theme_bw() + 
-   theme(legend.position = "none")
-)
-
-## proportion of seed mix species ----------------------------------------------
-
-(prop_sm <- props_data_viz %>%
-   ggplot(aes(x = treatment, y = props_sm, fill = treatment)) +
-   geom_boxplot() + 
-   geom_point(alpha = 0.5) + 
-   facet_wrap(~season) + 
-   ylim(0, 1) + 
-   labs(x = NULL, y = "Proportion of Native Species from the Seed Mix") + 
-   theme_bw() + 
-   theme(legend.position = "none")
-)
-
 # regression models ------------------------------------------------------------
 
 ## proportion of exotics -------------------------------------------------------
