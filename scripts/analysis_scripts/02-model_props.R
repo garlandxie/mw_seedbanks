@@ -139,6 +139,30 @@ props_data_viz  <- props %>%
 
 cbPalette <- c("#009E73", "#E69F00")
 
+## proportion of exotics -------------------------------------------------------
+
+(prop_exotic_plot <- props_data_viz %>%
+   ggplot() +
+   geom_boxplot(
+     aes(x = treatment, y = props_spontan_exotic, fill = season)
+   ) + 
+   geom_point(
+     aes(x = treatment, y = props_spontan_exotic, fill = season),
+     position = position_dodge(width = 0.75),
+     alpha = 0.3
+   ) + 
+   labs(
+     x = "Management Regime", 
+     y = "Proportion of Exotic Species"
+   ) + 
+   scale_fill_manual(
+     name = "Season",
+     values = cbPalette
+     ) + 
+   scale_y_continuous(breaks = seq(0, 1.0, 0.25)) + 
+   theme_bw() 
+)
+
 ## proportion of species in the seed mix ---------------------------------------
 
 (prop_sm_plot <- props_data_viz %>%
