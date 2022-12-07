@@ -33,6 +33,7 @@ library(emmeans)       # for calculating pairwise comparisons
 library(tidyr)         # for manipulating data
 library(DHARMa)        # for running diagnostic tests for LMM's
 library(tibble)        # for adding rows to a data frame
+library(ggsignif)
 
 # import -----------------------------------------------------------------------
 
@@ -320,6 +321,112 @@ richness_pairs_trt <- richness_emm_trt %>%
 richness_pairs_sn <- richness_emm_trt %>%
   pairs() %>%
   as.data.frame()
+
+# visualize data ---------------------------------------------------------------
+
+## pairwise comparisons --------------------------------------------------------
+
+# calculate estimated marginal means
+abund_emm_trt <- emmeans(
+  glmer_abund_nb, 
+  "treatment", 
+  lmer.df = "satterthwaite"
+)
+
+# get summary of comparisons, coefficients, and p-values
+pairs_abund_trt <- as.data.frame(pairs(abund_emm_trt))
+
+# obtain p-value for comparison between 
+# undisturbed and tilling
+pairs_til_res <- pairs_abund_trt %>%
+  filter(contrast == "RES - TIL") %>%
+  pull(p.value) %>%
+  signif(digits = 1)
+
+# obtain p-value for comparison between 
+# maintenance-mowing and undisturbed
+pairs_mow_res <- pairs_abund_trt %>%
+  filter(contrast == "RES - MOW") %>%
+  pull(p.value) %>%
+  signif(digits = 1)
+
+# obtain p-value for comparison between
+# maintenance-mowing and tilling
+pairs_mow_til <- pairs_abund_trt %>%
+  filter(contrast == "MOW - TIL") %>%
+  
+  # use p < 0.001 if the p-value is really small 
+  mutate(p.value = case_when(
+    p.value < 0.001 ~ 0.001)
+  ) %>%
+  pull(p.value) 
+
+# adjust x-axis labels (i.e., management regimes)
+# for readability
+sb_data_viz <- sb_comm %>%
+  
+  mutate(
+    treatment = as.character(treatment), 
+    treatment = case_when(
+      treatment == "MOW" ~ "Maintenance-Mow", 
+      treatment == "RES" ~ "Undisturbed",
+      treatment == "TIL" ~ "Tilling"
+    ), 
+    treatment = factor(
+      treatment, levels = c("Tilling", "Undisturbed", "Maintenance-Mow")) 
+  ) 
+
+(sb_abund_plot <- sb_data_viz %>%
+    ggplot(aes(x = treatment, y = abund, fill = season)) +
+    geom_boxplot() + 
+    
+    # pairwise significance between tilling and undisturbed
+    geom_signif(
+      y_position = 300, 
+      xmin = 1, 
+      xmax = 2, 
+      annotation = paste("p = ", as.character(pairs_til_res)),
+      alpha = 0.5
+    ) + 
+    
+    # pairwise significance between mowing and undisturbed  
+    geom_signif(
+      y_position = 400, 
+      xmin = 2, 
+      xmax = 3, 
+      annotation = paste("p = ", as.character(pairs_mow_res)), 
+      alpha = 0.5
+    ) +   
+    
+    # pairwise significance between mowing and tilling  
+    geom_signif(
+      y_position = 500, 
+      xmin = 1, 
+      xmax = 3, 
+      annotation =  paste("p = <", as.character(pairs_mow_til)),
+      alpha = 0.5
+    ) + 
+    
+    ylim(0, 800) + 
+    
+    labs(
+      x = "Management Regime", 
+      y = "Seedling Emergent Abundance"
+    ) + 
+    
+    scale_fill_discrete(name = "Season") + 
+    
+    theme_bw() + 
+    theme(
+      axis.title.x = element_text(
+        margin = margin(t = 10, r = 0, b = 0, l = 0)
+      ),
+      axis.title.y = element_text(
+        margin = margin(t = 0, r = 10, b = 0, l = 0)
+      ),
+      text = element_text(size = 15)
+    )
+)
 
 ## save to disk ----------------------------------------------------------------
 ggsave(
