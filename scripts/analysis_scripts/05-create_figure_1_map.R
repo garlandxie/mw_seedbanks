@@ -1,14 +1,13 @@
 # library ----------------------------------------------------------------------
-library(ggplot2)
-library(ggsn)
-library(sf)
-library(here)
-library(dplyr)
-library(gghighlight)
-library(ggmap)
-library(opendatatoronto)
-library(cowplot)
-library(stringr)
+library(ggplot2)             # for visualizing plots
+library(ggsn)                # for creating scale-bars
+library(sf)                  # for manipulating geospatial data
+library(here)                # for creating file-paths
+library(dplyr)               # for manipulating data
+library(gghighlight)         # for highlighting certain ggplot features
+library(opendatatoronto)     # for downloading the TO municipal boundary
+library(cowplot)             # for creating inset maps
+library(stringr)             # for manipulating string characters
 
 # import data ------------------------------------------------------------------
 
