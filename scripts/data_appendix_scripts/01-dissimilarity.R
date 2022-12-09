@@ -188,8 +188,7 @@ fall_pcoa2_var_explained <- paste(
       x = fall_pcoa1_var_explained,
       y = fall_pcoa2_var_explained
     ) + 
-    theme_bw() + 
-    theme(legend.position = "none")
+    theme_bw() 
 )
 
 ## multi-panel plot ------------------------------------------------------------
@@ -204,7 +203,7 @@ ggsave(
   device = "png", 
   units = "in", 
   height = 5, 
-  width = 9
+  width = 10
 )
 
 
