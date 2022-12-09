@@ -5,6 +5,7 @@ library(dplyr)     # for manipulating data
 library(here)      # for creating relative file-paths
 library(patchwork) # for creating multi-panel plots
 library(tidyr)     # for creating wide tables
+library(ape)
 
 # import -----------------------------------------------------------------------
 
@@ -84,17 +85,13 @@ bray_spr <- spring_comm_matrix %>%
 bray_spr_dist <- vegan::vegdist(bray_spr, index = "bray")
 
 # do principal coordinate analysis
-pcoa_spr <- cmdscale(
-  bray_spr_dist, 
-  k = (nrow(bray_spr)-1),
-  add = TRUE, # Cailliez correction (to correct negative eigenvalues)
-  eig = TRUE)
+pcoa_spr <- ape::pcoa(D = bray_spr_dist, correction = "cailliez")
 
 # prepare for data visualization
-pcoa_spr_df <- scores(pcoa_spr) %>%
+pcoa_spr_df <- pcoa_spr$vectors %>%
   as.data.frame() %>%
   tibble::rownames_to_column(var = "treatment") %>%
-  dplyr::select(treatment, Dim1, Dim2) %>%
+  dplyr::select(treatment, Axis.1, Axis.2) %>%
   mutate(treatment = stringr::str_sub(treatment, start = 1L, end = 3L))
 
 ## fall ------------------------------------------------------------------------
@@ -124,8 +121,26 @@ pcoa_fall_df <- scores(pcoa_fall) %>%
 
 ## spring ----------------------------------------------------------------------
 
+# variation explained in the first axis
+spr_pcoa1_rel_eig <- round(pcoa_spr$values$Rel_corr_eig[1]*100, digits = 0)
+pcoa1_var_explained <- paste(
+  "PCoA1", " (", 
+  spr_pcoa1_rel_eig, 
+  "% variation explained)", 
+  sep = ""
+  )
+
+# variation explained in the second axis
+spr_pcoa2_rel_eig  <- round(pcoa_spr$values$Rel_corr_eig[2]*100, digits = 0)
+pcoa2_var_explained <- paste(
+  "PCoA2", " (", 
+  spr_pcoa2_rel_eig, 
+  "% variation explained)", 
+  sep = ""
+)
+
 (pcoa_spr_plot <- pcoa_spr_df %>%
-    ggplot(aes(x = Dim1, y = Dim2, shape = treatment)) + 
+    ggplot(aes(x = Axis.1, y = Axis.2, shape = treatment)) + 
     geom_point() + 
     xlim(-0.8, 0.8) + 
     ylim(-0.7, 0.7) + 
@@ -136,8 +151,8 @@ pcoa_fall_df <- scores(pcoa_fall) %>%
     ) + 
     labs(
       title = "a) Spring season",
-      x = "PCoA1", 
-      y = "PCoA2"
+      x = pcoa1_var_explained,
+      y = pcoa2_var_explained
     ) + 
     theme_bw() + 
     theme(legend.position = "none")
