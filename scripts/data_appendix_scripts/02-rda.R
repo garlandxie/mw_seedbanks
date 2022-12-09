@@ -1,9 +1,9 @@
 # libraries --------------------------------------------------------------------
-library(here)
-library(dplyr)
-library(ggplot2)
-library(vegan)
-library(ggrepel)
+library(here)       # for creating relative file-paths
+library(dplyr)      # for manipulating data
+library(ggplot2)    # for visualizing data
+library(vegan)      # for doing community ecology analyses
+library(ggrepel)    # for repelling text in ggplot2 figures
 
 # import -----------------------------------------------------------------------
 
