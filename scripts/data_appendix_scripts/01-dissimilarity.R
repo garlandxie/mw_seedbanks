@@ -84,7 +84,7 @@ bray_spr <- spring_comm_matrix %>%
 bray_spr_dist <- vegan::vegdist(bray_spr, index = "bray")
 
 # do principal coordinate analysis
-pcoa_spr <- vegan::cmdscale(
+pcoa_spr <- cmdscale(
   bray_spr_dist, 
   k = (nrow(bray_spr)-1),
   add = TRUE, # Cailliez correction (to correct negative eigenvalues)
@@ -125,10 +125,15 @@ pcoa_fall_df <- scores(pcoa_fall) %>%
 ## spring ----------------------------------------------------------------------
 
 (pcoa_spr_plot <- pcoa_spr_df %>%
-    ggplot(aes(x = Dim1, y = Dim2, col = treatment)) + 
+    ggplot(aes(x = Dim1, y = Dim2, shape = treatment)) + 
     geom_point() + 
     xlim(-0.8, 0.8) + 
     ylim(-0.7, 0.7) + 
+    scale_shape_manual(
+      name = "Management Regime", 
+      labels = c("Maintenance-Mow", "Undisturbed", "Tilled"),
+      values = c(0, 1, 2)
+    ) + 
     labs(
       title = "a) Spring season",
       x = "PCoA1", 
@@ -141,10 +146,11 @@ pcoa_fall_df <- scores(pcoa_fall) %>%
 ## fall ------------------------------------------------------------------------
 
 (pcoa_fall_plot <- pcoa_fall_df %>%
-   ggplot(aes(x = Dim1, y = Dim2, col = treatment)) + 
+   ggplot(aes(x = Dim1, y = Dim2, shape = treatment)) + 
    geom_point() + 
-   scale_color_discrete(
+   scale_shape_manual(
      name = "Management Regime", 
+     values = c(0, 1, 2), 
      labels = c("Maintenance-Mow", "Undisturbed", "Tilled")
    ) + 
    xlim(-0.8, 0.8) + 
@@ -164,12 +170,12 @@ pcoa_fall_df <- scores(pcoa_fall) %>%
 # save disk --------------------------------------------------------------------
 
 ggsave(
-  filename = here("output", "results", "pcoa.svg"), 
+  filename = here("output", "data_appendix_output", "figure-s1_pcoa.png"), 
   plot = pcoa_plot, 
-  device = "svg", 
+  device = "png", 
   units = "in", 
   height = 5, 
-  width = 8
+  width = 9
 )
 
 
