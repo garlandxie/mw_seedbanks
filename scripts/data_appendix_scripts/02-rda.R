@@ -31,7 +31,10 @@ comm_matrix <- sb %>%
   group_by(season, treatment, site_code) %>%
   tidyr::pivot_wider(names_from = spp_code, values_from = total_abund) %>%
   ungroup() %>%
-  mutate(across(.cols = AMRE:LOPE, ~ tidyr::replace_na(.x, 0)))
+  mutate(across(.cols = AMRE:LOPE, ~ tidyr::replace_na(.x, 0))) %>%
+  mutate(
+    season = factor(season, levels = c("Spring", "Fall")),
+    treatment = factor(treatment, levels = c("RES", "MOW", "TIL")))
 
 # redundancy analysis ----------------------------------------------------------
 
@@ -69,14 +72,12 @@ yz_scores <- as.data.frame(rda_summ$biplot[, c("RDA1", "RDA2")]) # remove sites 
 
 # show only management regimes (instead of site names) for readability
 yz_scores$vars <- rownames(yz_scores) 
-yz_scores <- filter(
-  yz_scores, 
-  vars %in% c(
-    "seasonSpring", 
-    "treatmentRES",
-    "treatmentTIL"
-    )
-  ) 
+yz_tidy <- filter(
+  yz_scores,
+  vars %in% c("seasonFall", "treatmentMOW","treatmentTIL")
+)
+
+rownames(yz_tidy) <- c("Fall", "Mowing", "Tilled")
 
 # plot the scores using ggplot2 syntax
 (ggplot_rda <- 
@@ -98,8 +99,8 @@ yz_scores <- filter(
   # environmental scores 
   geom_text_repel(
     aes(x = RDA1, y = RDA2), 
-    label = row.names(yz_scores), 
-    data = yz_scores
+    label = rownames(yz_tidy), 
+    data = yz_tidy
   ) + 
   geom_hline(yintercept = 0, linetype = 3, linewidth = 0.1) + 
   geom_vline(xintercept = 0, linetype = 3, linewidth  = 0.1) + 
