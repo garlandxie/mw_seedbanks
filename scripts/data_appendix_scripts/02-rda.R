@@ -25,8 +25,6 @@ glimpse(fall_sb)
 
 sb <- rbind(fall_sb, spr_sb)
 
-# clean data: community data matrix --------------------------------------------
-
 comm_matrix <- sb %>%
   group_by(season, treatment, site_code) %>%
   tidyr::pivot_wider(names_from = spp_code, values_from = total_abund) %>%
@@ -44,31 +42,31 @@ Y <- comm_matrix %>%
   dplyr::select(-c("season", "site_name", "site_code", "treatment", "plot")) %>%
   vegan::decostand("hellinger")
 
-## run RDA ----
+## run RDA ---------------------------------------------------------------------
 comm_comp_rda <- rda(Y ~ season + treatment + site_name, data = comm_matrix)
 
-## grab eigenvalues ----
+## grab eigenvalues ------------------------------------------------------------
 rda_summ <- summary(comm_comp_rda)
 
-## get r squared ----
+## get r squared ---------------------------------------------------------------
 
-# unadjusted R^2 retrieved from rda object
+# un-adjusted R^2 retrieved from rda object
 R2 <- RsquareAdj(comm_comp_rda)$r.squared
 
 # adjusted R^2 retrieved from rda object
 R2adj <- RsquareAdj(comm_comp_rda)$adj.r.squared
 
-## anova ----
+## anova -----------------------------------------------------------------------
 
 anova(comm_comp_rda, permutations = how(nperm = 999))
 anova(comm_comp_rda, by = "axis", permutations = how(nperm = 999))
 
-# plot ----
+# plot -------------------------------------------------------------------------
 
 # manually extract scores for the first two RDA axes
 sp_scores <- as.data.frame(rda_summ$species[, c("RDA1", "RDA2")])
 st_scores <- as.data.frame(rda_summ$sites[, c("RDA1", "RDA2")])
-yz_scores <- as.data.frame(rda_summ$biplot[, c("RDA1", "RDA2")]) # remove sites for now
+yz_scores <- as.data.frame(rda_summ$biplot[, c("RDA1", "RDA2")]) 
 
 # show only management regimes (instead of site names) for readability
 yz_scores$vars <- rownames(yz_scores) 
