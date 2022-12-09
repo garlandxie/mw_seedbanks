@@ -103,18 +103,13 @@ bray_fall <- fall_comm_matrix %>%
 
 bray_fall_dist <- vegdist(bray_fall, index = "bray")
 
-# do principal coordinate analysis
-pcoa_fall <- cmdscale(
-  bray_fall_dist, 
-  k = (nrow(bray_fall)-1),
-  add = TRUE, # Cailliez correction (to correct for negative eigenvalues)
-  eig = TRUE)
+pcoa_fall <- ape::pcoa(D = bray_fall_dist, correction = "cailliez")
 
 # prepare for data visualization
-pcoa_fall_df <- scores(pcoa_fall) %>%
+pcoa_fall_df <- pcoa_fall$vectors %>%
   as.data.frame() %>%
   tibble::rownames_to_column(var = "treatment") %>%
-  dplyr::select(treatment, Dim1, Dim2) %>%
+  dplyr::select(treatment, Axis.1, Axis.2) %>%
   mutate(treatment = stringr::str_sub(treatment, start = 1L, end = 3L))
 
 # visualize the data -----------------------------------------------------------
@@ -160,22 +155,41 @@ pcoa2_var_explained <- paste(
 
 ## fall ------------------------------------------------------------------------
 
+# variation explained in the first axis
+fall_pcoa1_rel_eig <- round(pcoa_fall$values$Rel_corr_eig[1]*100, digits = 0)
+fall_pcoa1_var_explained <- paste(
+  "PCoA1", " (", 
+  fall_pcoa1_rel_eig, 
+  "% variation explained)", 
+  sep = ""
+)
+
+# variation explained in the second axis
+fall_pcoa2_rel_eig <- round(pcoa_fall$values$Rel_corr_eig[2]*100, digits = 0)
+fall_pcoa2_var_explained <- paste(
+  "PCoA2", " (", 
+  fall_pcoa2_rel_eig, 
+  "% variation explained)", 
+  sep = ""
+)
+
 (pcoa_fall_plot <- pcoa_fall_df %>%
-   ggplot(aes(x = Dim1, y = Dim2, shape = treatment)) + 
-   geom_point() + 
-   scale_shape_manual(
-     name = "Management Regime", 
-     values = c(0, 1, 2), 
-     labels = c("Maintenance-Mow", "Undisturbed", "Tilled")
-   ) + 
-   xlim(-0.8, 0.8) + 
-   ylim(-0.7, 0.7) + 
-   labs(
-     title = "b) Fall season",
-     x = "PCoA1", 
-     y = NULL
-   ) + 
-   theme_bw()
+    ggplot(aes(x = Axis.1, y = Axis.2, shape = treatment)) + 
+    geom_point() + 
+    xlim(-0.8, 0.8) + 
+    ylim(-0.7, 0.7) + 
+    scale_shape_manual(
+      name = "Management Regime", 
+      labels = c("Maintenance-Mow", "Undisturbed", "Tilled"),
+      values = c(0, 1, 2)
+    ) + 
+    labs(
+      title = "b) Fall season",
+      x = fall_pcoa1_var_explained,
+      y = fall_pcoa2_var_explained
+    ) + 
+    theme_bw() + 
+    theme(legend.position = "none")
 )
 
 ## multi-panel plot ------------------------------------------------------------
