@@ -61,14 +61,14 @@ R2adj <- RsquareAdj(comm_comp_rda)$adj.r.squared
 anova(comm_comp_rda, permutations = how(nperm = 999))
 anova(comm_comp_rda, by = "axis", permutations = how(nperm = 999))
 
-# plot -------------------------------------------------------------------------
+# visualize data ---------------------------------------------------------------
 
-# manually extract scores for the first two RDA axes
+## manually extract scores for the first two RDA axes --------------------------
 sp_scores <- as.data.frame(rda_summ$species[, c("RDA1", "RDA2")])
 st_scores <- as.data.frame(rda_summ$sites[, c("RDA1", "RDA2")])
 yz_scores <- as.data.frame(rda_summ$biplot[, c("RDA1", "RDA2")]) 
 
-# show only management regimes (instead of site names) for readability
+## show only management regimes (instead of site names) for readability --------
 yz_scores$vars <- rownames(yz_scores) 
 yz_tidy <- filter(
   yz_scores,
@@ -77,7 +77,15 @@ yz_tidy <- filter(
 
 rownames(yz_tidy) <- c("Fall", "Mowing", "Tilled")
 
-# plot the scores using ggplot2 syntax
+## get variation explained for each RDA axis -----------------------------------
+
+rda1_prop_explained <- rda_summ$cont$importance["Proportion Explained","RDA1"]
+rda2_prop_explained <- rda_summ$cont$importance["Proportion Explained","RDA2"]
+
+rda1_prop_explained <- round(rda1_prop_explained*100, digits = 0)
+rda2_prop_explained <- round(rda2_prop_explained*100, digits = 0)
+
+## plot the scores using ggplot2 syntax ----------------------------------------
 (ggplot_rda <- 
   
   ggplot() + 
@@ -86,9 +94,10 @@ rownames(yz_tidy) <- c("Fall", "Mowing", "Tilled")
   geom_text_repel(
     aes(x = RDA1, y  = RDA2), 
     label = row.names(sp_scores), 
-    max.overlaps = 50, 
+    max.overlaps = 100, 
     alpha = 0.3, 
     data = sp_scores) +
+  
   geom_point(
     aes(x = RDA1, y  = RDA2), 
     alpha = 0.5, 
@@ -100,19 +109,42 @@ rownames(yz_tidy) <- c("Fall", "Mowing", "Tilled")
     label = rownames(yz_tidy), 
     data = yz_tidy
   ) + 
+   
+  geom_segment(
+    aes(x = 0, xend = RDA1, y = 0, yend = RDA2),
+    colour = "black",
+    alpha = 0.5,
+    data = yz_tidy
+    ) + 
+  
+  labs(
+    x = paste(
+      "RDA1", 
+      "(", 
+      rda1_prop_explained, 
+      "% variation explained)", 
+      sep = ""),
+    
+    y = paste(
+      "RDA2", 
+      "(", 
+      rda2_prop_explained, 
+      "% variation explained)",
+      sep = "")
+  ) + 
+   
   geom_hline(yintercept = 0, linetype = 3, linewidth = 0.1) + 
   geom_vline(xintercept = 0, linetype = 3, linewidth  = 0.1) + 
-  xlim(-1, 1) + 
-  ylim(-1, 1) + 
+
   theme_bw()
 )
 
 # save to disk -----------------------------------------------------------------
 
 ggsave(
-  filename = here("output", "results", "rda_community_composition.svg"),
+  filename = here("output", "data_appendix_output", "figure-s2_rda.png"),
   plot = ggplot_rda, 
-  device = "svg", 
+  device = "png", 
   units = "in", 
   height = 5, 
   width = 5
