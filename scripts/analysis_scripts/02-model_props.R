@@ -7,6 +7,7 @@ library(dplyr)     # for manipulating data
 library(DHARMa)    # for running diagnostic plots for LMM's
 library(lmerTest)  # for obtaining p-values for LMM's
 library(ggsignif)  # for plotting significant values in ggplot
+library(emmeans)   # for doing pairwise comparisons
 
 # import data ------------------------------------------------------------------
 
@@ -66,6 +67,34 @@ props_inv_lm <- lmer(
   logit_props_inv ~ treatment + (1|site_code),
   data = props_inv_transform
 )
+
+# pairwise comparisons ---------------------------------------------------------
+
+exotic_emm_trt <- emmeans(
+  prop_exotic_lm, 
+  "treatment" 
+)
+
+spontan_native_emm_trt <- emmeans(
+  props_spontan_lm, 
+  "treatment" 
+)
+
+sm_emm_trt <- emmeans(
+  props_sm_lm, 
+  "treatment" 
+)
+
+
+inv_emm_trt <- emmeans(
+  props_inv_lm, 
+  "treatment" 
+)
+
+
+
+
+
 
 # visualize data ---------------------------------------------------------------
 
