@@ -34,6 +34,7 @@ library(tidyr)         # for manipulating data
 library(DHARMa)        # for running diagnostic tests for LMM's
 library(tibble)        # for adding rows to a data frame
 library(ggsignif)
+library(lmerTest)
 
 # import -----------------------------------------------------------------------
 
@@ -125,8 +126,13 @@ sb_comm_tidy <- sb_comm %>%
     plot = 25, 
     abund = 0,
     species_richness = 0, 
-  ) 
-
+  ) %>%
+  
+  mutate(
+    season = factor(season, levels = c("Spring", "Fall")), 
+    treatment = factor(treatment, levels = c("RES", "MOW", "TIL"))
+  )
+  
 # run regression models --------------------------------------------------------
 
 ## abundance -------------------------------------------------------------------
@@ -134,7 +140,7 @@ sb_comm_tidy <- sb_comm %>%
 glmer_abund_poisson <- glmer(
   formula = abund ~ treatment + season + (1|site_code), 
   family = poisson(link = "log"), 
-  data = sb_comm
+  data = sb_comm_tidy
   )
 
 ### check overdispersion -------------------------------------------------------
@@ -157,35 +163,58 @@ testDispersion(
 # (2) environmental stochasticity
 # see scenario 4 in Linden and Mäntyniemi (2011)
 # https://esajournals.onlinelibrary.wiley.com/doi/10.1890/10-1831.1
+
+# note: this model has unusually high p-values 
+# e.g., 9.29e-07 from the summary(glmer_abund_nb) output
+# while the model fits the data structure of the response variable (count data)
+# it might be best to use an alternative model to control for type I error 
 glmer_abund_nb <- glmer.nb(
   formula = abund ~ treatment + season + (1|site_code), 
-  data = sb_comm
+  data = sb_comm_tidy
 )
 
+### account for type I error control -------------------------------------------
+
+# see:
+# St-Pierre, A. P., Shikon, V., & Schneider, D. C. (2018). 
+# Count data in biology—Data transformation or model reformation? 
+# Ecology and Evolution, 8(6), 3077–3085. 
+# https://doi.org/10.1002/ece3.3807
+
+lmer_abund <- sb_comm_tidy %>%
+  mutate(log_abund = log(abund+1)) %>%
+  lmer(formula = log_abund ~ treatment + season + (1|site_code), 
+       data = .
+  )
+
 ### model summary --------------------------------------------------------------
-summary(glmer_abund_nb)
+summary(lmer_abund)
 
 ### check diagnostics ----------------------------------------------------------
-plot(simulateResiduals(fittedModel = glmer_abund_nb, plot = F))
+plot(simulateResiduals(fittedModel = lmer_abund, plot = F))
 
 ### r-squared ------------------------------------------------------------------
-r2(glmer_abund_nb)
+r2(lmer_abund)
 
 ### pairwise comparison --------------------------------------------------------
 abund_emm_trt <- emmeans(
-  glmer_abund_nb, 
+  lmer_abund, 
   "treatment", 
   lmer.df = "satterthwaite"
   )
 
 abund_emm_sn <- emmeans(
-  glmer_abund_nb, 
+  lmer_abund, 
   "season", 
-  lmer.df = "satterhwaite"
+  lmer.df = "satterthwaite"
 )
 
 ## species richness ------------------------------------------------------------
 
+# note: this model has unusually high p-values 
+# e.g., 9.29e-07 from the summary(glmer_abund_nb) output
+# while the model fits the data structure of the response variable (count data)
+# it might be best to use an alternative model to control for type I error 
 glmer_richness <- glmer(
   formula = species_richness ~ treatment + season + (1|site_code), 
   family = poisson(link = "log"),
@@ -205,28 +234,34 @@ testDispersion(
   alternative = 'greater'
 )
 
+### account for type I error ---------------------------------------------------
+
+lmer_rich <- sb_comm_tidy %>%
+  mutate(log_richness = log(species_richness+1)) %>%
+  lmer(formula = log_richness ~ treatment + season + (1|site_code), 
+       data = .
+  )
+
 ### check model diagnostics ----------------------------------------------------
 
-plot(simulateResiduals(fittedModel = glmer_richness, plot = F))
+plot(simulateResiduals(fittedModel = lmer_rich, plot = F))
 
 ### model summary --------------------------------------------------------------
-summary(glmer_richness)
+summary(lmer_rich)
 
 ### r squared ------------------------------------------------------------------
-r2(glmer_richness)
+r2(lmer_rich)
 
 ### pairwise comparisons -------------------------------------------------------
 richness_emm_trt <- emmeans(
-  glmer_richness, 
-  "treatment", 
-  lmer.df = "satterthwaite"
+  lmer_rich, 
+  "treatment" 
 )
 
 richness_emm_sn <- emmeans(
-  glmer_richness, 
-  "season", 
-  lmer.df = "satterhwaite"
-)
+  lmer_rich, 
+  "season"
+  )
 
 # visualize data ---------------------------------------------------------------
 
@@ -253,7 +288,7 @@ cbPalette <- c("#009E73", "#E69F00")
 
 # calculate estimated marginal means
 abund_emm_trt <- emmeans(
-  glmer_abund_nb, 
+  glmer_abund_poisson, 
   "treatment", 
   lmer.df = "satterthwaite"
 )
