@@ -16,11 +16,19 @@ props <- read.csv(
   row.names = 1
 )
 
+# clean data -------------------------------------------------------------------
+
+props_tidy <- mutate(
+  props, 
+  season = factor(season, levels = c("Spring", "Fall")), 
+  treatment = factor(treatment, levels = c("RES", "MOW", "TIL"))
+  )
+
 # regression models ------------------------------------------------------------
 
 ## proportion of exotics -------------------------------------------------------
 prop_exotic_transform <- mutate(
-  props, 
+  props_tidy, 
   props_exotic_logit = car::logit(props_spontan_exotic)
   )
 
@@ -34,7 +42,7 @@ performance::r2(prop_exotic_lm)
 
 ## proportion of spontaneous native species ------------------------------------
 prop_native_transform <- mutate(
-  props, 
+  props_tidy, 
   props_native_logit = car::logit(props_spontan_native)
 )
 
@@ -44,10 +52,11 @@ props_spontan_lm <- lmer(
   )
 
 summary(props_spontan_lm)
+performance::r2(props_spontan_lm)
 
 ## proportion of seed mix species ----
 props_sm_transform <- mutate(
-  props, 
+  props_tidy, 
   logit_props_sm = car::logit(props_sm)
   ) 
 
@@ -56,10 +65,13 @@ props_sm_lm <- lmer(
   data = props_sm_transform
 )
 
+summary(props_sm_lm)
+performance::r2(props_sm_lm)
+
 ## proportion of invasive species ----------------------------------------------
 
 props_inv_transform <- mutate(
-  props, 
+  props_tidy, 
   logit_props_inv = car::logit(props_spontan_invasive)
 ) 
 
@@ -90,11 +102,6 @@ inv_emm_trt <- emmeans(
   props_inv_lm, 
   "treatment" 
 )
-
-
-
-
-
 
 # visualize data ---------------------------------------------------------------
 
