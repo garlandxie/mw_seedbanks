@@ -200,14 +200,7 @@ r2(lmer_abund)
 abund_emm_trt <- emmeans(
   lmer_abund, 
   "treatment", 
-  lmer.df = "satterthwaite"
   )
-
-abund_emm_sn <- emmeans(
-  lmer_abund, 
-  "season", 
-  lmer.df = "satterthwaite"
-)
 
 ## species richness ------------------------------------------------------------
 
