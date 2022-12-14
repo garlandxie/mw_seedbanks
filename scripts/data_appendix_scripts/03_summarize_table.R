@@ -22,6 +22,13 @@ sb_taxon <- read.csv(
        "seed_bank_taxonomy.csv")
 )
 
+## plant status ----------------------------------------------------------------
+
+plant_status  <- read.csv(
+  here("data", "intermediate_data", 
+       "plant_status.csv")
+)
+
 # clean data -------------------------------------------------------------------
 
 sb <- rbind(sb_spr, sb_fall)
@@ -34,19 +41,21 @@ abund_by_site <- sb %>%
   summarize(abund = sum(total_abund)) %>%
   ungroup()
 
-
-# to do: assign a genus and species for ECGI
 abund_by_site_long <- abund_by_site %>%
   group_by(season, site_code, spp_code, Genus, Species) %>%
   tidyr::pivot_wider(names_from = site_code, values_from = abund) %>%
   ungroup() %>%
-  arrange(desc(season), spp_code) %>%
   mutate(across(M4_1:T2_3, ~replace_na(.x ,0)))
 
+final_df <- abund_by_site_long %>%
+  inner_join(plant_status, by = c("spp_code" = "code")) %>%
+  select(season, spp_code, Genus, Species, M4_1:T2_3, status) %>%
+  arrange(desc(season), spp_code) 
+  
 # save to disk -----------------------------------------------------------------
 
 write.csv(
-  x = abund_by_site_long, 
+  x = final_df, 
   file = here("output", "data_appendix_output", "table_s2_summary_table.csv"), 
   row.names = FALSE
 )
