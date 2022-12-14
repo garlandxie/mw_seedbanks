@@ -34,6 +34,8 @@ abund_by_site <- sb %>%
   summarize(abund = sum(total_abund)) %>%
   ungroup()
 
+
+# to do: assign a genus and species for ECGI
 abund_by_site_long <- abund_by_site %>%
   group_by(season, site_code, spp_code, Genus, Species) %>%
   tidyr::pivot_wider(names_from = site_code, values_from = abund) %>%
@@ -45,7 +47,8 @@ abund_by_site_long <- abund_by_site %>%
 
 write.csv(
   x = abund_by_site_long, 
-  file = here("output", "data_appendix_output", "tables2_summary_table.csv")
+  file = here("output", "data_appendix_output", "table_s2_summary_table.csv"), 
+  row.names = FALSE
 )
 
 

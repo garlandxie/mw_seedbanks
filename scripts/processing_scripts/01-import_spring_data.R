@@ -1,5 +1,5 @@
 ################################################################################
-# Accompanying code for the followng research project: 
+# Accompanying code for the following research project: 
 #   Seedbanks in the Meadoway (Scarborough, Canada)
 #
 #
@@ -24,24 +24,24 @@ library(here)          # for creating relative file-paths
 library(visdat)        # for visualizing missing data 
 library(ggplot2)       # for visualizing data 
 library(dplyr)         # for manipulating data 
-library(janitor)       # for cleaning colum names in a machine-readable format 
+library(janitor)       # for cleaning column names in a machine-readable format 
 
-# import ----
+# import -----------------------------------------------------------------------
 
 df_spr <- read.csv(here("data", "input_data", "seed_bank_spring.csv"))
   
-# check packaging ----
+# check packaging --------------------------------------------------------------
 
 str(df_spr)
 head(df_spr, n = 10)
 tail(df_spr, n = 10)
 
-# check missing data ----
+# check missing data -----------------------------------------------------------
 
 visdat::vis_miss(df_spr)
 visdat::vis_dat(df_spr)
 
-# data clean -----
+# data clean -------------------------------------------------------------------
 
 # summarize by species (since we took multiple observations at a time) 
 df_spr_summ <- df_spr %>%
@@ -54,7 +54,7 @@ df_spr_summ <- df_spr %>%
 glimpse(df_spr_summ)
 vis_miss(df_spr_summ)
 
-# write to disk ----
+# write to disk ----------------------------------------------------------------
 
 write.csv(
   x = df_spr_summ, 

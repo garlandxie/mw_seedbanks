@@ -1,5 +1,5 @@
 ################################################################################
-# Accompanying code for the followng research project: 
+# Accompanying code for the following research project: 
 #  Seedbanks in the Meadoway (Scarborough, Canada)
 #
 #
@@ -19,29 +19,29 @@
 # IMPORTANT: Please refresh your R session before you run this script
 # Why? See https://rstats.wtf/save-source.html
 
-# libraries ----
+# libraries --------------------------------------------------------------------
 library(here)          # for creating relative file-paths
 library(visdat)        # for visualizing missing data 
 library(ggplot2)       # for visualizing data 
 library(dplyr)         # for manipulating data 
-library(janitor)       # for cleaning colum names in a machine-readable format 
+library(janitor)       # for cleaning column names in a machine-readable format 
 
-# import ----
+# import -----------------------------------------------------------------------
 
 df_fall <- read.csv(here("data", "input_data", "seed_bank_fall.csv"))
 
-# check packaging ----
+# check packaging --------------------------------------------------------------
 
 str(df_fall)
 head(df_fall, n = 10)
 tail(df_fall, n = 10)
 
-# check missing data ----
+# check missing data -----------------------------------------------------------
 
 visdat::vis_miss(df_fall)
 visdat::vis_dat(df_fall)
 
-# data cleaning -----
+# data cleaning ----------------------------------------------------------------
 
 # summarize
 df_fall_summ <- df_fall %>%
@@ -54,7 +54,7 @@ df_fall_summ <- df_fall %>%
 glimpse(df_fall_summ)
 vis_miss(df_fall_summ)
 
-# write to disk ----
+# write to disk ----------------------------------------------------------------
 
 write.csv(
   x = df_fall_summ, 

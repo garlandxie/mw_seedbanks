@@ -90,8 +90,8 @@ props <- sb_total %>%
   mutate(
     spontan_exotic_abund    = tidyr::replace_na(spontan_exotic_abund, 0),
     spontan_nativ_abund     = tidyr::replace_na(spontan_nativ_abund, 0),
-    sm_abund               = tidyr::replace_na(sm_abund, 0),
-    spontan_inv_abund      = tidyr::replace_na(spontan_inv_abund, 0)
+    sm_abund                = tidyr::replace_na(sm_abund, 0),
+    spontan_inv_abund       = tidyr::replace_na(spontan_inv_abund, 0)
   ) %>%
   
   mutate(
@@ -116,8 +116,8 @@ props_tidy <- props %>%
   mutate(
     props_spontan_native   = round(props_spontan_native, digits = 2),
     props_sm               = round(props_sm, digits = 2),
-    props_spontan_exotic   = round( props_spontan_exotic, digits = 2),
-    props_spontan_invasive = round( props_spontan_invasive, digits = 2)
+    props_spontan_exotic   = round(props_spontan_exotic, digits = 2),
+    props_spontan_invasive = round(props_spontan_invasive, digits = 2)
   )
 
 # save to disk -----------------------------------------------------------------
