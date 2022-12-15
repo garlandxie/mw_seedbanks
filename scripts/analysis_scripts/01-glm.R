@@ -213,7 +213,7 @@ ci_int_trt <- confint(pairs(abund_emm_trt)) %>%
   
   # note: response variable was log(x+1) transformed
   # exp(log(x + 1)) = x + 1
-  # subtract by 1 to remove effects of constant in exp(log(x + 1))
+  # subtract by 1 to remove effects of constant in x + 1
   # subtract by 1 (again) to change into percentage increase
   mutate(
     backtransformed_estimate = exp(estimate) - 1 - 1,
@@ -226,7 +226,7 @@ ci_int_season <- confint(pairs(abund_sn_trt)) %>%
 
   # note: response variable was log(x+1) transformed
   # exp(log(x + 1)) = x + 1
-  # subtract by 1 to remove effects of constant in exp(log(x + 1))
+  # subtract by 1 to remove effects of constant in x + 1
   # subtract by 1 (again) to change into percentage increase
   mutate(
     backtransformed_estimate = exp(estimate) - 1 - 1,
