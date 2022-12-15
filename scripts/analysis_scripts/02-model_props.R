@@ -103,6 +103,21 @@ inv_emm_trt <- emmeans(
   "treatment" 
 )
 
+# confidence intervals ---------------------------------------------------------
+
+ci_sm_trt <- confint(pairs(sm_emm_trt)) %>%
+  
+  # note that the response variable was logit-transformed
+  # to back-transform, use exp() => see Warton and Hui 2011
+  # so, the interpretation here is "predicted increase in odds
+  # of x by a factor of [exp(coefficient)]"
+  
+  mutate(
+    backtransformed_estimate = exp(estimate),
+    backtransformed_lower.CL = exp(lower.CL),
+    backtransfromed_upp.CL = exp(upper.CL)
+  )
+  
 # visualize data ---------------------------------------------------------------
 
 # rename management regimes with their full titles 
