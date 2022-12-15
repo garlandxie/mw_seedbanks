@@ -202,6 +202,38 @@ abund_emm_trt <- emmeans(
   "treatment", 
   )
 
+abund_sn_trt <- emmeans(
+  lmer_abund, 
+  "season", 
+)
+
+### confidence intervals -------------------------------------------------------
+# get confidence intervals for management regimes
+ci_int_trt <- confint(pairs(abund_emm_trt)) %>%
+  
+  # note: response variable was log(x+1) transformed
+  # exp(log(x + 1)) = x + 1
+  # subtract by 1 to remove effects of constant in exp(log(x + 1))
+  # subtract by 1 (again) to change into percentage increase
+  mutate(
+    backtransformed_estimate = exp(estimate) - 1 - 1,
+    backtransformed_lower_CL = exp(lower.CL) - 1 - 1,
+    backtransformed_upper_CL = exp(upper.CL) - 1 - 1 
+  )
+
+# get confidence intervals for seasonal variation
+ci_int_season <- confint(pairs(abund_sn_trt)) %>%
+
+  # note: response variable was log(x+1) transformed
+  # exp(log(x + 1)) = x + 1
+  # subtract by 1 to remove effects of constant in exp(log(x + 1))
+  # subtract by 1 (again) to change into percentage increase
+  mutate(
+    backtransformed_estimate = exp(estimate) - 1 - 1,
+    backtransformed_lower_CL = exp(lower.CL) - 1 - 1,
+    backtransformed_upper_CL = exp(upper.CL) - 1 - 1 
+  )
+
 ## species richness ------------------------------------------------------------
 
 # note: this model has unusually high p-values 

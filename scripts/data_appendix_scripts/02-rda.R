@@ -43,7 +43,7 @@ Y <- comm_matrix %>%
   vegan::decostand("hellinger")
 
 ## run RDA ---------------------------------------------------------------------
-comm_comp_rda <- rda(Y ~ season + treatment + site_name, data = comm_matrix)
+comm_comp_rda <- rda(Y ~ season + treatment, strata = site_name, data = comm_matrix)
 
 ## grab eigenvalues ------------------------------------------------------------
 rda_summ <- summary(comm_comp_rda)
