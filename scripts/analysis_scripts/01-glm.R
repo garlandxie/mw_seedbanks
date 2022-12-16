@@ -209,7 +209,7 @@ abund_sn_trt <- emmeans(
 
 ### confidence intervals -------------------------------------------------------
 # get confidence intervals for management regimes
-ci_int_trt <- confint(pairs(abund_emm_trt)) %>%
+ci_int_abund_trt <- confint(pairs(abund_emm_trt)) %>%
   
   # note: response variable was log(x+1) transformed
   # exp(log(x + 1)) = x + 1
@@ -222,7 +222,7 @@ ci_int_trt <- confint(pairs(abund_emm_trt)) %>%
   )
 
 # get confidence intervals for seasonal variation
-ci_int_season <- confint(pairs(abund_sn_trt)) %>%
+ci_abund_int_season <- confint(pairs(abund_sn_trt)) %>%
 
   # note: response variable was log(x+1) transformed
   # exp(log(x + 1)) = x + 1
