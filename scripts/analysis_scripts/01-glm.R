@@ -289,28 +289,24 @@ pairs_abund_trt <- as.data.frame(pairs(abund_emm_trt))
 
 # obtain p-value for comparison between 
 # undisturbed and tilling
-pairs_til_res <- pairs_abund_trt %>%
+pairs_abund_til_res <- pairs_abund_trt %>%
   filter(contrast == "RES - TIL") %>%
   pull(p.value) %>%
   signif(digits = 1)
 
 # obtain p-value for comparison between 
 # maintenance-mowing and undisturbed
-pairs_mow_res <- pairs_abund_trt %>%
+pairs_abund_mow_res <- pairs_abund_trt %>%
   filter(contrast == "RES - MOW") %>%
   pull(p.value) %>%
   signif(digits = 1)
 
 # obtain p-value for comparison between
 # maintenance-mowing and tilling
-pairs_mow_til <- pairs_abund_trt %>%
+pairs_abund_mow_til <- pairs_abund_trt %>%
   filter(contrast == "MOW - TIL") %>%
-  
-  # use p < 0.001 if the p-value is really small 
-  mutate(p.value = case_when(
-    p.value < 0.001 ~ 0.001)
-  ) %>%
-  pull(p.value) 
+  pull(p.value) %>%
+  signif(digits = 1)
 
 (sb_abund_plot <- sb_data_viz %>%
     ggplot(aes(x = treatment, y = abund, fill = season)) +
@@ -325,7 +321,7 @@ pairs_mow_til <- pairs_abund_trt %>%
       y_position = 300, 
       xmin = 1, 
       xmax = 2, 
-      annotation = paste("p = ", as.character(pairs_mow_res)),
+      annotation = paste("p = ", as.character(pairs_abund_mow_res)),
       alpha = 0.5
     ) + 
     
@@ -334,7 +330,7 @@ pairs_mow_til <- pairs_abund_trt %>%
       y_position = 500, 
       xmin = 1, 
       xmax = 3, 
-      annotation = paste("p = ", as.character(pairs_til_res)),
+      annotation = paste("p = ", as.character(pairs_abund_til_res)),
       alpha = 0.5
     ) + 
     
@@ -343,7 +339,7 @@ pairs_mow_til <- pairs_abund_trt %>%
       y_position = 400, 
       xmin = 2, 
       xmax = 3, 
-      annotation = paste("p < ", as.character(pairs_mow_til)), 
+      annotation = paste("p = ", as.character(pairs_abund_mow_til)), 
       alpha = 0.5
     ) +   
     
