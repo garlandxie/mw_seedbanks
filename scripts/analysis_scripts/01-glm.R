@@ -346,7 +346,7 @@ pairs_abund_mow_til <- pairs_abund_trt %>%
     ylim(0, 800) + 
     
     labs(
-      x = "Management Regime", 
+      x = "Restoration Stage", 
       y = "Seedling Emergent Abundance"
     ) + 
     
@@ -434,7 +434,7 @@ pairs_rich_mow_til <- pairs_rich_trt %>%
    ) + 
    
    labs(
-     x = "Management Regime", 
+     x = "Restoration Stage", 
      y = "Seedling Emergent Richness"
    ) + 
    
