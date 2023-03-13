@@ -75,7 +75,7 @@ yz_tidy <- filter(
   vars %in% c("seasonFall", "treatmentMOW","treatmentTIL")
 )
 
-rownames(yz_tidy) <- c("Fall", "Mowing", "Tilled")
+rownames(yz_tidy) <- c("Fall", "Mow", "Newly-established")
 
 ## get variation explained for each RDA axis -----------------------------------
 
