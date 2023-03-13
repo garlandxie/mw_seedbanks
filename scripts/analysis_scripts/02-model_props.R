@@ -129,12 +129,12 @@ props_data_viz  <- props %>%
   mutate(
     treatment = as.character(treatment), 
     treatment = case_when(
-      treatment == "MOW" ~ "Maintenance-Mow", 
-      treatment == "RES" ~ "Undisturbed",
-      treatment == "TIL" ~ "Tilling"
+      treatment == "MOW" ~ "Mown", 
+      treatment == "RES" ~ "Unmown",
+      treatment == "TIL" ~ "Newly-established"
     ), 
     treatment = factor(
-      treatment, levels = c("Undisturbed", "Maintenance-Mow", "Tilling")
+      treatment, levels = c("Newly-established", "Unmown", "Mown")
     )  
   ) %>%
   mutate(season = factor(season, levels = c("Spring", "Fall")))
@@ -156,7 +156,7 @@ cbPalette <- c("#009E73", "#E69F00")
      alpha = 0.3
    ) + 
    labs(
-     x = "Management Regime", 
+     x = "Restoration Stage", 
      y = "Proportion of Spontaneous Non-Native Species"
    ) + 
    scale_fill_manual(
@@ -180,7 +180,7 @@ cbPalette <- c("#009E73", "#E69F00")
      alpha = 0.3
    ) + 
    labs(
-     x = "Management Regime", 
+     x = "Restoration Stage", 
      y = "Proportion of Spontaneous Native Species"
    ) + 
    scale_fill_manual(
@@ -204,7 +204,7 @@ cbPalette <- c("#009E73", "#E69F00")
      alpha = 0.3
      ) + 
    labs(
-     x = "Management Regime", 
+     x = "Restoration Stage", 
      y = "Proportion of Species in Seed Mix"
    ) + 
    scale_fill_manual(
@@ -228,7 +228,7 @@ cbPalette <- c("#009E73", "#E69F00")
      alpha = 0.3
    ) + 
    labs(
-     x = "Management Regime", 
+     x = "Restoration Stage", 
      y = "Proportion of Spontaneous Invasive Species"
    ) + 
    scale_fill_manual(
