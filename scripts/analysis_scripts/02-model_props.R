@@ -33,7 +33,7 @@ prop_exotic_transform <- mutate(
   )
 
 prop_exotic_lm <- lmer(
-  props_exotic_logit ~ treatment + (1|site_code),
+  props_exotic_logit ~ treatment + season +  (1|site_code),
   data = prop_exotic_transform
   )
 
@@ -47,7 +47,7 @@ prop_native_transform <- mutate(
 )
 
 props_spontan_lm <- lmer(
-    props_native_logit ~ treatment + (1|site_code),
+    props_native_logit ~ treatment + season + (1|site_code),
     data = prop_native_transform
   )
 
@@ -61,24 +61,28 @@ props_sm_transform <- mutate(
   ) 
 
 props_sm_lm <- lmer(
-  logit_props_sm ~ treatment + (1|site_code),
+  logit_props_sm ~ treatment + season + (1|site_code),
   data = props_sm_transform
 )
 
 summary(props_sm_lm)
 performance::r2(props_sm_lm)
 
-## proportion of invasive species ----------------------------------------------
-
+## proportion of invasive species ----
 props_inv_transform <- mutate(
   props_tidy, 
   logit_props_inv = car::logit(props_spontan_invasive)
 ) 
 
 props_inv_lm <- lmer(
-  logit_props_inv ~ treatment + (1|site_code),
+  logit_props_inv ~ treatment + season + (1|site_code),
   data = props_inv_transform
 )
+
+summary(props_sm_lm)
+performance::r2(props_sm_lm)
+
+## proportion of invasive species ----------------------------------------------
 
 # pairwise comparisons ---------------------------------------------------------
 
@@ -153,7 +157,7 @@ cbPalette <- c("#009E73", "#E69F00")
    ) + 
    labs(
      x = "Management Regime", 
-     y = "Proportion of Exotic Species"
+     y = "Proportion of Spontaneous Non-Native Species"
    ) + 
    scale_fill_manual(
      name = "Season",
@@ -177,7 +181,7 @@ cbPalette <- c("#009E73", "#E69F00")
    ) + 
    labs(
      x = "Management Regime", 
-     y = "Proportion of Spotaneous Native Species"
+     y = "Proportion of Spontaneous Native Species"
    ) + 
    scale_fill_manual(
      name = "Season",
@@ -225,7 +229,7 @@ cbPalette <- c("#009E73", "#E69F00")
    ) + 
    labs(
      x = "Management Regime", 
-     y = "Proportion of Invasive Species"
+     y = "Proportion of Spontaneous Invasive Species"
    ) + 
    scale_fill_manual(
      name = "Season",
