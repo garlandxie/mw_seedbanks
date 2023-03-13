@@ -270,12 +270,12 @@ sb_data_viz <- sb_comm %>%
   mutate(
     treatment = as.character(treatment), 
     treatment = case_when(
-      treatment == "MOW" ~ "Maintenance-Mow", 
-      treatment == "RES" ~ "Undisturbed",
-      treatment == "TIL" ~ "Tilling"
+      treatment == "MOW" ~ "Mown", 
+      treatment == "RES" ~ "Unmown",
+      treatment == "TIL" ~ "Newly-established"
     ), 
     treatment = factor(
-      treatment, levels = c("Undisturbed", "Maintenance-Mow", "Tilling")) 
+      treatment, levels = c("Newly-established", "Unmown", "Mown")) 
   ) 
 
 ## color-blind friendly palette ------------------------------------------------
@@ -319,25 +319,25 @@ pairs_abund_mow_til <- pairs_abund_trt %>%
     # pairwise significance between mowing and undisturbed
     geom_signif(
       y_position = 300, 
-      xmin = 1, 
-      xmax = 2, 
+      xmin = 2, 
+      xmax = 3, 
       annotation = paste("p = ", as.character(pairs_abund_mow_res)),
       alpha = 0.5
     ) + 
     
     # pairwise significance between tilling and undisturbed
     geom_signif(
-      y_position = 500, 
+      y_position = 400, 
       xmin = 1, 
-      xmax = 3, 
+      xmax = 2, 
       annotation = paste("p = ", as.character(pairs_abund_til_res)),
       alpha = 0.5
     ) + 
     
     # pairwise significance between mowing and tilling 
     geom_signif(
-      y_position = 400, 
-      xmin = 2, 
+      y_position = 500, 
+      xmin = 1, 
       xmax = 3, 
       annotation = paste("p = ", as.character(pairs_abund_mow_til)), 
       alpha = 0.5
@@ -367,14 +367,6 @@ pairs_abund_mow_til <- pairs_abund_trt %>%
 )
 
 ## pairwise comparisons: richness ----------------------------------------------
-
-rich_emm_trt <- emmeans(
-  glmer_richness, 
-  "treatment", 
-  lmer.df = "satterthwaite"
-)
-
-
 
 # get summary of comparisons, coefficients, and p-values
 pairs_rich_trt <- as.data.frame(pairs(rich_emm_trt))
@@ -419,7 +411,7 @@ pairs_rich_mow_til <- pairs_rich_trt %>%
      y_position = 20, 
      xmin = 2, 
      xmax = 3, 
-     annotation = paste("p = <", as.character(pairs_til_res)),
+     annotation = paste("p = ", as.character(pairs_rich_til_res)),
      alpha = 0.5
    ) + 
    
@@ -428,7 +420,7 @@ pairs_rich_mow_til <- pairs_rich_trt %>%
      y_position = 22, 
      xmin = 1, 
      xmax = 2, 
-     annotation = paste("p = ", as.character(pairs_mow_res)), 
+     annotation = paste("p = ", as.character(pairs_rich_mow_res)), 
      alpha = 0.5
    ) +   
    
@@ -437,7 +429,7 @@ pairs_rich_mow_til <- pairs_rich_trt %>%
      y_position = 25, 
      xmin = 1, 
      xmax = 3, 
-     annotation =  paste("p = <", as.character(pairs_mow_til)),
+     annotation =  paste("p = ", as.character(pairs_rich_mow_til)),
      alpha = 0.5
    ) + 
    
