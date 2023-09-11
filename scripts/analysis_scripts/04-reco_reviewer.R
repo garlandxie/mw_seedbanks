@@ -44,7 +44,11 @@
 # site. If the interpretations are different, then address this in the results
 # and the discussion
 
-# 3) repeat this workflow for species composition
+# 3) re-run the original analysis for species composition, but split 
+# it into two separate constrained correspondence analyses:
+# (1) constrain restoration stage, but conditioning on sites + sampling season
+# (2) remove newly-established sites (to acknowledge the artefact), 
+# and constrain sampling season, while conditioning on site + restoration stage
 
 # libraries --------------------------------------------------------------------
 library(here)          # for creating relative file-paths
