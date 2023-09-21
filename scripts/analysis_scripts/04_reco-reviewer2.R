@@ -34,6 +34,7 @@ library(dplyr)      # for manipulating data
 library(ggplot2)    # for visualizing data
 library(vegan)      # for doing community ecology analyses
 library(ggrepel)    # for repelling text in ggplot2 figures
+library(rdacca.hp)  # for calculating variance partitioning 
 
 # import -----------------------------------------------------------------------
 
@@ -61,40 +62,26 @@ comm_matrix <- sb %>%
     treatment = factor(treatment, levels = c("TIL", "RES", "MOW"))
     )
 
-# run partial RDA to constrain restoration stage -------------------------------
+# run RDA ----------------------------------------------------------------------
 
 ## prep ------------------------------------------------------------------------
 
-Y <- comm_matrix %>%
+spp_comp <- comm_matrix %>%
   dplyr::select(-c("season", "site_name", "site_code", "treatment", "plot")) %>%
   vegan::decostand("hellinger")
 
+env_df <- comm_matrix %>%
+  dplyr::select(season, site_code, treatment)
+
 ## run the model ---------------------------------------------------------------
 
-rda_trt_sn <- rda(Y ~ treatment*season + site_code, data = comm_matrix)
-rda_sn <- rda(Y ~ season + site_code, data = comm_matrix)
-rda_trt <- rda(Y ~ treatment + site_code, data = comm_matrix)
-rda_int <- rda(Y ~ treatment*season, data = comm_matrix)
+rda_full <- rda(Y ~ treatment*season + site_code, data = comm_matrix)
 
 # variance partitioning --------------------------------------------------------
 
-# get adjusted R-squared values for all RDA models
-fra_d_R2 <- RsquareAdj(rda_trt_sn)$adj.r.squared
-fra_b_R2 <- RsquareAdj(rda_sn)$adj.r.squared
-fra_a_R2 <- RsquareAdj(rda_trt)$adj.r.squared
-fra_c_R2 <- RsquareAdj(rda_int)$adj.r.squared
-
-# compute the fractions of adjusted variation by subtraction
-trt_R2 <- round(fra_d_R2 - fra_a_R2, digits = 2)
-sn_R2  <- round(fra_d_R2 - fra_b_R2, digits = 2)
-
-# sanity check
-int_R2 <- round(fra_d_R2 - fra_c_R2, digits = 2)
-
-# summary ----------------------------------------------------------------------
-summary(rda_trt_sn)
-
-# test of significance ---------------------------------------------------------
-
-# test of individual RDA axes
-anova(rda_trt_sn,by="axis", step = 1000) 
+vp <- rdacca.hp(
+  dv = spp_comp, 
+  iv = env_df, 
+  method = "RDA",
+  type = "adjR2"
+)
