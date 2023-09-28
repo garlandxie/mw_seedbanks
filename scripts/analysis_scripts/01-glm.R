@@ -138,7 +138,7 @@ sb_comm_tidy <- sb_comm %>%
 ## abundance -------------------------------------------------------------------
 
 glmer_abund_poisson <- glmer(
-  formula = abund ~ treatment + season + (1|site_code), 
+  formula = abund ~ treatment*season + (1|site_code), 
   family = poisson(link = "log"), 
   data = sb_comm_tidy
   )
@@ -169,7 +169,7 @@ testDispersion(
 # while the model fits the data structure of the response variable (count data)
 # it might be best to use an alternative model to control for type I error 
 glmer_abund_nb <- glmer.nb(
-  formula = abund ~ treatment + season + (1|site_code), 
+  formula = abund ~ treatment*season + (1|site_code), 
   data = sb_comm_tidy
 )
 
