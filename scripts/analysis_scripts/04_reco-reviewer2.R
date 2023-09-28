@@ -62,26 +62,66 @@ comm_matrix <- sb %>%
     treatment = factor(treatment, levels = c("TIL", "RES", "MOW"))
     )
 
-# run RDA ----------------------------------------------------------------------
+# run RDA (with newly-established sites) ---------------------------------------
 
 ## prep ------------------------------------------------------------------------
 
-spp_comp <- comm_matrix %>%
+spp_comp_w_til <- comm_matrix %>%
   dplyr::select(-c("season", "site_name", "site_code", "treatment", "plot")) %>%
   vegan::decostand("hellinger")
 
-env_df <- comm_matrix %>%
+env_w_til <- comm_matrix %>%
   dplyr::select(season, site_code, treatment)
 
 ## run the model ---------------------------------------------------------------
 
-rda_full <- rda(Y ~ treatment*season + site_code, data = comm_matrix)
+rda_w_til <- rda(
+  spp_comp_w_til ~ treatment*season + site_code, 
+  data = comm_matrix
+  )
 
-# variance partitioning --------------------------------------------------------
+## tests of significance -------------------------------------------------------
 
-vp <- rdacca.hp(
+anova.cca(rda_w_til, permutations = how(nperm = 999), by = "margin")
+anova.cca(rda_w_til, permutations = how(nperm = 999), by = "axis")
+
+## variance partitioning --------------------------------------------------------
+
+vp_w_til <- rdacca.hp(
   dv = spp_comp, 
   iv = env_df, 
   method = "RDA",
   type = "adjR2"
 )
+
+# run RDA (without newly-established sites) ------------------------------------
+
+## prep ------------------------------------------------------------------------
+
+spp_comp_no_til <- comm_matrix %>%
+  filter(!treatment %in% c("TIL")) %>%
+  dplyr::select(-c("season", "site_name", "site_code", "treatment", "plot")) %>%
+  vegan::decostand("hellinger")
+
+env_no_til <- comm_matrix %>%
+  filter(!treatment %in% c("TIL")) %>%
+  dplyr::select(season, site_code, treatment)
+
+## run the model ---------------------------------------------------------------
+
+rda_no_til <- rda(Y ~ treatment*season + site_code, data = comm_matrix)
+
+## tests of significance -------------------------------------------------------
+
+anova.cca(rda_no_til, permutations = how(nperm = 999), by = "margin")
+anova.cca(rda_no_til, permutations = how(nperm = 999), by = "axis")
+
+## variance partitioning --------------------------------------------------------
+
+vp_no_til <- rdacca.hp(
+  dv = spp_comp_no_til, 
+  iv = env_df, 
+  method = "RDA",
+  type = "adjR2"
+)
+
