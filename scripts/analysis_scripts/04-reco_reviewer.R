@@ -144,7 +144,7 @@ sb_comm_tidy <- sb_comm %>%
   
   mutate(
     season = factor(season, levels = c("Spring", "Fall")), 
-    treatment = factor(treatment, levels = c("RES", "MOW", "TIL"))
+    treatment = factor(treatment, levels = c("TIL", "RES", "MOW"))
   )
 
 # run regression models --------------------------------------------------------
@@ -153,7 +153,20 @@ sb_comm_tidy <- sb_comm %>%
 
 # accounting for Type I error control by applying the logarithm of the 
 # response variable (seed bank density)
-lm_abund_til <- sb_comm_tidy %>%
+
+# create two models: one with the full model (including the interaction term)
+# and one with the reduced model (excluding the interaction term)
+# purpose: to compare the R^2 values (see below)
+
+# full model
+lm_abund_til1 <- sb_comm_tidy %>%
+  mutate(log_abund = log(abund+1)) %>%
+  lmer(formula = log_abund ~ treatment + season + (1|site_code), 
+       data = .
+  )
+
+# reduced model
+lm_abund_til2 <- sb_comm_tidy %>%
   mutate(log_abund = log(abund+1)) %>%
   lmer(formula = log_abund ~ treatment*season + (1|site_code), 
        data = .
@@ -168,14 +181,32 @@ plot(simulateResiduals(fittedModel = lm_abund_til, plot = F))
 ### model fit ------------------------------------------------------------------
 r2(lm_abund_til)
 
-### seed bank density (without newly-established sites) ------------------------
+###  pairwise comparison --------------------------------------------------------
+
+# get pairwise comparisons between restoration stages 
+# while controlling for season
+pairs_trt_w_til <- lm_abund_til2 %>%
+  emmeans("treatment", type = "response") %>% 
+  pairs() %>%
+  data.frame()
+
+# back-transform the response variables for effect sizes of restoration age
+pairs_trt_w_til <- pairs_trt_w_til %>%
+  mutate(bt_transform = exp(estimate) - 1) %>%
+  dplyr::select(contrast, estimate, bt_transform, SE, df, t.ratio, p.value)
+
+## seed bank density (without newly-established sites) ------------------------
 
 # accounting for Type I error control by applying the logarithm of the 
 # response variable (seed bank density)
 
 sb_comm_tidy_no_til <- sb_comm_tidy %>%
   mutate(treatment = as.character(treatment)) %>%
-  filter(treatment %in% c("MOW", "RES"))
+  filter(treatment %in% c("MOW", "RES")) %>%
+  mutate(
+    treatment = as.factor(treatment),
+    season = factor(season, levels = c("Fall", "Spring"))
+    )
 
 lm_abund_no_til <- sb_comm_tidy_no_til %>%
   mutate(log_abund = log(abund+1)) %>%
@@ -189,5 +220,19 @@ summary(lm_abund_no_til)
 ### check diagnostics ----------------------------------------------------------
 plot(simulateResiduals(fittedModel = lm_abund_no_til, plot = F))
 
+###  pairwise comparison --------------------------------------------------------
+
+# get pairwise comparisons between restoration stages 
+# while controlling for season
+pairs_trt_no_til <- lm_abund_no_til %>%
+  emmeans("treatment", type = "response") %>% 
+  pairs() %>%
+  data.frame()
+
+# back-transform the response variables for effect sizes of restoration age
+pairs_trt_no_til <- pairs_trt_no_til %>%
+  mutate(bt_transform = exp(estimate) - 1) %>%
+  dplyr::select(contrast, estimate, bt_transform, SE, df, t.ratio, p.value)
+
 ### model fit ------------------------------------------------------------------
-r2(lm_abund_til)
+r2(lm_abund_no_til)
