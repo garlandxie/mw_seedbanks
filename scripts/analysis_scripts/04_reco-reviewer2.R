@@ -35,6 +35,7 @@ library(ggplot2)    # for visualizing data
 library(vegan)      # for doing community ecology analyses
 library(ggrepel)    # for repelling text in ggplot2 figures
 library(rdacca.hp)  # for calculating variance partitioning 
+library(stringr)    # for manipulating string data
 
 # import -----------------------------------------------------------------------
 
@@ -85,7 +86,7 @@ rda_w_til <- rda(
 anova.cca(rda_w_til, permutations = how(nperm = 999), by = "margin")
 anova.cca(rda_w_til, permutations = how(nperm = 999), by = "axis")
 
-## variance partitioning --------------------------------------------------------
+## variance partitioning -------------------------------------------------------
 
 vp_w_til <- rdacca.hp(
   dv = spp_comp, 
@@ -109,19 +110,249 @@ env_no_til <- comm_matrix %>%
 
 ## run the model ---------------------------------------------------------------
 
-rda_no_til <- rda(Y ~ treatment*season + site_code, data = comm_matrix)
+rda_no_til <- rda(
+  spp_comp_no_til ~ treatment*season + site_code, 
+  data = env_no_til
+  )
 
 ## tests of significance -------------------------------------------------------
 
 anova.cca(rda_no_til, permutations = how(nperm = 999), by = "margin")
 anova.cca(rda_no_til, permutations = how(nperm = 999), by = "axis")
 
-## variance partitioning --------------------------------------------------------
+## variance partitioning -------------------------------------------------------
 
 vp_no_til <- rdacca.hp(
   dv = spp_comp_no_til, 
-  iv = env_df, 
+  iv = env_no_til, 
   method = "RDA",
   type = "adjR2"
 )
+
+# visualize data (includes newly-established sites) ----------------------------
+
+## manually extract scores for the first two RDA axes --------------------------
+
+rda_summ_w_til <- summary(rda_w_til)
+
+sp_scores <- as.data.frame(rda_summ_w_til$species[, c("RDA1", "RDA2")])
+st_scores <- as.data.frame(rda_summ_w_til$sites[, c("RDA1", "RDA2")])
+yz_scores <- as.data.frame(rda_summ_w_til$biplot[, c("RDA1", "RDA2")]) 
+
+yz_scores$vars <- rownames(yz_scores) 
+yz_tidy <- filter(yz_scores, !(str_detect(vars, "site_code")))
+rownames(yz_tidy) <- c("Restored", "Mown", "Fall", "Res X Fall", "Mow X Fall")
+
+## get variation explained for each RDA axis -----------------------------------
+
+rda1_prop_explained <- rda_summ_w_til$cont$importance["Proportion Explained","RDA1"]
+rda2_prop_explained <- rda_summ_w_til$cont$importance["Proportion Explained","RDA2"]
+
+rda1_prop_explained <- round(rda1_prop_explained*100, digits = 0)
+rda2_prop_explained <- round(rda2_prop_explained*100, digits = 0)
+
+## plot the scores using ggplot2 syntax ----------------------------------------
+(ggplot_rda <- 
+   
+   ggplot() + 
+   
+   # species scores
+   geom_text_repel(
+     aes(x = RDA1, y  = RDA2), 
+     label = row.names(sp_scores), 
+     max.overlaps = 100, 
+     alpha = 0.3, 
+     data = sp_scores) +
+   
+   geom_point(
+     aes(x = RDA1, y  = RDA2), 
+     alpha = 0.5, 
+     data = sp_scores
+     ) + 
+   
+   # environmental scores 
+   geom_text_repel(
+     aes(x = RDA1, y = RDA2), 
+     label = rownames(yz_tidy), 
+     data = yz_tidy
+   ) + 
+   
+   geom_segment(
+     aes(x = 0, xend = RDA1, y = 0, yend = RDA2),
+     colour = "black",
+     alpha = 0.5,
+     data = yz_tidy
+   ) + 
+   
+   labs(
+     x = paste(
+       "RDA1", 
+       "(", 
+       rda1_prop_explained, 
+       "% variation explained)", 
+       sep = ""),
+     
+     y = paste(
+       "RDA2", 
+       "(", 
+       rda2_prop_explained, 
+       "% variation explained)",
+       sep = "")
+   ) + 
+   
+   geom_hline(yintercept = 0, linetype = 3, linewidth = 0.1) + 
+   geom_vline(xintercept = 0, linetype = 3, linewidth  = 0.1) + 
+   
+   xlim(-0.8, 0.8) + 
+   ylim(-0.7, 0.7) +
+   
+
+   theme(
+     panel.grid.major = element_blank(), 
+     panel.grid.minor = element_blank(),
+     panel.background = element_blank(), 
+     axis.line = element_line(colour = "black")
+     )
+)
+
+# visualize data (excludes newly-established sites) ----------------------------
+
+## manually extract scores for the first two RDA axes --------------------------
+
+rda_summ_no_til <- summary(rda_no_til)
+
+sp_scores2 <- as.data.frame(rda_summ_no_til$species[, c("RDA1", "RDA2")])
+st_scores2 <- as.data.frame(rda_summ_no_til$sites[, c("RDA1", "RDA2")])
+yz_scores2 <- as.data.frame(rda_summ_no_til$biplot[, c("RDA1", "RDA2")]) 
+
+yz_scores2$vars <- rownames(yz_scores2) 
+yz_tidy2 <- filter(yz_scores2, !(str_detect(vars, "site_code")))
+rownames(yz_tidy2) <- c("Mown", "Fall", "Mow X Fall")
+
+## get variation explained for each RDA axis -----------------------------------
+
+rda1_prop_explained2 <- rda_summ_no_til$cont$importance["Proportion Explained","RDA1"]
+rda2_prop_explained2 <- rda_summ_no_til$cont$importance["Proportion Explained","RDA2"]
+
+rda1_prop_explained2 <- round(rda1_prop_explained2*100, digits = 0)
+rda2_prop_explained2 <- round(rda2_prop_explained2*100, digits = 0)
+
+## plot the scores using ggplot2 syntax ----------------------------------------
+(ggplot_rda_no_til <- 
+   
+   ggplot() + 
+   
+   # species scores
+   geom_text_repel(
+     aes(x = RDA1, y  = RDA2), 
+     label = row.names(sp_scores2), 
+     max.overlaps = 100, 
+     alpha = 0.3, 
+     data = sp_scores2) +
+   
+   geom_point(
+     aes(x = RDA1, y  = RDA2), 
+     alpha = 0.5, 
+     data = sp_scores2
+   ) + 
+   
+   # environmental scores 
+   geom_text_repel(
+     aes(x = RDA1, y = RDA2), 
+     label = rownames(yz_tidy2), 
+     data = yz_tidy2
+   ) + 
+   
+   geom_segment(
+     aes(x = 0, xend = RDA1, y = 0, yend = RDA2),
+     colour = "black",
+     alpha = 0.5,
+     data = yz_tidy2
+   ) + 
+   
+   labs(
+     x = paste(
+       "RDA1", 
+       "(", 
+       rda1_prop_explained2, 
+       "% variation explained)", 
+       sep = ""),
+     
+     y = paste(
+       "RDA2", 
+       "(", 
+       rda2_prop_explained2, 
+       "% variation explained)",
+       sep = "")
+   ) + 
+   
+   geom_hline(yintercept = 0, linetype = 3, linewidth = 0.1) + 
+   geom_vline(xintercept = 0, linetype = 3, linewidth  = 0.1) + 
+   
+   xlim(-0.7, 0.7) + 
+   ylim(-0.9, 0.9) + 
+   
+   theme(
+     panel.grid.major = element_blank(), 
+     panel.grid.minor = element_blank(),
+     panel.background = element_blank(), 
+     axis.line = element_line(colour = "black")
+   )
+)
+
+# summary statistics for specific species --------------------------------------
+
+# get the most abundant species according to species scores in the RDA biplot
+
+## newly-established stage -----------------------------------------------------
+
+chal_til <- sb %>% 
+  filter(treatment == "TIL", spp_code == "CHAL") %>%
+  pull(total_abund) %>%
+  sum()
+
+melu_til <- sb %>%
+  filter(treatment == "TIL", spp_code == "MELU") %>%
+  pull(total_abund) %>%
+  sum()
+
+oxst_til <- sb %>%
+  filter(treatment == "TIL", spp_code == "OXST") %>%
+  pull(total_abund) %>%
+  sum()
+
+## mown restored stage ---------------------------------------------------------
+
+oebi_mow <- sb %>% 
+  filter(treatment == "MOW", spp_code == "OEBI") %>%
+  pull(total_abund) %>%
+  sum()
+
+coca_mow <- sb %>% 
+  filter(treatment == "MOW", spp_code == "COCA") %>%
+  pull(total_abund) %>%
+  sum()
+
+mofi_mow <- sb %>% 
+  filter(treatment == "MOW", spp_code == "MOFI") %>%
+  pull(total_abund) %>%
+  sum() 
+
+## unmown restored stage -------------------------------------------------------
+
+sosp_res <- sb %>%
+  filter(treatment == "RES", spp_code == "SOSP") %>%
+  pull(total_abund) %>%
+  sum()
+
+poar_res <- sb %>%
+  filter(treatment == "RES", spp_code == "POAR") %>%
+  pull(total_abund) %>%
+  sum()
+
+eran_res <- sb %>%
+  filter(treatment == "RES", spp_code == "ERAN") %>%
+  pull(total_abund) %>%
+  sum()
+
 
