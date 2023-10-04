@@ -141,7 +141,7 @@ yz_scores <- as.data.frame(rda_summ_w_til$biplot[, c("RDA1", "RDA2")])
 
 yz_scores$vars <- rownames(yz_scores) 
 yz_tidy <- filter(yz_scores, !(str_detect(vars, "site_code")))
-rownames(yz_tidy) <- c("Restored", "Mown", "Fall", "Res X Fall", "Mow X Fall")
+rownames(yz_tidy) <- c("Restored", "Mown", "Fall", "Res X Fall", "Mown X Fall")
 
 ## get variation explained for each RDA axis -----------------------------------
 
@@ -227,7 +227,7 @@ yz_scores2 <- as.data.frame(rda_summ_no_til$biplot[, c("RDA1", "RDA2")])
 
 yz_scores2$vars <- rownames(yz_scores2) 
 yz_tidy2 <- filter(yz_scores2, !(str_detect(vars, "site_code")))
-rownames(yz_tidy2) <- c("Mown", "Fall", "Mow X Fall")
+rownames(yz_tidy2) <- c("Mown", "Fall", "Mown X Fall")
 
 ## get variation explained for each RDA axis -----------------------------------
 
@@ -355,4 +355,93 @@ eran_res <- sb %>%
   pull(total_abund) %>%
   sum()
 
+## spring season ---------------------------------------------------------------
+
+melu_spr <- sb %>%
+  filter(season == "Spring", spp_code == "MELU") %>%
+  pull(total_abund) %>%
+  sum()
+
+trpr_spr <- sb %>%
+  filter(season == "Spring", spp_code == "TRPR") %>%
+  pull(total_abund) %>%
+  sum()
+
+trre_spr <- sb %>%
+  filter(season == "Spring", spp_code == "TRRE") %>%
+  pull(total_abund) %>%
+  sum()
+
+# after removing newly-established sites to account for sampling season
+
+hegi_spr <- sb %>%
+  filter(season == "Spring", spp_code == "HEGI", treatment != "TIL") %>%
+  pull(total_abund) %>%
+  sum()
+
+oxst_spr <- sb %>%
+  filter(season == "Spring", spp_code == "OXST", treatment != "TIL") %>%
+  pull(total_abund) %>%
+  sum()
+
+pyte_spr <- sb %>%
+  filter(season == "Spring", spp_code == "PYTE", treatment != "TIL") %>%
+  pull(total_abund) %>%
+  sum()
+
+## fall season -----------------------------------------------------------------
+
+chal_fal <- sb %>%
+  filter(season == "Fall", spp_code == "CHAL") %>%
+  pull(total_abund) %>%
+  sum()
+
+coca_fal <- sb %>%
+  filter(season == "Fall", spp_code == "COCA") %>%
+  pull(total_abund) %>%
+  sum()
+
+oebi_fal <- sb %>%
+  filter(season == "Fall", spp_code == "OEBI") %>%
+  pull(total_abund) %>%
+  sum()
+
+# after removing newly-established sites to account for sampling season
+
+ruhi_fal <- sb %>%
+  filter(season == "Fall", spp_code == "RUHI", treatment != "TIL") %>%
+  pull(total_abund) %>%
+  sum()
+
+coca_fal <- sb %>%
+  filter(season == "Fall", spp_code == "COCA", treatment != "TIL") %>%
+  pull(total_abund) %>%
+  sum()
+
+mofi_fal <- sb %>%
+  filter(season == "Fall", spp_code == "MOFI", treatment != "TIL") %>%
+  pull(total_abund) %>%
+  sum()
+
+
+
+# save to disk -----------------------------------------------------------------
+
+ggsave(
+  filename = here("output", "results", "figure-5-rda.png"), 
+  plot = ggplot_rda, 
+  device = "png", 
+  height = 5, 
+  width = 5, 
+  units = "in"
+)
+
+ggsave(
+  filename = here("output", "data_appendix_output", "figure-s6-rda_no_til.png"), 
+  plot = ggplot_rda_no_til, 
+  device = "png", 
+  height = 5, 
+  width = 5, 
+  units = "in"
+)
 
