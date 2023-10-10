@@ -240,7 +240,7 @@ ggsave(
   filename = here(
     "output", 
     "data_appendix_output", 
-    "figure-s3_prop-spontan-native.png"
+    "figure-s1_prop-spontan-native.png"
   ), 
   plot = prop_nativ_plot,
   device = "png", 
@@ -254,7 +254,7 @@ ggsave(
   filename = here(
     "output", 
     "data_appendix_output", 
-    "figure-s4_prop-exotic.png"
+    "figure-s2_prop-exotic.png"
     ), 
   plot = prop_exotic_plot,
   device = "png", 
@@ -268,7 +268,7 @@ ggsave(
   filename = here(
     "output", 
     "data_appendix_output", 
-    "figure-s5_prop-invasive.png"
+    "figure-s3_prop-invasive.png"
   ), 
   plot = prop_inv_plot,
   device = "png", 
