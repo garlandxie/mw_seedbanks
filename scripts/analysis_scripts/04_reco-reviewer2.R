@@ -437,7 +437,7 @@ ggsave(
 )
 
 ggsave(
-  filename = here("output", "data_appendix_output", "figure-s6-rda_no_til.png"), 
+  filename = here("output", "data_appendix_output", "figure-s4-rda_no_til.png"), 
   plot = ggplot_rda_no_til, 
   device = "png", 
   height = 5, 
