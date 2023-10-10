@@ -33,8 +33,8 @@ library(emmeans)       # for calculating pairwise comparisons
 library(tidyr)         # for manipulating data
 library(DHARMa)        # for running diagnostic tests for LMM's
 library(tibble)        # for adding rows to a data frame
-library(ggsignif)
-library(lmerTest)
+library(ggsignif)      # for testing the significance of pairwise comparisons
+library(lmerTest)      # for getting p-values for LMM's
 
 # import -----------------------------------------------------------------------
 
@@ -398,6 +398,7 @@ pairs_rich_mow_til <- pairs_rich_trt %>%
   ) %>%
   pull(p.value) 
 
+# visualizing plots ------------------------------------------------------------
 (sb_rich_plot <- sb_data_viz %>%
    ggplot(aes(x = treatment, y = species_richness, fill = season)) +
    geom_boxplot() + 
