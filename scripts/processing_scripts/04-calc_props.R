@@ -120,6 +120,99 @@ props_tidy <- props %>%
     props_spontan_invasive = round(props_spontan_invasive, digits = 2)
   )
 
+# summary statistics -----------------------------------------------------------
+
+sb_exotic <- sb %>%
+  left_join(plant_status, by = c("spp_code" = "code")) %>%
+  filter(status == "E")
+
+## til ----------------------------------------------------------------------
+
+sb_exotic_til <- sb_exotic %>%
+  filter(treatment == "TIL" & exotic_status == "Yes") %>%
+  pull(spp_code) %>%
+  unique() %>%
+  length()
+
+sb_spontan_til <- sb %>%
+  left_join(plant_status, by = c("spp_code" = "code")) %>%
+  filter(treatment == "TIL" & status == "N") %>%
+  pull(spp_code) %>%
+  unique() %>% 
+  length()
+
+sb_seed_mix_til <- sb %>%
+  left_join(plant_status, by = c("spp_code" = "code")) %>%
+  filter(treatment == "TIL" & status == "SM") %>%
+  pull(spp_code) %>%
+  unique() %>% 
+  length()
+
+sb_invasive_til <- sb %>%
+  left_join(plant_status, by = c("spp_code" = "code")) %>%
+  filter(treatment == "TIL" & status == "I") %>%
+  pull(spp_code) %>%
+  unique() %>%
+  length()
+
+## mow -------------------------------------------------------------------------
+
+sb_exotic_mow <- sb_exotic %>%
+  filter(treatment == "MOW" & exotic_status == "Yes") %>%
+  pull(spp_code) %>%
+  unique() %>%
+  length()
+
+sb_spontan_mow <- sb %>%
+  left_join(plant_status, by = c("spp_code" = "code")) %>%
+  filter(treatment == "MOW" & status == "N") %>%
+  pull(spp_code) %>%
+  unique() %>% 
+  length()
+
+sb_seed_mix_mow <- sb %>%
+  left_join(plant_status, by = c("spp_code" = "code")) %>%
+  filter(treatment == "MOW" & status == "SM") %>%
+  pull(spp_code) %>%
+  unique() %>% 
+  length()
+
+sb_invasive_mow <- sb %>%
+  left_join(plant_status, by = c("spp_code" = "code")) %>%
+  filter(treatment == "MOW" & status == "I") %>%
+  pull(spp_code) %>%
+  unique() %>%
+  length()
+
+## seed mix --------------------------------------------------------------------
+
+sb_seed_mix_res <- sb %>%
+  left_join(plant_status, by = c("spp_code" = "code")) %>%
+  filter(treatment == "RES" & status == "SM") %>%
+  pull(spp_code) %>%
+  unique() %>% 
+  length()
+
+sb_exotic_res <- sb_exotic %>%
+  filter(treatment == "RES" & exotic_status == "Yes") %>%
+  pull(spp_code) %>%
+  unique() %>%
+  length()
+
+sb_invasive_res <- sb %>%
+  left_join(plant_status, by = c("spp_code" = "code")) %>%
+  filter(treatment == "RES" & status == "I") %>%
+  pull(spp_code) %>%
+  unique() %>%
+  length()
+
+sb_spontan_res <- sb %>%
+  left_join(plant_status, by = c("spp_code" = "code")) %>%
+  filter(treatment == "RES" & status == "N") %>%
+  pull(spp_code) %>%
+  unique() %>% 
+  length()
+
 # save to disk -----------------------------------------------------------------
 
 write.csv(
