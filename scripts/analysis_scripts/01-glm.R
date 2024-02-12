@@ -458,6 +458,83 @@ pairs_rich_mow_til <- pairs_rich_trt %>%
    )
 )
 
+# summary statistics -----------------------------------------------------------
+
+# newly-established sites
+til_sr_spring <- sb %>%
+  dplyr::filter(season == "Spring" & treatment == "TIL") %>%
+  group_by(season, treatment) %>%
+  summarize(
+    abund = sum(total_abund, na.rm = TRUE),
+    species_richness = dplyr::n_distinct(spp_code)
+  )
+
+til_sr_fall <- sb %>%
+  dplyr::filter(season == "Fall" & treatment == "TIL") %>%
+  group_by(season, treatment) %>%
+  summarize(
+    abund = sum(total_abund, na.rm = TRUE),
+    species_richness = dplyr::n_distinct(spp_code)
+  )
+
+til_sr <- sb %>%
+  dplyr::filter(treatment == "TIL") %>%
+  group_by(treatment) %>%
+  summarize(
+    abund = sum(total_abund, na.rm = TRUE),
+    species_richness = dplyr::n_distinct(spp_code)
+  )
+
+# restored and unmown sites
+res_sr_spring <- sb %>%
+  dplyr::filter(season == "Spring" & treatment == "RES") %>%
+  group_by(season, treatment) %>%
+  summarize(
+    abund = sum(total_abund, na.rm = TRUE),
+    species_richness = dplyr::n_distinct(spp_code)
+  )
+
+res_sr_fall <- sb %>%
+  dplyr::filter(season == "Fall" & treatment == "RES") %>%
+  group_by(season, treatment) %>%
+  summarize(
+    abund = sum(total_abund, na.rm = TRUE),
+    species_richness = dplyr::n_distinct(spp_code)
+  )
+
+res_sr <- sb %>%
+  dplyr::filter(treatment == "RES") %>%
+  group_by(treatment) %>%
+  summarize(
+    abund = sum(total_abund, na.rm = TRUE),
+    species_richness = dplyr::n_distinct(spp_code)
+  )
+
+# restored and mown sites
+mow_sr_spring <- sb %>%
+  dplyr::filter(season == "Spring" & treatment == "MOW") %>%
+  group_by(season, treatment) %>%
+  summarize(
+    abund = sum(total_abund, na.rm = TRUE),
+    species_richness = dplyr::n_distinct(spp_code)
+  )
+
+mow_sr_fall <- sb %>%
+  dplyr::filter(season == "Fall" & treatment == "MOW") %>%
+  group_by(season, treatment) %>%
+  summarize(
+    abund = sum(total_abund, na.rm = TRUE),
+    species_richness = dplyr::n_distinct(spp_code)
+  )
+
+mow_sr <- sb %>%
+  dplyr::filter(treatment == "MOW") %>%
+  group_by(treatment) %>%
+  summarize(
+    abund = sum(total_abund, na.rm = TRUE),
+    species_richness = dplyr::n_distinct(spp_code)
+  )
+
 # save to disk -----------------------------------------------------------------
 
 ## figure 2: seedling abundance ------------------------------------------------
