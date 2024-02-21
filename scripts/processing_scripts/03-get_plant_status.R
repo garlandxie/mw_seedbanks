@@ -1,3 +1,25 @@
+################################################################################
+# Accompanying code for the following research project: 
+#   Seedbanks in the Meadoway (Scarborough, Canada)
+#
+#
+# Corresponding authors for this script:  
+#   Garland Xie      (1)
+#
+# Affiliations: 
+#   (1) Department of Biological Sciences, 
+#       University of Toronto Scarborough,
+#       1265 Military Trail, Toronto, ON, M1C 1A4, Canada
+#       email: garland.xie@mail.utoronto.ca, 
+#              nicholas.sookhan@mail.utoronto.ca
+#              scott.macivor@mail.utoronto.ca
+#
+# Purpose of this R script: to process data for obtaining plant status, 
+# such as non-native, native, and invasive species
+#
+# IMPORTANT: Please refresh your R session before you run this script
+# Why? See https://rstats.wtf/save-source.html
+
 # libraries --------------------------------------------------------------------
 library(here)        # for creating relative file-paths
 library(dplyr)       # for manipulating data 
