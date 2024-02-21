@@ -7,6 +7,10 @@ The following documentation of this README file follows the TIER 4.0 Protocol (h
 Code to reproducible the analysis and figures is written in the R programming language (version 4.1.1). 
 The developer (Garland Xie) typically writes and runs the code using macOS Big Sur 11.6
 
+## Abstract 
+
+Designed urban meadows can rehabilitate wildlife habitat and increase floral biodiversity in formerly degraded spaces such as beneath electrical power lines where trees are not permitted, and mowing is frequent. Monitoring seed banks can evaluate the efficacy of restoration efforts, including proliferation of native seed mixes or the reduction in non-curated seeds from nearby plant populations. Using soil seed banks, we investigate how above-ground restoration management throughout a 16-km infrastructure corridor in Toronto, Canada impacts seedling recruitment of native seed mix, spontaneous. and non-native plant species. Soil cores were taken in spring and fall from 80 plots across nine meadow locations at two different restoration stages: 1) newly-established sites that received a seed bank preparation of rototilling, cover crops, and application of native seeds through seed drilling, and 2) restored (5-8 years) sites that alternates between two maintenance treatments (unmown and mown). Soil samples were transplanted into greenhouse trays and surveyed for 100 days. A total of 11,373 seedlings representing 93 species of forbs, grasses, and woody plants were surveyed. Restored meadow habitats had at least 30% more species, 3 times more seeds, and the proportion of native seed mix species was 9 times higher compared to newly-established habitats. Spring sampling had 0.8 times more seedlings and 1.5 times higher proportion of invasive species in restored plots compared to fall. Our findings show the practical implications of seed bank dynamics in designed urban meadows, where the optimal timing to evaluate potential recruitment of native and invasive seedlings is in spring.
+
 ## Folder structure 
 
 - Report
@@ -17,7 +21,7 @@ The developer (Garland Xie) typically writes and runs the code using macOS Big S
   - [IntermediateData](data/intermediate_data): partially processed data to use in subsequent data analyses
 - Scripts
   - [ProcessingScripts](scripts/processing_scripts): The commands in these scripts transform Input Data Files into Analysis Data Files
-  - [DataAppendixScripts](scripts/data_appendix_scripts): The commands in theses scripts produce the figures, tables, and descriptive statistics in the Data Appendix
+  - [DataAppendixScripts](scripts/data_appendix_scripts): The commands in these scripts produce the figures, tables, and descriptive statistics in the Data Appendix
   - [AnalysisScripts](scripts/analysis_scripts): The commands in these scripts generate the results in the Rmarkdown report
 - Document: contains the master script that reproduces the Results of your project by executing all the other scripts, in the correct order
 - Output
