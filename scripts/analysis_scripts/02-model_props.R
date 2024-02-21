@@ -1,3 +1,27 @@
+################################################################################
+# Accompanying code for the following research project: 
+#   Seedbanks in the Meadoway (Scarborough, Canada)
+#
+#
+# Corresponding authors for this script:  
+#   Garland Xie      (1)
+#
+# Affiliations: 
+#   (1) Department of Biological Sciences, 
+#       University of Toronto Scarborough,
+#       1265 Military Trail, Toronto, ON, M1C 1A4, Canada
+#       email: garland.xie@mail.utoronto.ca, 
+#
+#
+# Purpose of this R script: to reanalyze the species composition data
+# based on reviewer concerns from the Restoration Ecology submission
+
+# IMPORTANT: Please refresh your R session before you run this script
+# Why? See https://rstats.wtf/save-source.html
+
+# Purpose: to run the linear mixed-effects models involving proportions as a
+# response variable 
+
 # library ----------------------------------------------------------------------
 library(here)      # for creating relative file-paths
 library(lme4)      # for running linear mixed effect models (LMM)
