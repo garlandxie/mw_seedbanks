@@ -21,7 +21,6 @@ Designed urban meadows can rehabilitate wildlife habitat and increase floral bio
     
 - Scripts
   - [ProcessingScripts](scripts/processing_scripts): The commands in these scripts transform Input Data Files into Analysis Data Files
-  - [DataAppendixScripts](scripts/data_appendix_scripts): The commands in these scripts produce the figures, tables, and descriptive statistics in the Data Appendix
   - [AnalysisScripts](scripts/analysis_scripts): The commands in these scripts generate the results in the Rmarkdown report
   
 - Output
