@@ -369,7 +369,7 @@ pairs_abund_mow_til <- pairs_abund_trt %>%
 ## pairwise comparisons: richness ----------------------------------------------
 
 # get summary of comparisons, coefficients, and p-values
-pairs_rich_trt <- as.data.frame(pairs(rich_emm_trt))
+pairs_rich_trt <- as.data.frame(pairs(richness_emm_trt))
 
 # obtain p-value for comparison between 
 # undisturbed and tilling
@@ -377,7 +377,7 @@ pairs_rich_til_res <- pairs_rich_trt %>%
   filter(contrast == "RES - TIL") %>%
   # use p < 0.001 if the p-value is really small 
   mutate(p.value = case_when(
-    p.value < 0.001 ~ 0.001)
+    p.value < 0.01 ~ 0.01)
   ) %>%
   pull(p.value) 
 
@@ -394,7 +394,7 @@ pairs_rich_mow_til <- pairs_rich_trt %>%
   filter(contrast == "MOW - TIL") %>%
   # use p < 0.001 if the p-value is really small 
   mutate(p.value = case_when(
-    p.value < 0.001 ~ 0.001)
+    p.value < 0.01 ~ 0.01)
   ) %>%
   pull(p.value) 
 
