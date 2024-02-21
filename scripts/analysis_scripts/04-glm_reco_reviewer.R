@@ -176,10 +176,10 @@ lm_abund_til2 <- sb_comm_tidy %>%
 summary(lm_abund_til2)
 
 ### check diagnostics ----------------------------------------------------------
-plot(simulateResiduals(fittedModel = lm_abund_til, plot = F))
+plot(simulateResiduals(fittedModel = lm_abund_til2, plot = F))
 
 ### model fit ------------------------------------------------------------------
-r2(lm_abund_til)
+r2(lm_abund_til2)
 
 ###  pairwise comparison --------------------------------------------------------
 
@@ -304,14 +304,18 @@ int_effects <- summary(lm_abund_til2)$coefficients %>%
 int_res_fall <- int_effects %>%
   janitor::clean_names() %>%
   filter(categories == "treatmentRES:seasonFall") %>%
-  pull(pr_t) %>%
-  replace(int_res_fall<0.001, "<0.001")
+  mutate(pr_t = case_when(
+    pr_t < 0.001 ~ "<0.001")
+  ) %>%
+  pull(pr_t)
 
 int_mow_fall <- int_effects %>%
   janitor::clean_names() %>%
   filter(categories == "treatmentMOW:seasonFall") %>%
-  pull(pr_t) %>%
-  replace(int_res_fall<0.001, "<0.001")
+  mutate(pr_t = case_when(
+    pr_t < 0.001 ~ "<0.001")
+  ) %>%
+  pull(pr_t)
 
 (sb_abund_plot <- sb_data_viz %>%
     ggplot(aes(x = treatment, y = abund, fill = season)) +
@@ -386,6 +390,7 @@ int_mow_fall <- int_effects %>%
     )
 )
 
+# save to disk -----------------------------------------------------------------
 ggsave(
   filename = here("output", "results", "figure-2_abund.png"), 
   plot = sb_abund_plot, 

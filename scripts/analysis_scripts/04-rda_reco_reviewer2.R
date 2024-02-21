@@ -89,8 +89,8 @@ anova.cca(rda_w_til, permutations = how(nperm = 999), by = "axis")
 ## variance partitioning -------------------------------------------------------
 
 vp_w_til <- rdacca.hp(
-  dv = spp_comp, 
-  iv = env_df, 
+  dv = spp_comp_w_til, 
+  iv = env_w_til, 
   method = "RDA",
   type = "adjR2"
 )
@@ -422,8 +422,6 @@ mofi_fal <- sb %>%
   filter(season == "Fall", spp_code == "MOFI", treatment != "TIL") %>%
   pull(total_abund) %>%
   sum()
-
-
 
 # save to disk -----------------------------------------------------------------
 
