@@ -13,9 +13,6 @@ source(here("scripts", "processing_scripts", "04-calc_props.R"))
 source(here("scripts", "analysis_scripts", "01-glm.R"))
 source(here("scripts", "analysis_scripts", "02-model_props.R"))
 source(here("scripts", "analysis_scripts", "03-create_figure_1_map.R"))
-
-# Data appendix output ---------------------------------------------------------
-
-source(here("scripts", "analysis_scripts", "01-dissimilarity.R"))
-source(here("scripts", "analysis_scripts", "02-rda.R"))
-source(here("scripts", "analysis_scripts", "03-summarize_table.R"))
+source(here("scripts", "analysis_scripts", "04-glm_reco_reviewer.R"))
+source(here("scripts", "analysis_scripts", "04-rda_reco_reviewer2.R"))
+source(here("scripts", "functions.R"))
