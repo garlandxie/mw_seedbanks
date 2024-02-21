@@ -110,23 +110,23 @@ performance::r2(props_inv_lm)
 exotic_emm_trt <- emmeans(
   prop_exotic_lm, 
   "treatment" 
-)
+) %>% pairs()
 
 spontan_native_emm_trt <- emmeans(
   props_spontan_lm, 
   "treatment" 
-)
+) %>% pairs()
 
 sm_emm_trt <- emmeans(
   props_sm_lm, 
   "treatment" 
-)
+) %>% pairs()
 
 
 inv_emm_trt <- emmeans(
   props_inv_lm, 
   "treatment" 
-)
+) %>% pairs()
 
 # visualize data ---------------------------------------------------------------
 
