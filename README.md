@@ -4,7 +4,7 @@ The following documentation of this README file follows the TIER 4.0 Protocol (h
 
 ## Software and version
 
-Code to reproducible the analysis and figures is written in the R programming language (version 4.1.1). 
+Code to reproducible the analysis and figures is written in the R programming language (version 4.3.2). 
 The developer (Garland Xie) typically writes and runs the code using macOS Big Sur 11.6
 
 ## Abstract 
