@@ -1,17 +1,13 @@
 Genus,Species,Synonyms,Authority,Ontario Wet Meadow,Ontario Butterfly Meadow,Ontario Short Wet Meadow,Ontario Dry Grass,Ontario Short Dry,TRCA Upland Slope ,Ontario Resilient Area Meadow
-Allium,cernuum,,Roth,0,0,0,0,0,0,0
 Andropogon,gerardii,,Vitman,0,1,0,1,0,1,0
 Apocynum,cannabinum,,L.,0,1,0,0,0,0,0
 Asclepias,tuberosa,,L.,0,1,0,1,1,0,0
 Asclepias,syriaca,,L.,0,1,0,1,0,1,1
 Asclepias,incarnata,,L.,1,0,1,0,0,0,0
-Asclepias,sullivantii,,Engelm. ex A. Gray,0,0,0,0,0,0,0
 Bromus,ciliatus,,L.,1,0,1,0,0,0,0
 Carex,bebbii,,Olney ex Fernald,1,0,1,0,0,0,0
 Carex,stipata,,Muhl. ex Willd.,1,0,1,0,0,0,0
 Carex,vulpinoidea,,Michx.,1,0,1,0,0,0,0
-Coreopsis,lanceolata,,L.,0,0,0,0,0,0,0
-Coreopsis,tripteris,,L.,0,0,0,0,0,0,0
 Danthonia,spicata,,(L.) P. Beauv. ex Roem. & Schult.,0,0,0,0,1,0,0
 Desmodium,canadense,,(L.) DC.,0,1,0,1,0,1,1
 Elymus,riparius,,Wiegand,1,0,1,0,0,0,0
@@ -21,10 +17,8 @@ Elymus,trachycaulus ,,(Link) Gould ex Shinners,0,0,0,0,1,0,0
 Eupatorium,perfoliatum,,L.,1,0,0,0,0,0,0
 Euthamia,graminifolia,Solidago graminifolia,(L.) Nutt.,1,1,0,0,0,0,0
 Eutrochium,maculatum,Eupatorium maculatum,(L.) E.E. Lamont,1,0,0,0,0,0,0
-Gentiana,andrewsii,,Griseb.,0,0,0,0,0,0,0
 Glyceria,striata,,(Lam.) Hitchc.,1,0,1,0,0,0,0
 Helenium,autumnale,Helanthum autumnal,L.,0,1,0,1,0,0,0
-Helianthus,giganteus,,L.,0,0,0,0,0,0,0
 Heliopsis,helianthoides,,(L.) Sweet,0,1,0,1,0,1,1
 Juncus,arcticus,Juncus barticus,Willd.,1,0,1,0,0,0,0
 Juncus,articulatus,,L.,1,0,1,0,0,0,0
@@ -33,7 +27,6 @@ Juncus,tenuis,,Willd.,1,0,1,0,0,0,0
 Juncus,torreyi,,Coville,1,0,1,0,0,0,0
 Lespedeza,capitata,,Michx.,0,1,0,1,1,0,0
 Lespedeza,hirta,,(L.) Hornem.,0,0,0,0,1,0,0
-Liatris,spicata,,(L.) Willd.,0,0,0,0,0,0,0
 Liatris,cylindracea,,Michx.,0,1,0,0,1,0,0
 Lobelia,siphilitica,,L.,1,0,1,0,0,0,0
 Lobelia ,cardinalis,,L.,1,0,1,0,0,0,0
@@ -53,7 +46,6 @@ Scirpus,atrovirens,,Willd.,1,0,1,0,0,0,0
 Scirpus,cyperinus,,(L.) Kunth,1,0,0,0,0,0,0
 Silphium,perfoliatum,,L.,0,1,0,0,0,0,1
 Sisyrinchium,montanum,,Greene,0,1,0,0,1,0,0
-Solidago,rigida,,L.,0,0,0,0,0,0,0
 Solidago,canadensis,,L.,0,0,0,0,0,1,1
 Solidago,nemoralis ,,Aiton,0,1,0,1,1,0,0
 Solidago,juncea,,Aiton,0,0,0,0,0,1,0
