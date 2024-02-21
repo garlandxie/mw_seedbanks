@@ -29,7 +29,7 @@ props_tidy <- mutate(
 ## proportion of exotics -------------------------------------------------------
 prop_exotic_transform <- mutate(
   props_tidy, 
-  props_exotic_logit = car::logit(props_spontan_exotic)
+  props_exotic_logit = car::logit(props_spontan_exotic, percents = FALSE, adjust = 0.025)
   )
 
 prop_exotic_lm <- lmer(
@@ -79,8 +79,8 @@ props_inv_lm <- lmer(
   data = props_inv_transform
 )
 
-summary(props_sm_lm)
-performance::r2(props_sm_lm)
+summary(props_inv_lm)
+performance::r2(props_inv_lm)
 
 ## proportion of invasive species ----------------------------------------------
 
@@ -190,14 +190,14 @@ cbPalette <- c("#009E73", "#E69F00")
      ) + 
    labs(
      x = "Restoration Stage", 
-     y = "Proportion of Species in Seed Mix"
+     y = "Proportion of Native Seed Mix Species"
    ) + 
    scale_fill_manual(
      name = "Season",
      values = cbPalette
      ) + 
    theme_bw() +
-   theme(text = element_text(size = 15))
+   theme(text = element_text(size = 13))
 ) 
 
 ## proportion of invasive species ----------------------------------------------
