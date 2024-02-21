@@ -13,14 +13,11 @@
 #       email: garland.xie@mail.utoronto.ca, 
 #
 #
-# Purpose of this R script: to reanalyze the species composition data
-# based on reviewer concerns from the Restoration Ecology submission
+# Purpose: to run the linear mixed-effects models involving proportions as a
+# response variable 
 
 # IMPORTANT: Please refresh your R session before you run this script
 # Why? See https://rstats.wtf/save-source.html
-
-# Purpose: to run the linear mixed-effects models involving proportions as a
-# response variable 
 
 # library ----------------------------------------------------------------------
 library(here)      # for creating relative file-paths
