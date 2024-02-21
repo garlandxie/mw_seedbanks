@@ -213,6 +213,26 @@ sb_spontan_res <- sb %>%
   unique() %>% 
   length()
 
+# summary statistics -----------------------------------------------------------
+
+multi_key_id <- c("season", "site_code", "treatment", "plot")
+
+sm_seedlings <- sb_seed_mix %>%
+  full_join(sb_total, by = multi_key_id) %>%
+  mutate(sm_abund = replace(sm_abund, is.na(sm_abund), 0)) %>%
+  group_by(treatment) %>%
+  summarize(
+    sm_abund = sum(sm_abund, na.rm = FALSE),
+    total_abund = sum(total_abund, na.rm = FALSE)
+    )
+
+sm_species <- sb %>%
+  left_join(plant_status, by = c("spp_code" = "code")) %>%
+  filter(status == "SM") %>%
+  group_by(treatment) %>%
+  summarize(sr = length(unique(spp_code))) %>%
+  ungroup()
+
 # save to disk -----------------------------------------------------------------
 
 write.csv(
