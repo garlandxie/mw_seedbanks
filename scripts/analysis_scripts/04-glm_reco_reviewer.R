@@ -399,3 +399,12 @@ ggsave(
   height = 5, 
   width = 7
 )
+
+ggsave(
+  filename = here("output", "results", "figure-2_abund.pdf"), 
+  plot = sb_abund_plot, 
+  device = "pdf", 
+  units = "in", 
+  height = 5, 
+  width = 7
+)
