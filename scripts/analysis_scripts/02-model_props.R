@@ -256,6 +256,15 @@ ggsave(
   width = 6
 )
 
+ggsave(
+  filename = here("output", "results", "figure-4_prop-sm.pdf"), 
+  plot = prop_sm_plot,
+  device = "pdf", 
+  units = "in",
+  height = 4, 
+  width = 6
+)
+
 ## figure s3: spontaneous native species ----------------------------------------
 ggsave(
   filename = here(
@@ -265,6 +274,19 @@ ggsave(
   ), 
   plot = prop_nativ_plot,
   device = "png", 
+  units = "in",
+  height = 4, 
+  width = 6
+)
+
+ggsave(
+  filename = here(
+    "output", 
+    "data_appendix_output", 
+    "figure-s1_prop-spontan-native.pdf"
+  ), 
+  plot = prop_nativ_plot,
+  device = "pdf", 
   units = "in",
   height = 4, 
   width = 6
@@ -284,6 +306,19 @@ ggsave(
   width = 6
 )
 
+ggsave(
+  filename = here(
+    "output", 
+    "data_appendix_output", 
+    "figure-s2_prop-exotic.pdf"
+  ), 
+  plot = prop_exotic_plot,
+  device = "pdf", 
+  units = "in",
+  height = 4, 
+  width = 6
+)
+
 ## figure s5: invasive species -------------------------------------------------
 ggsave(
   filename = here(
@@ -293,6 +328,19 @@ ggsave(
   ), 
   plot = prop_inv_plot,
   device = "png", 
+  units = "in",
+  height = 4, 
+  width = 6
+)
+
+ggsave(
+  filename = here(
+    "output", 
+    "data_appendix_output", 
+    "figure-s3_prop-invasive.pdf"
+  ), 
+  plot = prop_inv_plot,
+  device = "pdf", 
   units = "in",
   height = 4, 
   width = 6
