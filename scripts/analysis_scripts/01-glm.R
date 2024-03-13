@@ -557,6 +557,15 @@ ggsave(
   width = 6
 )
 
+ggsave(
+  filename = here("output", "results", "figure-3_richness.pdf"), 
+  plot = sb_rich_plot, 
+  device = "pdf", 
+  units = "in", 
+  height = 4, 
+  width = 6
+)
+
 
 
 
