@@ -435,9 +435,27 @@ ggsave(
 )
 
 ggsave(
+  filename = here("output", "results", "figure-5-rda.pdf"), 
+  plot = ggplot_rda, 
+  device = "pdf", 
+  height = 5, 
+  width = 5, 
+  units = "in"
+)
+
+ggsave(
   filename = here("output", "data_appendix_output", "figure-s4-rda_no_til.png"), 
   plot = ggplot_rda_no_til, 
   device = "png", 
+  height = 5, 
+  width = 5, 
+  units = "in"
+)
+
+ggsave(
+  filename = here("output", "data_appendix_output", "figure-s4-rda_no_til.pdf"), 
+  plot = ggplot_rda_no_til, 
+  device = "pdf", 
   height = 5, 
   width = 5, 
   units = "in"
