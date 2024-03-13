@@ -66,9 +66,13 @@ invasive_plants <-
 
 ## taxonomy --------------------------------------------------------------------
 
-sb_taxon <- read.csv(
+# note: for some odd reason, DRYAD would not let me pass the tabular data check
+# for this particular dataset. So, switched over to the .xls format since that 
+# was one of the options for uploading datasets using that platform 
+
+sb_taxon <- read_excel(
   here("data", "input_data", 
-       "seed_bank_taxonomy.csv")
+       "seed_bank_taxonomy.xls")
 )
 
 ## seed mix --------------------------------------------------------------------
